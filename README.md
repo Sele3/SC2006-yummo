@@ -39,7 +39,7 @@ If you haven't installed pipenv, run the following command
 > pip install pipenv
 
 ## Creating a virtual environment
-1. Navigate to the folder where the pipfile is located
+1. Navigate to the folder where the pipfile is located (in Backend folder)
 2. Spawn a shell in a virtual environment to isolate the development of this app using the following command
 
 > pipenv shell
