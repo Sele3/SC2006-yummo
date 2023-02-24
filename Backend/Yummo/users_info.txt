@@ -1,0 +1,14 @@
+Superuser
+Username: admin
+Email: email@gmail.com
+Password: password
+
+
+TestCustomer1
+Username: TestCustomer1
+Password: Customer12345
+
+
+TestMerchant1
+Username: TestMerchant1
+Password: Merchant12345
