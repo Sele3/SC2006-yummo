@@ -29,6 +29,7 @@ Yummo is a web application intended to help users find and book restaurants base
 - django
 - djangorestframework
 - djoser 
+- Pillow
 - add on whatever dependencies you installed for this project
 
 # Setting up local environment (backend)
