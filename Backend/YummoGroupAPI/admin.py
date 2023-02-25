@@ -1,5 +1,6 @@
 from django.contrib import admin
-from YummoGroupAPI.models import YummoGroup, Post, Comment
+from django.contrib.auth.models import User
+from YummoGroupAPI.models import YummoGroup, Post, Comment, Profile
 
 
 @admin.register(YummoGroup)
@@ -15,3 +16,9 @@ class PostAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     list_display=['comment_id', 'commented_at', 'user', 'post']
   
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'contact_no', 'bio']
+    
+    

@@ -14,14 +14,34 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
+    path('api/', include("RestaurantAPI.urls")),
+    path('api/', include("YummoGroupAPI.urls")),
 ]
 
 # For media files
 if settings.DEBUG:
         urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+        
+
+"""Djoser package's authentication endpoints (for reference)
+    auth/users/
+    auth/users/me/
+    auth/users/confirm/
+    auth/users/resend_activation/
+    auth/users/set_password/
+    auth/users/reset_password/
+    auth/users/rest_password_confirm/
+    auth/users/set_username/
+    auth/users/reset_username/
+    auth/users/reset_username_confirm/
+    auth/token/login/
+    auth/token/logout/
+"""
