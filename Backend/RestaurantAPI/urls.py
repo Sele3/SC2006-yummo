@@ -6,5 +6,4 @@ urlpatterns = [
    path('restaurants', views.restaurantsView),
    path('restaurants/<int:id>', views.singleRestaurantView),
    path('restaurants/<int:id>/reservations', views.reservationView),
-   
 ]

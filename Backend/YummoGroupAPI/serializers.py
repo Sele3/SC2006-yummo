@@ -12,12 +12,14 @@ class UserSerializer(serializers.ModelSerializer):
         
 class CustomerProfileSerializer(serializers.ModelSerializer):
     friends = UserSerializer(many=True, read_only=True)
+
     class Meta:
         model = CustomerProfile
         fields = ['user', 'bio', 'contact_no', 'friends']
         
         
 class MerchantProfileSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = MerchantProfile
         fields = ['user', 'bio', 'contact_no']
@@ -25,12 +27,14 @@ class MerchantProfileSerializer(serializers.ModelSerializer):
         
 class YummoGroupSerializer(serializers.ModelSerializer):
     customers = UserSerializer(many=True, read_only=True)
+
     class Meta:
         model = YummoGroup
         fields = ['group_id', 'name', 'description', 'customers']
         
 
 class PostSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Post
         fields = ['post_id', 'img', 'description', 'posted_at', 'customer']
@@ -40,9 +44,11 @@ class PostSerializer(serializers.ModelSerializer):
         
 
 class CommentSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Comment
         fields = ['comment_id', 'content', 'commented_at', 'user', 'post']
         extra_kwargs ={
             'commented_at' : {'read_only':True}
         }
+        

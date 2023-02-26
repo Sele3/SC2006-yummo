@@ -6,34 +6,35 @@ from django.dispatch import receiver
 
 #Extend User model by attaching a CustomerProfile to each User (Customer)
 class CustomerProfile(models.Model):
-    user = models.OneToOneField(User, 
-                                on_delete=models.CASCADE,
-                                limit_choices_to={'groups__name': 'Customers'},
-                                related_name='customerprofile'
-                                )
+    user = models.OneToOneField(
+        User, 
+        on_delete=models.CASCADE,
+        limit_choices_to={'groups__name': 'Customers'},
+        related_name='customerprofile')
     bio = models.TextField(max_length=500, blank=True)
     contact_no = models.CharField(max_length=20, blank=True, null=True)
-    friends = models.ManyToManyField(User,
-                                     limit_choices_to={'groups__name': 'Customers'},
-                                     related_name='friends',
-                                     blank=True
-                                     )
+    friends = models.ManyToManyField(
+        User,
+        limit_choices_to={'groups__name': 'Customers'},
+        related_name='friends',
+        blank=True)
+    
     def __str__(self):
-        return "{}'s CustomerProfile".format(self.user.get_username())
+        return f"{self.user.get_username()}'s CustomerProfile"
     
 
 #Extend User model by attaching a MerchantProfile to each User (Merchant)    
 class MerchantProfile(models.Model):
-    user = models.OneToOneField(User,
-                                on_delete=models.CASCADE,
-                                limit_choices_to={'groups__name': 'Merchants'},
-                                related_name='merchantprofile'
-                                )
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        limit_choices_to={'groups__name': 'Merchants'},
+        related_name='merchantprofile')
     bio = models.TextField(max_length=500, blank=True)
     contact_no = models.CharField(max_length=20, blank=True, null=True)
     
     def __str__(self):
-        return "{}'s MerchantProfile".format(self.user.get_username())
+        return f"{self.user.get_username()}'s MerchantProfile"
 
 
 #create a Customer/Merchant profile when User are added to either Group
@@ -54,7 +55,6 @@ def user_added_or_removed_from_group(sender, instance, action, model, **kwargs):
             instance.merchantprofile.delete()
         
         
-
 #signal to save the Customer/Merchant Profile after the Customer/Merchant is updated
 @receiver(post_save, sender = User)
 def save_user_profile(sender, instance, **kwargs):
@@ -65,7 +65,6 @@ def save_user_profile(sender, instance, **kwargs):
 
 
 
-    
 class YummoGroup(models.Model):
     group_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
@@ -73,12 +72,11 @@ class YummoGroup(models.Model):
     customers = models.ManyToManyField(
         User, 
         limit_choices_to={'groups__name': 'Customers'},
-        related_name='yummogroups' #calling user.yummogroups will return the YummoGroup related to this User
-        )
+        #calling user.yummogroups will return the YummoGroup related to this User
+        related_name='yummogroups')
     
     def __str__(self):
         return self.name
-    
     
 
 class Post(models.Model):
@@ -90,17 +88,14 @@ class Post(models.Model):
         User, 
         on_delete=models.CASCADE,
         limit_choices_to={'groups__name': 'Customers'},
-        related_name='posts'
-        )
+        related_name='posts')
     group = models.ForeignKey(
         YummoGroup, 
         on_delete=models.CASCADE,
-        related_name='posts'
-        )
+        related_name='posts')
     
     def __str__(self):
-        return "Post {} by {} in {} group".format(self.post_id, self.customer.get_username(), self.group.name)        
-    
+        return f"Post {self.post_id} by {self.customer.get_username()} in {self.group.name} group"      
     
 
 class Comment(models.Model):
@@ -110,14 +105,12 @@ class Comment(models.Model):
     user = models.ForeignKey(
         User, 
         on_delete=models.CASCADE,
-        related_name='comments'
-        )
+        related_name='comments')
     post = models.ForeignKey(
         Post, 
         on_delete=models.CASCADE,
-        related_name='comments'        
-        )
+        related_name='comments')
     
     def __str__(self):
-        return "Comment {} by {} on Post {} in {} group".format(self.comment_id, self.user.get_username(), self.post.post_id, self.post.group.name)
+        return f"Comment {self.comment_id} by {self.user.get_username()} on Post {self.post.post_id} in {self.post.group.name} group"
     

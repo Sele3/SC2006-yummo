@@ -30,3 +30,4 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ['review_id', 'rating', 'description', 'restaurant', 'customer']
+        
