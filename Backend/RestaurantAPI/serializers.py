@@ -5,10 +5,10 @@ import datetime
 from YummoGroupAPI.serializers import UserSerializer
 
 class RestaurantSerializer(serializers.ModelSerializer):
-
+    merchant_name = serializers.StringRelatedField(source='merchant')
     class Meta:
         model = Restaurant
-        fields = ['resID', 'name', 'location', 'avg_rating', 'merchant']
+        fields = ['resID', 'name', 'location', 'avg_rating', 'merchant', 'merchant_name']
         extra_kwargs = {
             'avg_rating' : {'read_only' : True},
         }
