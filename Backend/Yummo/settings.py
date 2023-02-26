@@ -38,7 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Yummo',
+    'RestaurantAPI',
+    'YummoGroupAPI',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -107,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kuala_Lumpur' #UTC+8
 
 USE_I18N = True
 
@@ -129,3 +133,25 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT= os.path.join(BASE_DIR,"media/")
+
+
+# Configuration for Django REST Framework
+REST_FRAMEWORK = {  
+    'DEFAULT_RENDERER_CLASSES' : [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES' : [
+        'rest_framework.authentication.TokenAuthentication',
+        #'rest_framework.authentication.SessionAuthentication',
+    ],    
+}
+
+
+# Configuration for Djoser
+DJOSER = {
+    'USER_ID_FIELD' : 'username',
+    'LOGIN_FIELD' : 'email',
+    #'SEND_ACTIVATION_EMAIL' : True,
+    
+}
