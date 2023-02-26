@@ -66,4 +66,8 @@ If there are any errors about migration, run these 2 commands then try the previ
 > python manage.py migrate
 
 # Setting up local environment (frontend)
-To be filled...
+Navigate to the yummo folder in Frontend (cd .\Frontend\yummo\), start the server by running
+> npm start
+
+If there are errors when starting the server, install missing dependencies by running
+> npm install  
