@@ -44,7 +44,7 @@ class Review(models.Model):
     rating = models.IntegerField(
         choices=[(i, str(i)) for i in range(1, 6)],
         default=0)
-    description = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, blank=True)
     restaurant = models.ForeignKey(
         Restaurant, 
         on_delete=models.CASCADE,
