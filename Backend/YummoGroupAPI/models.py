@@ -1,14 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 
 
-#Extend User model by attaching a Profile to each User
-class Profile(models.Model):
+#Extend User model by attaching a CustomerProfile to each User (Customer)
+class CustomerProfile(models.Model):
     user = models.OneToOneField(User, 
                                 on_delete=models.CASCADE,
-                                related_name='profile')
+                                limit_choices_to={'groups__name': 'Customers'},
+                                related_name='customerprofile'
+                                )
     bio = models.TextField(max_length=500, blank=True)
     contact_no = models.CharField(max_length=20, blank=True, null=True)
     friends = models.ManyToManyField(User,
@@ -17,16 +19,53 @@ class Profile(models.Model):
                                      blank=True
                                      )
     def __str__(self):
-        return "{}'s profile".format(self.user.get_username())
-@receiver(post_save, sender = User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
+        return "{}'s CustomerProfile".format(self.user.get_username())
+    
 
+#Extend User model by attaching a MerchantProfile to each User (Merchant)    
+class MerchantProfile(models.Model):
+    user = models.OneToOneField(User,
+                                on_delete=models.CASCADE,
+                                limit_choices_to={'groups__name': 'Merchants'},
+                                related_name='merchantprofile'
+                                )
+    bio = models.TextField(max_length=500, blank=True)
+    contact_no = models.CharField(max_length=20, blank=True, null=True)
+    
+    def __str__(self):
+        return "{}'s MerchantProfile".format(self.user.get_username())
+
+
+#create a Customer/Merchant profile when User are added to either Group
+#delete the profile when User are removed from the Group
+@receiver(signal=m2m_changed, sender=User.groups.through)
+def user_added_or_removed_from_group(sender, instance, action, model, **kwargs):
+    isMerchant = instance.groups.filter(name="Merchants").exists()
+    isCustomer = instance.groups.filter(name="Customers").exists()
+    if action == "post_add": 
+        if isCustomer:
+            CustomerProfile.objects.create(user=instance)
+        elif isMerchant:
+            MerchantProfile.objects.create(user=instance)
+    if action == "pre_remove":
+        if isCustomer:
+            instance.customerprofile.delete()
+        if isMerchant:
+            instance.merchantprofile.delete()
+        
+        
+
+#signal to save the Customer/Merchant Profile after the Customer/Merchant is updated
 @receiver(post_save, sender = User)
 def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+    if instance.groups.filter(name="Customers").exists(): #Customer updated
+            instance.customerprofile.save()
+    elif instance.groups.filter(name="Merchants").exists(): #Merchant updated
+            instance.merchantprofile.save()
 
+
+
+    
 class YummoGroup(models.Model):
     group_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
