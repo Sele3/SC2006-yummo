@@ -77,4 +77,3 @@ def reservationView(request, id):
     if  request.method == 'POST':
         pass
     
-    

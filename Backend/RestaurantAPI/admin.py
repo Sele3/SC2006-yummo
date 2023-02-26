@@ -2,7 +2,6 @@ from django.contrib import admin
 from RestaurantAPI.models import Restaurant, Reservation, Review
 
 
-
 @admin.register(Restaurant)
 class RestaurantAdmin(admin.ModelAdmin):
     list_display = ['resID', 'name', 'location', 'avg_rating', 'merchant']

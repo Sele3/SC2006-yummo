@@ -12,10 +12,11 @@ class YummoGroupAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
     list_display = ['post_id', 'posted_at', 'customer', 'group']
 
+
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display=['comment_id', 'commented_at', 'user', 'post']
-  
+    list_display=['comment_id', 'commented_at', 'user', 'post'] 
+
 
 @admin.register(CustomerProfile)
 class CustomerProfileAdmin(admin.ModelAdmin):
@@ -25,3 +26,4 @@ class CustomerProfileAdmin(admin.ModelAdmin):
 @admin.register(MerchantProfile)
 class MerchantProfileAdmin(admin.ModelAdmin):
     list_display = ['user', 'contact_no', 'bio']
+    

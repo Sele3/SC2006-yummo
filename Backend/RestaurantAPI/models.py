@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-import datetime
+
 
 class Restaurant(models.Model):
     resID = models.AutoField(primary_key=True)
@@ -11,12 +11,11 @@ class Restaurant(models.Model):
         User, 
         on_delete=models.CASCADE,
         limit_choices_to={'groups__name': 'Merchants'},
-        related_name='restaurants' #user.restaurant will return the restaurants related to this Merchant
-        ) 
+        #user.restaurant will return the restaurants related to this Merchant
+        related_name='restaurants') 
     
     def __str__(self):
-        return self.name
-    
+        return self.name  
 
 
 class Reservation(models.Model):
@@ -26,17 +25,15 @@ class Reservation(models.Model):
     restaurant = models.ForeignKey(
         Restaurant, 
         on_delete=models.CASCADE,
-        related_name='reservations'
-        )
+        related_name='reservations')
     customer = models.ForeignKey(
         User, 
         on_delete=models.CASCADE, 
         limit_choices_to={'groups__name': 'Customers'},
-        related_name='reservations'
-        )
+        related_name='reservations')
     
     def __str__(self):
-        return "Reservation {} by {} at {}".format(self.reservID, self.customer.get_username(), self.restaurant.name)
+        return f"Reservation {self.reservID} by {self.customer.get_username()} at {self.restaurant.name}"
     
 
 class Review(models.Model):
@@ -48,15 +45,13 @@ class Review(models.Model):
     restaurant = models.ForeignKey(
         Restaurant, 
         on_delete=models.CASCADE,
-        related_name='reviews'
-        )
+        related_name='reviews')
     customer = models.ForeignKey(
         User, 
         on_delete=models.CASCADE, 
         limit_choices_to={'groups__name': 'Customers'},
-        related_name='reviews'
-        )
+        related_name='reviews')
     
     def __str__(self):
-        return "Review {} by {} at {}".format(self.review_id, self.customer.get_username(), self.restaurant.name)
+        return f"Review {self.review_id} by {self.customer.get_username()} at {self.restaurant.name}"
     
