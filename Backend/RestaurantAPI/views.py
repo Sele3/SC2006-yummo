@@ -45,7 +45,7 @@ def singleRestaurantView(request, id):
     if not isMerchantGroup(request):
         return Response({'message':"Only Merchants access this endpoint"},status.HTTP_403_FORBIDDEN) 
     
-    if request.method == 'PUT' or 'PATCH':
+    if request.method == 'PUT' or request.method == 'PATCH':
         restaurant = get_object_or_404(Restaurant, pk=id, merchant=request.user)
         data = request.data.copy()
         data['merchant'] = request.user.id
