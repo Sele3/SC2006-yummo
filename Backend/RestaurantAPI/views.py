@@ -193,6 +193,6 @@ def singleReviewView(request, resID, review_id):
     if request.method == 'DELETE':
         review = get_object_or_404(Review,pk=review_id, customer=request.user.id)
         review.delete()
-        return Response({"message":"Re deleted"}, status=status.HTTP_200_OK)
+        return Response({"message":"Review deleted"}, status=status.HTTP_200_OK)
         
     
