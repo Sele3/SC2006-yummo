@@ -4,6 +4,11 @@ from . import views
 
 urlpatterns = [
    path('restaurants', views.restaurantsView),
-   path('restaurants/<int:id>', views.singleRestaurantView),
-   path('restaurants/<int:id>/reservations', views.reservationView),
+   path('restaurants/<int:resID>', views.singleRestaurantView),
+   path('restaurants/recommendations', views.getRecommendationsView),
+   path('restaurants/search', views.searchRestaurantsView),
+   path('restaurants/<int:resID>/reservations', views.reservationsView),
+   path('restaurants/<int:resID>/reservations/<int:reservID>', views.singleReservationView),
+   path('restaurants/<int:resID>/reviews', views.reviewsView),
+   path('restaurants/<int:resID>/reviews/<int:review_id>', views.singleReviewView),
 ]
