@@ -155,3 +155,5 @@ DJOSER = {
     #'SEND_ACTIVATION_EMAIL' : True,
     
 }
+
+GOOGLE_API_KEY = "AIzaSyDCyKmauL-xelpm3buLCEuAFKoi7I7BQMo"

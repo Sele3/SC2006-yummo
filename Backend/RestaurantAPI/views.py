@@ -1,16 +1,17 @@
-from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
+from django.contrib.auth.models import User, Group
+from django.core.paginator import Paginator, EmptyPage
 from rest_framework import status, generics
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.response import Response
 from decimal import Decimal
-from django.contrib.auth.models import User, Group
 from .models import Restaurant, Reservation, Review
 from .serializers import RestaurantSerializer, ReservationSerializer, ReviewSerializer
-from django.core.paginator import Paginator, EmptyPage
-import datetime
 from Yummo.utilityfunctions import isCustomerGroup, isMerchantGroup
-# Create your views here.
+from Yummo.settings import GOOGLE_API_KEY
+import requests, random
 
 
 @api_view(['GET', 'POST'])
@@ -63,13 +64,99 @@ def singleRestaurantView(request, resID):
         return Response({"message":"Restaurant deleted"}, status=status.HTTP_200_OK)
     
 
+
+'''Currently, this returns 5 restaurants randomly from a nearby restaurant search using Places API.
+
+To-Do: Incorporate our own Restaurants (if they are nearby) into this search result using Distance Matrix API.
+Update the algorithm to select Restaurants based on Customer's history of reservations.
+'''
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def getRecommendationsView(request):
-    pass
     
+    #GET NEARBY RESTAURANTS
+    url = request.scheme + "://" + request.get_host() + reverse('searchRestaurants')  #http://127.0.0.1:8000/api/restaurants/search
+    #print(url)
+    address = request.data.get("address")
+    if not address:
+        return Response({'message':"'location' field is required"}, status=status.HTTP_400_BAD_REQUEST)
+    address = address.replace('#','') #cannot pass # into the address query
+    
+    payload = {
+        "address": address #radius defaults to 1500m
+    }
+    data = requests.get(url=url,data=payload)
+    data_json = data.json()
+    if data_json["status"] != "OK":
+        return Response({'message':data_json["status"], 'error_message':data_json.get("error_message")}, status=status.HTTP_400_BAD_REQUEST)
+    
+    results = data_json["results"] #list of Place objects
+    
+    
+    #CHANGE THIS TO AN ALGORITHM FOR SELECTING RESTAURANTS
+    #Randomly sample 5 restaurants from this list 
+    try:
+        recommended_restaurants= random.sample(results, 5)
+    except ValueError:
+        #there are less than 5 results
+        print("there are less than 5 results")
+        recommended_restaurants = results
+    
+    return Response(recommended_restaurants)
+    
+    
+    
+
+'''Currently, this only returns restaurants using Google's Geocoding API and Places API
+Address string from request, is validated, then converted to latitude and longtitude coordinates using Geocoding API.
+Additional parameters - radius, keyword, rankby - are processed, then used to find nearby restaurants using Places API (Nearby Search).
+
+To-Do: Incorporate our own Restaurants (if they are nearby) into this search result. Look into Distance Matrix API.
+'''  
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def searchRestaurantsView(request):
-    pass
+    format = "json" #accepts json or xml
+    
+    #get the human-readable adress string from request
+    address = request.data.get("address")
+    if not address:
+        return Response({'message':"'location' field is required"}, status=status.HTTP_400_BAD_REQUEST)
+    address = address.replace('#','') #cannot pass # into the address query
+    
+    #Using Geocoding API, convert address to latitude & longtitude coordinates
+    url = f"https://maps.googleapis.com/maps/api/geocode/{format}?address={address}&key={GOOGLE_API_KEY}"
+    
+    geocode = requests.get(url)
+    geocode_json = geocode.json()
+
+    if geocode_json["status"] != "OK":
+        return Response({'status':geocode_json["status"], 'error_message':geocode_json.get("error_message")}, status=status.HTTP_400_BAD_REQUEST)
+    
+    #status OK, Place found. Retrieve the lat & lng coordinates
+    location = geocode_json["results"][0]["geometry"]["location"]
+    lat = location["lat"]
+    lng = location["lng"]
+    
+    #Using Places API - nearby search, find nearby restaurants with filter
+    type = "restaurant" #fixed
+    radius = "&radius=1500" #in metres, DEFAULT set to 1500
+    if request.data.get("radius"):
+        radius = "&radius=" + request.data.get("radius")
+    
+    #optional parameters
+    keyword = rankby = ""
+    
+    if request.data.get("keyword"):
+        keyword = "&keyword=" + request.data.get("keyword")
+
+    if request.data.get("rankby") == 'distance': #two possible values: distance or prominence (default)
+        rankby = "&rankby=distance" 
+        radius = "" #sets radius to empty string as rankby cannot be used in conjunction with radius
+   
+    url = f"https://maps.googleapis.com/maps/api/place/nearbysearch/{format}?location={lat}%2C{lng}{radius}{keyword}{rankby}&type={type}&key={GOOGLE_API_KEY}"
+    response = requests.get(url)
+    return Response(response.json())
 
 
 
