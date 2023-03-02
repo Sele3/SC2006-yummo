@@ -21,7 +21,7 @@ Password: Customer12345
 
 TestMerchant1
 Username: TestMerchant1
-Email:
+Email: merchant1@gmail.com
 Password: Merchant12345
 
 TestMerchant2
