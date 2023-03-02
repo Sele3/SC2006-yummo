@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -158,6 +159,18 @@ DJOSER = {
     'LOGIN_FIELD' : 'email',
     #'SEND_ACTIVATION_EMAIL' : True,
     
+}
+
+# Add settings for Swagger page
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
+    'USE_SESSION_AUTH': False
 }
 
 # For convenience, the .env file has not been added to gitignore yet
