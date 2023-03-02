@@ -66,6 +66,18 @@ If there are any errors about migration, run these 2 commands then try the previ
 
 > python manage.py migrate
 
+## Guide on using the Swagger page (Backend)
+Majority of the endpoints require token authorization except for the login endpoint and some others. Below are the steps to login directly for backend:
+
+- To login to a Customer/Merchant
+  - Scroll to `/auth/token/login/` fill in the fields of the user
+  - Copy the token and paste it in the `Authorize` option at the top of the page 
+  - Format for the token is "Token [hex code]" (e.g. Token 1b4a....029f)
+  
+- Alternatively, go to the Django admin page and copy the token of the user
+
+- If you only want to test out a specific endpoint, click on the lock symbol beside the endpoint to authorize that specific endpoint only
+
 # Setting up local environment (frontend)
 Navigate to the yummo folder in Frontend (cd .\Frontend\yummo\), start the server by running
 > npm start
