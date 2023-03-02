@@ -19,6 +19,7 @@
 - Good commit naming conventions to follow (optional)
   - See: https://www.conventionalcommits.org/en/v1.0.0/
   - Also see: https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#type 
+  - [List of commit type and their descriptions](https://www.freecodecamp.org/news/how-to-write-better-git-commit-messages/#:~:text=Conventional%20Commits,-Now%20that%20we&text=feat%20%E2%80%93%20a%20new%20feature%20is,bug%20nor%20adds%20a%20feature)
   - [Examples](https://github.com/angular/angular/commits/22b96b96902e1a42ee8c5e807720424abad3082a/CONTRIBUTING.md)
 
 # What is Yummo?
