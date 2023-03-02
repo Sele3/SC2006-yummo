@@ -12,6 +12,8 @@ from .serializers import RestaurantSerializer, ReservationSerializer, ReviewSeri
 from Yummo.utilityfunctions import isCustomerGroup, isMerchantGroup
 from Yummo.settings import GOOGLE_API_KEY
 import requests, random
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 
 @api_view(['GET', 'POST'])
@@ -70,10 +72,12 @@ def singleRestaurantView(request, resID):
 To-Do: Incorporate our own Restaurants (if they are nearby) into this search result using Distance Matrix API.
 Update the algorithm to select Restaurants based on Customer's history of reservations.
 '''
-@api_view(['GET'])
+@swagger_auto_schema(method='POST', request_body=openapi.Schema(
+    type=openapi.TYPE_OBJECT, 
+    properties={'address': openapi.Schema(type=openapi.TYPE_STRING)}))
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def getRecommendationsView(request):
-    
     #GET NEARBY RESTAURANTS
     url = request.scheme + "://" + request.get_host() + reverse('searchRestaurants')  #http://127.0.0.1:8000/api/restaurants/search
     #print(url)
@@ -85,7 +89,7 @@ def getRecommendationsView(request):
     payload = {
         "address": address #radius defaults to 1500m
     }
-    data = requests.get(url=url,data=payload)
+    data = requests.post(url=url,data=payload)
     data_json = data.json()
     if data_json["status"] != "OK":
         return Response({'message':data_json["status"], 'error_message':data_json.get("error_message")}, status=status.HTTP_400_BAD_REQUEST)
@@ -112,8 +116,15 @@ Address string from request, is validated, then converted to latitude and longti
 Additional parameters - radius, keyword, rankby - are processed, then used to find nearby restaurants using Places API (Nearby Search).
 
 To-Do: Incorporate our own Restaurants (if they are nearby) into this search result. Look into Distance Matrix API.
-'''  
-@api_view(['GET'])
+'''
+@swagger_auto_schema(method='POST', request_body=openapi.Schema(
+    type=openapi.TYPE_OBJECT, 
+    properties={
+        'address': openapi.Schema(type=openapi.TYPE_STRING),
+        'radius': openapi.Schema(type=openapi.TYPE_STRING, description="optional", default=""),
+        'keyword': openapi.Schema(type=openapi.TYPE_STRING, description="optional", default=""),
+        'rankby': openapi.Schema(type=openapi.TYPE_STRING, description="optional", default="")}))  
+@api_view(['POST'])
 @permission_classes([AllowAny])
 def searchRestaurantsView(request):
     format = "json" #accepts json or xml
@@ -175,7 +186,7 @@ def reservationsView(request, resID):
     #Customer only
     if not isCustomerGroup(request):
         return Response({'message':"Only Customers can make a reservation"},status.HTTP_403_FORBIDDEN)
-    if  request.method == 'POST':
+    if request.method == 'POST':
         data = request.data.copy()
         data['restaurant'] = resID
         data['customer'] = request.user.id
