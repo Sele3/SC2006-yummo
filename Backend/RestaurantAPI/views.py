@@ -16,6 +16,8 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
 
+
+@swagger_auto_schema(method='POST', request_body=RestaurantSerializer)
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 def restaurantsView(request):
@@ -35,7 +37,7 @@ def restaurantsView(request):
         serialized_restaurant.save()
         return Response(serialized_restaurant.data, status=status.HTTP_201_CREATED)
     
-
+@swagger_auto_schema(methods=['PUT', 'PATCH'], request_body=RestaurantSerializer)
 @api_view(['GET', 'PUT', 'PATCH', 'DELETE'])
 @permission_classes([IsAuthenticatedOrReadOnly])
 def singleRestaurantView(request, resID):
@@ -170,7 +172,7 @@ def searchRestaurantsView(request):
     return Response(response.json())
 
 
-
+@swagger_auto_schema(method='POST', request_body=ReservationSerializer)
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 def reservationsView(request, resID):
@@ -196,7 +198,7 @@ def reservationsView(request, resID):
         return Response(serialized_reservation.data, status=status.HTTP_201_CREATED)
     
 
-
+@swagger_auto_schema(methods=['PUT', 'PATCH'], request_body=ReservationSerializer)
 @api_view(['GET', 'PUT', 'PATCH', 'DELETE'])
 @permission_classes([IsAuthenticated])
 def singleReservationView(request, resID, reservID):
@@ -236,7 +238,7 @@ def singleReservationView(request, resID, reservID):
     
     
     
-    
+@swagger_auto_schema(method='POST', request_body=ReviewSerializer)    
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticatedOrReadOnly])
 def reviewsView(request, resID):
@@ -260,7 +262,7 @@ def reviewsView(request, resID):
         return Response(serialized_review.data, status=status.HTTP_201_CREATED)
     
 
-
+@swagger_auto_schema(methods=['PUT', 'PATCH'], request_body=ReviewSerializer)
 @api_view(['GET', 'PUT', 'PATCH', 'DELETE'])
 @permission_classes([IsAuthenticatedOrReadOnly])
 def singleReviewView(request, resID, review_id):
