@@ -10,8 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import environ
 import os
 from pathlib import Path
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -156,4 +160,6 @@ DJOSER = {
     
 }
 
-GOOGLE_API_KEY = "AIzaSyDCyKmauL-xelpm3buLCEuAFKoi7I7BQMo"
+# For convenience, the .env file has not been added to gitignore yet
+# ToDo: Add .env file to gitignore, replace API keys with environment variables
+GOOGLE_API_KEY = env('GOOGLE_API_KEY')

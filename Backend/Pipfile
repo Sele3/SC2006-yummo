@@ -8,6 +8,7 @@ django = "*"
 djangorestframework = "*"
 djoser = "*"
 pillow = "*"
+django-environ = "*"
 
 [dev-packages]
 
