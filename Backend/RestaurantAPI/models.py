@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg, Q
 from django.contrib.auth.models import User
 
 
@@ -51,6 +52,17 @@ class Review(models.Model):
         on_delete=models.CASCADE, 
         limit_choices_to={'groups__name': 'Customers'},
         related_name='reviews')
+    
+    def save(self, *args, **kawrgs):
+        super(Review, self).save(*args, **kawrgs)
+        self.restaurant.avg_rating = Review.objects.filter(restaurant=self.restaurant).aggregate(Avg('rating'))["rating__avg"]
+        self.restaurant.save()
+
+    def delete(self, *args, **kawrgs):
+        new_avg = Review.objects.filter(restaurant=self.restaurant).filter(~Q(review_id=self.review_id)).aggregate(Avg('rating'))["rating__avg"]
+        self.restaurant.avg_rating = new_avg if new_avg else 0
+        self.restaurant.save()
+        super(Review, self).delete(*args, **kawrgs)
     
     def __str__(self):
         return f"Review {self.review_id} by {self.customer.get_username()} at {self.restaurant.name}"
