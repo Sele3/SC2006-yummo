@@ -296,3 +296,50 @@ def singleReviewView(request, resID, review_id):
         return Response({"message":"Review deleted"}, status=status.HTTP_200_OK)
         
     
+#trip advisor API calls
+def searchLocation(location):
+  url = "https://tripadvisor16.p.rapidapi.com/api/v1/restaurant/searchLocation"
+
+  querystring = {"query":location}
+
+  headers = {
+    "X-RapidAPI-Key": "d9bd9e1f6dmsh253f6e238aea40ep1a39eejsn5989d78888ff",
+    "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com"
+  }
+
+  response = requests.request("GET", url, headers=headers, params=querystring)
+  return response
+
+def getLocationId(location):
+  ans = searchLocation(location)
+  ans = (ans.json())
+  return ans['data'][0]['locationId']
+
+def getRestaurants(locationId):
+  url = "https://tripadvisor16.p.rapidapi.com/api/v1/restaurant/searchRestaurants"
+
+  querystring = {"locationId":locationId}
+
+  headers = {
+    "X-RapidAPI-Key": "d9bd9e1f6dmsh253f6e238aea40ep1a39eejsn5989d78888ff",
+    "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com"
+  }
+
+  response = requests.request("GET", url, headers=headers, params=querystring)
+
+  return response.json()
+  
+
+def getRestaurantDetails(retaurantId):
+  url = "https://tripadvisor16.p.rapidapi.com/api/v1/restaurant/getRestaurantDetails"
+
+  querystring = {"restaurantsId":restaurantId,"currencyCode":"SGD"}
+
+  headers = {
+    "X-RapidAPI-Key": "d9bd9e1f6dmsh253f6e238aea40ep1a39eejsn5989d78888ff",
+    "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com"
+  }
+
+  response = requests.request("GET", url, headers=headers, params=querystring)
+
+  return response.json()
