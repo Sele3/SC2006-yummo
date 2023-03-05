@@ -4,15 +4,21 @@ from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 
 
-#Extend User model by attaching a CustomerProfile to each User (Customer)
-class CustomerProfile(models.Model):
+class BaseProfile(models.Model):
+    bio = models.TextField(max_length=500, blank=True)
+    contact_no = models.CharField(max_length=20, blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+
+#Wrap User model by attaching a CustomerProfile to each User (Customer)
+class CustomerProfile(BaseProfile):
     user = models.OneToOneField(
         User, 
         on_delete=models.CASCADE,
         limit_choices_to={'groups__name': 'Customers'},
         related_name='customerprofile')
-    bio = models.TextField(max_length=500, blank=True)
-    contact_no = models.CharField(max_length=20, blank=True, null=True)
     friends = models.ManyToManyField(
         User,
         limit_choices_to={'groups__name': 'Customers'},
@@ -23,15 +29,13 @@ class CustomerProfile(models.Model):
         return f"{self.user.get_username()}'s CustomerProfile"
     
 
-#Extend User model by attaching a MerchantProfile to each User (Merchant)    
-class MerchantProfile(models.Model):
+#Wrap User model by attaching a MerchantProfile to each User (Merchant)    
+class MerchantProfile(BaseProfile):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
         limit_choices_to={'groups__name': 'Merchants'},
         related_name='merchantprofile')
-    bio = models.TextField(max_length=500, blank=True)
-    contact_no = models.CharField(max_length=20, blank=True, null=True)
     
     def __str__(self):
         return f"{self.user.get_username()}'s MerchantProfile"
