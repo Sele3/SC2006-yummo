@@ -89,7 +89,7 @@ class SingleFriendView(AuthenticatedViewClass):
         current_user_profile.friends.add(friend_user)
         return Response({'success': f'{username} has been added to your friends list.'}, status=status.HTTP_201_CREATED)
 
-    @swagger_auto_schema(tags=['friends'], responses={204: "No Content", 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    @swagger_auto_schema(tags=['friends'], responses={200: "OK", 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def delete(self, request, username):
         try:
             current_user_profile = getProfile(request)
@@ -104,4 +104,4 @@ class SingleFriendView(AuthenticatedViewClass):
             return Response({'error': f'{username} is not in your friends list.'}, status=status.HTTP_400_BAD_REQUEST)
 
         current_user_profile.friends.remove(friend_user)
-        return Response({'success': f'{username} has been removed from your friends list.'}, status=status.HTTP_204_NO_CONTENT)
+        return Response({'success': f'{username} has been removed from your friends list.'}, status=status.HTTP_200_OK)
