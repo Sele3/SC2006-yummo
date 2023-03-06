@@ -176,3 +176,7 @@ SWAGGER_SETTINGS = {
 # For convenience, the .env file has not been added to gitignore yet
 # ToDo: Add .env file to gitignore, replace API keys with environment variables
 GOOGLE_API_KEY = env('GOOGLE_API_KEY')
+TRIPADVISOR_API_KEY = env('X_RapidAPI_Key')
+TRIPADVISOR_API_HOST = env('X_RapidAPI_Host')
+
+
