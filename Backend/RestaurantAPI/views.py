@@ -10,7 +10,7 @@ from decimal import Decimal
 from .models import Restaurant, Reservation, Review
 from .serializers import RestaurantSerializer, ReservationSerializer, ReviewSerializer
 from Yummo.utilityfunctions import isCustomerGroup, isMerchantGroup
-from Yummo.settings import GOOGLE_API_KEY, TRIPADVISOR_API_KEY, TRIPADVISOR_API_HOST
+from Yummo.settings import GOOGLE_API_KEY
 import requests, random
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -296,50 +296,3 @@ def singleReviewView(request, resID, review_id):
         return Response({"message":"Review deleted"}, status=status.HTTP_200_OK)
         
     
-#trip advisor API calls
-def searchLocation(location):
-  url = "https://tripadvisor16.p.rapidapi.com/api/v1/restaurant/searchLocation"
-
-  querystring = {"query":location}
-
-  headers = {
-    "X-RapidAPI-Key": TRIPADVISOR_API_KEY,
-    "X-RapidAPI-Host": TRIPADVISOR_API_HOST
-  }
-
-  response = requests.request("GET", url, headers=headers, params=querystring)
-  return response
-
-def getLocationId(location):
-  ans = searchLocation(location)
-  ans = (ans.json())
-  return ans['data'][0]['locationId']
-
-def getRestaurants(locationId):
-  url = "https://tripadvisor16.p.rapidapi.com/api/v1/restaurant/searchRestaurants"
-
-  querystring = {"locationId":locationId}
-
-  headers = {
-    "X-RapidAPI-Key": TRIPADVISOR_API_KEY,
-    "X-RapidAPI-Host": TRIPADVISOR_API_HOST
-  }
-
-  response = requests.request("GET", url, headers=headers, params=querystring)
-
-  return response.json()
-  
-
-def getRestaurantDetails(restaurantId):
-  url = "https://tripadvisor16.p.rapidapi.com/api/v1/restaurant/getRestaurantDetails"
-
-  querystring = {"restaurantsId":restaurantId,"currencyCode":"SGD"}
-
-  headers = {
-    "X-RapidAPI-Key": TRIPADVISOR_API_KEY,
-    "X-RapidAPI-Host": TRIPADVISOR_API_HOST
-  }
-
-  response = requests.request("GET", url, headers=headers, params=querystring)
-
-  return response.json()
