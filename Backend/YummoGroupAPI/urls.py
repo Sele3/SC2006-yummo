@@ -1,7 +1,8 @@
-from django.contrib import admin
-from django.urls import path, include
-
+from django.urls import path
+from YummoGroupAPI.views import *
 
 urlpatterns = [
-
+    path("users/profile", ProfileView.as_view()),
+    path("users/friends", FriendsView.as_view()),
+    path("users/friends/<str:username>", SingleFriendView.as_view()),
 ]
