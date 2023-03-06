@@ -49,7 +49,7 @@ def singleRestaurantView(request, resID):
     
     #Merchants only
     if not isMerchantGroup(request):
-        return Response({'message':"Only Merchants can edit their Restaurant details"},status.HTTP_403_FORBresIDDEN) 
+        return Response({'message':"Only Merchants can edit their Restaurant details"},status.HTTP_403_FORBIDDEN) 
     
     if request.method == 'PUT' or request.method == 'PATCH':
         restaurant = get_object_or_404(Restaurant, pk=resID, merchant=request.user)
