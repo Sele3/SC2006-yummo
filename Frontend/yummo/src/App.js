@@ -1,13 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
-import PersonList from './components/PersonList.js';
+import Routing from './components/Routing.js';
 
 function App() {
   return (
-    <div className="App">
-      <h3>Persons</h3>
-      <PersonList />
-    </div>
+    <Routing />
   );
 }
 
