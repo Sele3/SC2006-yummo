@@ -109,7 +109,7 @@ class SingleFriendView(AuthenticatedViewClass):
 
 
 class YummoGroupsView(AuthenticatedViewClass):
-    @swagger_auto_schema(tags=['groups'], responses={200: YummoGroupSerializer(many=True)})
+    @swagger_auto_schema(tags=['groups'], responses={200: YummoGroupSerializer(many=True), 403: "Forbidden"})
     def get(self, request):
         try:
             is_customer_or_403(request)
@@ -143,3 +143,16 @@ class YummoGroupsView(AuthenticatedViewClass):
         serialized_group = YummoGroupSerializer(group)
         return Response(serialized_group.data, status=status.HTTP_201_CREATED)
         
+
+class SingleCustomerYummoGroups(AuthenticatedViewClass):
+    @swagger_auto_schema(tags=['groups'], responses={200: YummoGroupSerializer(many=True), 403: "Forbidden"})
+    def get(self, request):
+        try:
+            is_customer_or_403(request)
+        except ExceptionWithResponse as e:
+            return Response({"message": str(e)}, status=e.get_status_code()) 
+        
+        groups = request.user.yummogroups.all()
+        serialized_groups = YummoGroupSerializer(groups, many=True)
+        return Response(serialized_groups.data, status=status.HTTP_200_OK)
+    
