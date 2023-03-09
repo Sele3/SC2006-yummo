@@ -9,7 +9,7 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 
-class ProfileView(AuthenticatedViewClass):
+class ProfileView(AuthenticatedCustomerViewClass):
     @swagger_auto_schema(tags=["profile"], responses={200: CustomerProfileSerializer, 400: "Bad Request"})
     def get(self, request):
         try:
@@ -39,20 +39,15 @@ class ProfileView(AuthenticatedViewClass):
         return Response(serialized_profile.data, status=status.HTTP_201_CREATED)
 
 
-class FriendsView(AuthenticatedViewClass):
+class FriendsView(AuthenticatedCustomerViewClass):
     @swagger_auto_schema(tags=['friends'], responses={200: UserBasicInfoSerializer(many=True)})
     def get(self, request):
-        try:
-            is_customer_or_403(request)
-        except ExceptionWithResponse as e:
-            return Response({"message": str(e)}, status=e.get_status_code()) 
-        
         profile = get_object_or_404(CustomerProfile, user=request.user)
         serialized_profile = UserBasicInfoSerializer(profile.friends, many=True)
         return Response(serialized_profile.data, status=status.HTTP_200_OK)
 
 
-class SingleFriendView(AuthenticatedViewClass):
+class SingleFriendView(AuthenticatedCustomerViewClass):
     def get_requested_friend(self, username):
         return get_object_or_404(User, username=username)
 
@@ -60,7 +55,6 @@ class SingleFriendView(AuthenticatedViewClass):
     @swagger_auto_schema(tags=['friends'], responses={200: UserBasicInfoSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def get(self, request, username):
         try:
-            is_customer_or_403(request)
             current_user_profile = getProfile(request)
         except ExceptionWithResponse as e:
             return Response({"message": str(e)}, status=e.get_status_code()) 
@@ -109,25 +103,15 @@ class SingleFriendView(AuthenticatedViewClass):
         return Response({'success': f'{username} has been removed from your friends list.'}, status=status.HTTP_200_OK)
 
 
-class YummoGroupsView(AuthenticatedViewClass):
+class YummoGroupsView(AuthenticatedCustomerViewClass):
     @swagger_auto_schema(tags=['groups'], responses={200: YummoGroupSerializer(many=True), 403: "Forbidden"})
     def get(self, request):
-        try:
-            is_customer_or_403(request)
-        except ExceptionWithResponse as e:
-            return Response({"message": str(e)}, status=e.get_status_code()) 
-        
         groups = YummoGroup.objects.all()
         serialized_groups = YummoGroupSerializer(groups, many=True)
         return Response(serialized_groups.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(tags=['groups'], request_body=YummoGroupSerializer, responses={201: YummoGroupSerializer, 400: "Bad Request", 403: "Forbidden"})
     def post(self, request):
-        try:
-            is_customer_or_403(request)
-        except ExceptionWithResponse as e:
-            return Response({"message": str(e)}, status=e.get_status_code()) 
-        
         serializer = YummoGroupSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -148,14 +132,9 @@ class YummoGroupsView(AuthenticatedViewClass):
         return Response(serialized_group.data, status=status.HTTP_201_CREATED)
         
 
-class SingleCustomerYummoGroups(AuthenticatedViewClass):
+class SingleCustomerYummoGroups(AuthenticatedCustomerViewClass):
     @swagger_auto_schema(tags=['groups'], responses={200: YummoGroupSerializer(many=True), 403: "Forbidden"})
     def get(self, request):
-        try:
-            is_customer_or_403(request)
-        except ExceptionWithResponse as e:
-            return Response({"message": str(e)}, status=e.get_status_code()) 
-        
         groups = request.user.yummogroups.all()
         serialized_groups = YummoGroupSerializer(groups, many=True)
         return Response(serialized_groups.data, status=status.HTTP_200_OK)
@@ -167,11 +146,6 @@ class SingleCustomerYummoGroups(AuthenticatedViewClass):
             properties={'group_name': openapi.Schema(type=openapi.TYPE_STRING)}),
             responses={200: YummoGroupSerializer(many=True), 403: "Forbidden"})
     def post(self, request):
-        try:
-            is_customer_or_403(request)
-        except ExceptionWithResponse as e:
-            return Response({"message": str(e)}, status=e.get_status_code()) 
-        
         group_name = request.data.get('group_name', '')
         if not group_name:
             return Response({'message': 'Please provide a group name'}, status=status.HTTP_400_BAD_REQUEST)
@@ -181,14 +155,9 @@ class SingleCustomerYummoGroups(AuthenticatedViewClass):
         return Response(serialized_groups.data, status=status.HTTP_200_OK)
         
 
-class SingleYummoGroupView(AuthenticatedViewClass):
+class SingleYummoGroupView(AuthenticatedCustomerViewClass):
     @swagger_auto_schema(tags=['groups'], responses={200: YummoGroupSerializer, 403: "Forbidden", 404: "Not Found"})
     def get(self, request, grpID):
-        try:
-            is_customer_or_403(request)
-        except ExceptionWithResponse as e:
-            return Response({"message": str(e)}, status=e.get_status_code()) 
-        
         group = get_object_or_404(YummoGroup, group_id=grpID)
         serialized_group = YummoGroupSerializer(group)
         return Response(serialized_group.data, status=status.HTTP_200_OK)
@@ -196,11 +165,6 @@ class SingleYummoGroupView(AuthenticatedViewClass):
         
     @swagger_auto_schema(tags=['groups'], responses={201: "Created", 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def post(self, request, grpID):
-        try:
-            is_customer_or_403(request)
-        except ExceptionWithResponse as e:
-            return Response({"message": str(e)}, status=e.get_status_code()) 
-        
         group = get_object_or_404(YummoGroup, group_id=grpID)
         customer = request.user
 
@@ -214,11 +178,6 @@ class SingleYummoGroupView(AuthenticatedViewClass):
 
     @swagger_auto_schema(tags=['groups'], responses={200: "OK", 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def delete(self, request, grpID):
-        try:
-            is_customer_or_403(request)
-        except ExceptionWithResponse as e:
-            return Response({"message": str(e)}, status=e.get_status_code()) 
-        
         group = get_object_or_404(YummoGroup, group_id=grpID)
         customer = request.user
 
