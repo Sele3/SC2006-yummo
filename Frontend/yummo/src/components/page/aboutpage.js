@@ -11,25 +11,26 @@ const AboutPage = (props) => {
   const token = '1b4a3a59041c56c203a4f44e77f831bd705c029f';
   const data = {"address": state};
 
-  const postData = {"address" : "NTU"} //payload data must be in json
-
   const [result, setResult] = useState({});
 
   useEffect(() => {
     axios.post(url, data, {
       headers: {
-          'Content-Type': 'application/x-www-form-urlencoded', //change to json
           'Authorization': `Token ${token}`,
       },
     })
       .then(res => {
-          setResult(res.data);
-          console.log(result);
+          if (res.data) {
+              setResult(res.data);
+          }
       })
       .catch(err => {
           console.error(err);
       });
-  }, [data, url, token]);
+  }, []);
+  console.log(result); // move the console.log outside of the then block to get updated value after rendering
+  console.log(result?.status)
+
 
   return (
     <>
@@ -38,10 +39,11 @@ const AboutPage = (props) => {
         <div>
           <h3>Passed data:</h3>
           <p>InputLocation: {state}</p>
+          <p>Result Status: {result.status}</p>
           <h3>API Data:</h3>
-          {result?.status === "OK" && (
+          {result?.status === 200 && (
             <div>
-              <p>Business Name: {result.results[0].name}</p>
+              <p>Business Name: {result.name}</p>
               <p>Location: {result.results[0].vicinity}</p>
               <p>Latitude: {result.results[0].geometry.location.lat}</p>
               <p>Longitude: {result.results[0].geometry.location.lng}</p>
@@ -50,6 +52,13 @@ const AboutPage = (props) => {
           )}
           {result?.status !== "OK" && (
             <p>No results found.</p>
+          )}
+          {result && (
+            <div>
+              <h3>API Response:</h3>
+              <p>Business Name: {result[0].name}</p>
+              <pre>{JSON.stringify(result, null, 2)}</pre>
+            </div>
           )}
         </div>
       )}
