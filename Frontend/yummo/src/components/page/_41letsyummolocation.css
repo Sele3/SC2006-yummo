@@ -4,28 +4,21 @@
 }
 
 .Whereareyoulocated {
-	/* Where are you located? */
-position: absolute;
-width: 1440px;
-height: 145px;
-left: 990px;
-top: 398px;
-
-font-family: 'Nunito';
-font-style: normal;
-font-weight: 800;
-font-size: 60px;
-line-height: 20px;
-/* or 33% */
-
-display: flex;
-align-items: center;
-text-align: center;
-letter-spacing: 0.1px;
-
-color: #000000;
-
-}
+	position: absolute;
+	width: 100%;
+	height: 10%;
+	top: 46%;
+	margin-left: 1%;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 800;
+	font-size: 4rem;
+	line-height: 1.2;
+	text-align: center;
+	letter-spacing: 0.1rem;
+	color: #000000;
+	border-radius: 10px;
+  }
+  
   
   /* Style the rest of the page. */
   body {
@@ -54,12 +47,12 @@ position: absolute;
 width: 1400px;
 height: 128px;
 left: 1190px;
-top: 314px;
+top: 324px;
 
-font-family: Nunito;
+font-family: 'Roboto', sans-serif;
 font-style: normal;
 font-weight: 800;
-font-size: 60px;
+font-size: 4rem;
 line-height: 20px;
 /* or 33% */
 
