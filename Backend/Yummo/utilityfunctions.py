@@ -3,15 +3,36 @@ from YummoGroupAPI.models import CustomerProfile, MerchantProfile
 from YummoGroupAPI.serializers import CustomerProfileSerializer, MerchantProfileSerializer
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, BasePermission
 
 #Put your utility functions here
 MERCHANT = "Merchants"
 CUSTOMER = "Customers"
 
+# Create permission class to check for customer
+class IsCustomer(BasePermission):
+    message = "Only Customers can access this function"
+
+    def has_permission(self, request, view):
+        return request.user.groups.filter(name=CUSTOMER).exists()
+    
+# Create permission class to check for merchant   
+class IsMerchant(BasePermission):
+    message = "Only Merchants can access this function"
+
+    def has_permission(self, request, view):
+        return request.user.groups.filter(name=MERCHANT).exists()
+    
+
 # Create base view class which require authentication
 class AuthenticatedViewClass(APIView):
     permission_classes = [IsAuthenticated]
+
+class AuthenticatedCustomerViewClass(AuthenticatedViewClass):
+    permission_classes = AuthenticatedViewClass.permission_classes + [IsCustomer]
+
+class AuthenticatedMerchantViewClass(AuthenticatedViewClass):
+    permission_classes = AuthenticatedViewClass.permission_classes + [IsMerchant]
 
 
 # Create Exception class that provides an exception message and a status code
