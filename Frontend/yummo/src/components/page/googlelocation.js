@@ -171,19 +171,27 @@ export default function GoogleMaps(props) {
     />
     </div>
     <Link to="/aboutpage" state={inputValue}>
-    <button style={{
-        display: 'block',
-        fontFamily: 'Nunito',
-        fontStyle: 'normal',
-        fontweight: '2000',
-        margin: '20px auto 0 auto',
-        marginLeft: '1253px',
-        fontSize: '20px',
-        padding: '10px 20px',
+    <button 
+    style={{
+        display: 'inline-block',
+        margin: '20px auto 0',
+        marginLeft: '1247px',
+        fontSize: '1rem',
+        padding: '12px 24px',
         backgroundColor: '#000000',
         color: '#FFD600',
-        borderRadius: '12px', // to add rounded edges
-        }}>Next</button>
+        borderRadius: '4px',
+        fontFamily: 'Roboto',
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        letterSpacing: '1px',
+        border: 'none',
+        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+        cursor: 'pointer'
+    }}
+    >
+    Next
+    </button>
     </Link>
     </>
   );

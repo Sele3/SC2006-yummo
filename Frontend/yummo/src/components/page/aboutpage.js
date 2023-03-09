@@ -1,5 +1,5 @@
 import { useLocation, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 
 const AboutPage = (props) => {
@@ -15,20 +15,21 @@ const AboutPage = (props) => {
 
   const [result, setResult] = useState({});
 
-  axios.post(url, postData, {
-    headers: {
-        //'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Type': 'application/json',  //content type it 
-        'Authorization': `Token ${token}`,
-    }
-  })
-    .then(res => {
-        setResult(res.data);
-        console.log(result);
+  useEffect(() => {
+    axios.post(url, data, {
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded', //change to json
+          'Authorization': `Token ${token}`,
+      },
     })
-    .catch(err => {
-        console.error(err);
-    })
+      .then(res => {
+          setResult(res.data);
+          console.log(result);
+      })
+      .catch(err => {
+          console.error(err);
+      });
+  }, [data, url, token]);
 
   return (
     <>
@@ -37,7 +38,19 @@ const AboutPage = (props) => {
         <div>
           <h3>Passed data:</h3>
           <p>InputLocation: {state}</p>
-          <p>API Data: {}</p>
+          <h3>API Data:</h3>
+          {result?.status === "OK" && (
+            <div>
+              <p>Business Name: {result.results[0].name}</p>
+              <p>Location: {result.results[0].vicinity}</p>
+              <p>Latitude: {result.results[0].geometry.location.lat}</p>
+              <p>Longitude: {result.results[0].geometry.location.lng}</p>
+              <p>Rating: {result.results[0].rating}</p>
+            </div>
+          )}
+          {result?.status !== "OK" && (
+            <p>No results found.</p>
+          )}
         </div>
       )}
       <hr />
