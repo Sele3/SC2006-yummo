@@ -31,10 +31,11 @@ class ProfileView(AuthenticatedViewClass):
             request_data['user'].pop('username', None)
         serialized_profile = serializer_class(profile, data=request_data, partial=True)
 
-        if serialized_profile.is_valid():
-            serialized_profile.save()
-            return Response(serialized_profile.data, status=status.HTTP_201_CREATED)
-        return Response(serialized_profile.errors, status=status.HTTP_400_BAD_REQUEST)
+        if not serialized_profile.is_valid():
+            return Response(serialized_profile.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        serialized_profile.save()
+        return Response(serialized_profile.data, status=status.HTTP_201_CREATED)
 
 
 class FriendsView(AuthenticatedViewClass):
@@ -105,3 +106,40 @@ class SingleFriendView(AuthenticatedViewClass):
 
         current_user_profile.friends.remove(friend_user)
         return Response({'success': f'{username} has been removed from your friends list.'}, status=status.HTTP_200_OK)
+
+
+class YummoGroupsView(AuthenticatedViewClass):
+    @swagger_auto_schema(tags=['groups'], responses={200: YummoGroupSerializer(many=True)})
+    def get(self, request):
+        try:
+            is_customer_or_403(request)
+        except ExceptionWithResponse as e:
+            return Response({"message": str(e)}, status=e.get_status_code()) 
+        
+        groups = YummoGroup.objects.all()
+        serialized_groups = YummoGroupSerializer(groups, many=True)
+        return Response(serialized_groups.data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(tags=['groups'], request_body=YummoGroupSerializer, responses={201: YummoGroupSerializer, 400: "Bad Request", 403: "Forbidden"})
+    def post(self, request):
+        try:
+            is_customer_or_403(request)
+        except ExceptionWithResponse as e:
+            return Response({"message": str(e)}, status=e.get_status_code()) 
+        
+        serializer = YummoGroupSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Check if group with same name already exists
+        # group_name = serializer.validated_data['name']
+        # if YummoGroup.objects.filter(name=group_name).exists():
+        #     return Response({"message": f"A group with the name '{group_name}' already exists."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Create new group
+        group = serializer.save()
+        # Add current user to group
+        group.customers.add(request.user) 
+        serialized_group = YummoGroupSerializer(group)
+        return Response(serialized_group.data, status=status.HTTP_201_CREATED)
+        
