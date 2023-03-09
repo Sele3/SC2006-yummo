@@ -6,4 +6,5 @@ urlpatterns = [
     path("users/friends", FriendsView.as_view()),
     path("users/friends/<str:username>", SingleFriendView.as_view()),
     path("user/yummogroups", SingleCustomerYummoGroups.as_view()),
+    path("yummogroups", YummoGroupsView.as_view()),
 ]
