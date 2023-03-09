@@ -180,3 +180,51 @@ class SingleCustomerYummoGroups(AuthenticatedViewClass):
         serialized_groups = YummoGroupSerializer(groups, many=True)
         return Response(serialized_groups.data, status=status.HTTP_200_OK)
         
+
+class SingleYummoGroupView(AuthenticatedViewClass):
+    @swagger_auto_schema(tags=['groups'], responses={200: YummoGroupSerializer, 403: "Forbidden", 404: "Not Found"})
+    def get(self, request, grpID):
+        try:
+            is_customer_or_403(request)
+        except ExceptionWithResponse as e:
+            return Response({"message": str(e)}, status=e.get_status_code()) 
+        
+        group = get_object_or_404(YummoGroup, group_id=grpID)
+        serialized_group = YummoGroupSerializer(group)
+        return Response(serialized_group.data, status=status.HTTP_200_OK)
+        
+        
+    @swagger_auto_schema(tags=['groups'], responses={201: "Created", 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    def post(self, request, grpID):
+        try:
+            is_customer_or_403(request)
+        except ExceptionWithResponse as e:
+            return Response({"message": str(e)}, status=e.get_status_code()) 
+        
+        group = get_object_or_404(YummoGroup, group_id=grpID)
+        customer = request.user
+
+        if group.customers.filter(id=customer.id).exists():
+            return Response({"message": "You are already part of this group."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        group.customers.add(customer)
+        group.save()
+        return Response({"message": "You have successfully joined the group."}, status=status.HTTP_201_CREATED)
+        
+
+    @swagger_auto_schema(tags=['groups'], responses={200: "OK", 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    def delete(self, request, grpID):
+        try:
+            is_customer_or_403(request)
+        except ExceptionWithResponse as e:
+            return Response({"message": str(e)}, status=e.get_status_code()) 
+        
+        group = get_object_or_404(YummoGroup, group_id=grpID)
+        customer = request.user
+
+        if not group.customers.filter(id=customer.id).exists():
+            return Response({"message": "You are not part of this group."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        group.customers.remove(customer)
+        group.save()
+        return Response({"message": "You have successfully left the group."}, status=status.HTTP_200_OK)
