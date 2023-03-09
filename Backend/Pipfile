@@ -10,6 +10,7 @@ djoser = "*"
 pillow = "*"
 django-environ = "*"
 drf-yasg = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
