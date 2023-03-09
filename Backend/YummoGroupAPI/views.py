@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from .models import CustomerProfile
 from .serializers import *
+from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 
@@ -131,6 +132,9 @@ class YummoGroupsView(AuthenticatedViewClass):
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
+        if not request.data.get('name', '').strip():
+            return Response({'message': 'Please provide a group name'}, status=status.HTTP_400_BAD_REQUEST)
+        
         # Check if group with same name already exists
         # group_name = serializer.validated_data['name']
         # if YummoGroup.objects.filter(name=group_name).exists():
@@ -156,3 +160,23 @@ class SingleCustomerYummoGroups(AuthenticatedViewClass):
         serialized_groups = YummoGroupSerializer(groups, many=True)
         return Response(serialized_groups.data, status=status.HTTP_200_OK)
     
+    @swagger_auto_schema(
+        tags=['groups'], 
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT, 
+            properties={'group_name': openapi.Schema(type=openapi.TYPE_STRING)}),
+            responses={200: YummoGroupSerializer(many=True), 403: "Forbidden"})
+    def post(self, request):
+        try:
+            is_customer_or_403(request)
+        except ExceptionWithResponse as e:
+            return Response({"message": str(e)}, status=e.get_status_code()) 
+        
+        group_name = request.data.get('group_name', '')
+        if not group_name:
+            return Response({'message': 'Please provide a group name'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        groups = YummoGroup.objects.filter(name=group_name)
+        serialized_groups = YummoGroupSerializer(groups, many=True)
+        return Response(serialized_groups.data, status=status.HTTP_200_OK)
+        
