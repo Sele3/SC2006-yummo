@@ -56,7 +56,6 @@ const AboutPage = (props) => {
           {result && (
             <div>
               <h3>API Response:</h3>
-              <p>Business Name: {result[0].name}</p>
               <pre>{JSON.stringify(result, null, 2)}</pre>
             </div>
           )}
