@@ -3,6 +3,7 @@ Username: admin
 Email: email@gmail.com
 Password: password
 
+"auth_token": "1b4a3a59041c56c203a4f44e77f831bd705c029f"
 
 TestCustomer1
 Username: TestCustomer1
