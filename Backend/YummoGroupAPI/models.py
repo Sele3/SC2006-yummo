@@ -77,7 +77,8 @@ class YummoGroup(models.Model):
         User, 
         limit_choices_to={'groups__name': 'Customers'},
         #calling user.yummogroups will return the YummoGroup related to this User
-        related_name='yummogroups')
+        related_name='yummogroups',
+        blank=True)
     
     def __str__(self):
         return self.name
