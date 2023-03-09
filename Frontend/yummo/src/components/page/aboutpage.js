@@ -9,15 +9,18 @@ const AboutPage = (props) => {
 
   const url = 'http://127.0.0.1:8000/api/restaurants/recommendations';
   const token = '1b4a3a59041c56c203a4f44e77f831bd705c029f';
-  const data = {state};
+  const data = {"address": state};
+
+  const postData = {"address" : "NTU"} //payload data must be in json
 
   const [result, setResult] = useState({});
 
-  axios.post(url, data, {
+  axios.post(url, postData, {
     headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        //'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',  //content type it 
         'Authorization': `Token ${token}`,
-    },
+    }
   })
     .then(res => {
         setResult(res.data);
