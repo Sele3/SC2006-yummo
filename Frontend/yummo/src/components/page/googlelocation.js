@@ -7,6 +7,8 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import parse from 'autosuggest-highlight/parse';
 import { debounce } from '@mui/material/utils';
+import { Link } from 'react-router-dom';
+
 
 // This key was created specifically for the demo in mui.com.
 // You need to create a new one for your application.
@@ -26,11 +28,14 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null };
 
-export default function GoogleMaps() {
+export default function GoogleMaps(props) {
   const [value, setValue] = React.useState("");
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState([]);
   const loaded = React.useRef(false);
+  const onEnter = () => {
+    props.sendData({inputValue: inputValue})
+  }
 
 
   if (typeof window !== 'undefined' && !loaded.current) {
@@ -91,77 +96,103 @@ export default function GoogleMaps() {
   }, [value, inputValue, fetch]);
 
   return (
+    <>
     <div>
-        {/* displaying the state values with template literals */}
-        <div>{`value: ${value !== null ? `'${value}'` : 'null'}`}</div>
-        <div>{`inputValue: '${inputValue}'`}</div>
-        <br />
-        <Autocomplete
-        id="google-map-demo"
-        sx={{ width: 400, pl: 137, pt: 70 }}
-        getOptionLabel={(option) =>
-            typeof option === 'string' ? option : option.description
+    <Autocomplete
+    id="google-map-demo"
+    sx={{ width: 400, pl: 137, pt: 69, borderRadius: '3px' }}
+    getOptionLabel={(option) =>
+        typeof option === 'string' ? option : option.description
+    }
+    filterOptions={(x) => x}
+    options={options}
+    autoComplete
+    includeInputInList
+    filterSelectedOptions
+    value={value}
+    noOptionsText="No locations"
+    onKeyDown={(event) => {
+        if (event.key === 'Enter') {
+        // Prevent's default 'Enter' behavior.
+        event.defaultMuiPrevented = false;
+        // your handler code
         }
-        filterOptions={(x) => x}
-        options={options}
-        autoComplete
-        includeInputInList
-        filterSelectedOptions
-        value={value}
-        noOptionsText="No locations"
-        onKeyDown={(event) => {
-            if (event.key === 'Enter') {
-            // Prevent's default 'Enter' behavior.
-            event.defaultMuiPrevented = false;
-            // your handler code
-            }
-        }}
-        onChange={(event, newValue) => {
-            setOptions(newValue ? [newValue, ...options] : options);
-            setValue(newValue);
-        }}
-        onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
-        }}
-        renderInput={(params) => (
-            <TextField {...params} label="" fullWidth />
-        )}
-        renderOption={(props, option) => {
-            const matches =
-            option.structured_formatting.main_text_matched_substrings || [];
+    }}
+    onChange={(event, newValue) => {
+        setOptions(newValue ? [newValue, ...options] : options);
+        setValue(newValue);
+    }}
+    onInputChange={(event, newInputValue) => {
+        setInputValue(newInputValue);
+    }}
+    renderInput={(params) => (
+        <TextField {...params} label="" fullWidth />
+    )}
+    renderOption={(props, option) => {
+        const matches =
+        option.structured_formatting.main_text_matched_substrings || [];
 
-            const parts = parse(
-            option.structured_formatting.main_text,
-            matches.map((match) => [match.offset, match.offset + match.length]),
-            );
+        const parts = parse(
+        option.structured_formatting.main_text,
+        matches.map((match) => [match.offset, match.offset + match.length])
+        );
 
+        return (
+        <li {...props}>
+            <Grid container alignItems="center">
+            <Grid item sx={{ display: 'flex', width: 44 }}>
+                <LocationOnIcon sx={{ color: 'text.secondary' }} />
+            </Grid>
+            <Grid
+                item
+                sx={{ width: 'calc(100% - 44px)', wordWrap: 'break-word' }}
+            >
+                {parts.map((part, index) => (
+                <Box
+                    key={index}
+                    component="span"
+                    sx={{
+                    fontWeight: '800',
+                    fontFamily: 'Nunito',
+                    }}
+                >
+                    {part.text}
+                </Box>
+                ))}
 
-            return (
-            <li {...props}>
-                <Grid container alignItems="center">
-                <Grid item sx={{ display: 'flex', width: 44 }}>
-                    <LocationOnIcon sx={{ color: 'text.secondary' }} />
-                </Grid>
-                <Grid item sx={{ width: 'calc(100% - 44px)', wordWrap: 'break-word' }}>
-                    {parts.map((part, index) => (
-                    <Box
-                        key={index}
-                        component="span"
-                        sx={{ fontWeight: part.highlight ? 'bold' : 'regular' }}
-                    >
-                        {part.text}
-                    </Box>
-                    ))}
-
-                    <Typography variant="body2" color="text.secondary">
-                    {option.structured_formatting.secondary_text}
-                    </Typography>
-                </Grid>
-                </Grid>
-            </li>
-            );
-        }}
-        />
+                <Typography variant="body2" color="text.secondary">
+                {option.structured_formatting.secondary_text}
+                </Typography>
+            </Grid>
+            </Grid>
+        </li>
+        );
+    }}
+    />
     </div>
+    <Link to="/aboutpage" state={inputValue}>
+    <button 
+    style={{
+        display: 'inline-block',
+        margin: '20px auto 0',
+        marginLeft: '1247px',
+        fontSize: '1rem',
+        padding: '12px 24px',
+        backgroundColor: '#000000',
+        color: '#FFD600',
+        borderRadius: '4px',
+        fontFamily: 'Roboto',
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        letterSpacing: '1px',
+        border: 'none',
+        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+        cursor: 'pointer'
+    }}
+    >
+    Next
+    </button>
+    </Link>
+    </>
   );
 }
