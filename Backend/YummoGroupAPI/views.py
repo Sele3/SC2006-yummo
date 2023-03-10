@@ -2,6 +2,8 @@ from Yummo.utilityfunctions import *
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from rest_framework import status
+from rest_framework.parsers import MultiPartParser
+from rest_framework.decorators import parser_classes
 from rest_framework.response import Response
 from .models import CustomerProfile
 from .serializers import *
@@ -9,7 +11,7 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 
-class ProfileView(AuthenticatedCustomerViewClass):
+class ProfileView(AuthenticatedViewClass):
     @swagger_auto_schema(tags=["profile"], responses={200: CustomerProfileSerializer, 400: "Bad Request"})
     def get(self, request):
         try:
@@ -187,3 +189,38 @@ class SingleYummoGroupView(AuthenticatedCustomerViewClass):
         group.customers.remove(customer)
         group.save()
         return Response({"message": "You have successfully left the group."}, status=status.HTTP_200_OK)
+
+
+class YummoGroupPostsView(AuthenticatedCustomerViewClass):
+
+    parser_classes = (MultiPartParser,)
+
+    @swagger_auto_schema(tags=['posts'], responses={200: PostSerializer(many=True), 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    def get(self, request, grpID):
+        group = get_object_or_404(YummoGroup, group_id=grpID)
+        customer = request.user
+
+        if not group.customers.filter(id=customer.id).exists():
+            return Response({"message": "You are not part of this group."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        serialized_posts = PostSerializer(group.posts, many=True)
+        return Response(serialized_posts.data, status=status.HTTP_200_OK)
+        
+    @swagger_auto_schema(tags=['posts'], request_body=PostSerializer, responses={201: PostSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    def post(self, request, grpID):
+        group = get_object_or_404(YummoGroup, group_id=grpID)
+        customer = request.user
+
+        if not group.customers.filter(id=customer.id).exists():
+            return Response({"message": "You are not part of this group."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        request_data = request.data.copy()
+        request_data['customer'] = customer.id
+        request_data['group'] = group.group_id
+        serializer = PostSerializer(data=request_data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        serializer.save(customer=customer, group=group)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
