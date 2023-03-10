@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import './PersonList.css';
-import { useLocation } from 'react-router-dom';
 
 export default class PersonList extends React.Component {
   state = {
@@ -35,7 +34,6 @@ export default class PersonList extends React.Component {
                     );
                 })}
             </table>
-            <p>Location: {this.inputValue}</p>
         </div>
         </>
     )
