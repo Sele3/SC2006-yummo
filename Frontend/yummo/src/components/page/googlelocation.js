@@ -100,7 +100,7 @@ export default function GoogleMaps(props) {
     <div>
     <Autocomplete
     id="google-map-demo"
-    sx={{ width: 400, pl: 137, pt: 69, borderRadius: '3px' }}
+    sx={{ width: 400, pl: '33rem', pt: '31rem', borderRadius: '5rem' }}
     getOptionLabel={(option) =>
         typeof option === 'string' ? option : option.description
     }
@@ -175,7 +175,7 @@ export default function GoogleMaps(props) {
     style={{
         display: 'inline-block',
         margin: '20px auto 0',
-        marginLeft: '1247px',
+        marginLeft: '43rem',
         fontSize: '1rem',
         padding: '12px 24px',
         backgroundColor: '#000000',
