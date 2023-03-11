@@ -1,9 +1,8 @@
-
-.back {
+	.back {
 	color: #ffd600;
-}
-
-.Whereareyoulocated {
+	}
+	
+	.Whereareyoulocated {
 	position: absolute;
 	width: 100%;
 	height: 10%;
@@ -11,67 +10,44 @@
 	margin-left: 1%;
 	font-family: 'Roboto', sans-serif;
 	font-weight: 800;
-	font-size: 4rem;
+	font-size: 4vw; /* changed to vw */
 	line-height: 1.2;
 	text-align: center;
 	letter-spacing: 0.1rem;
 	color: #000000;
 	border-radius: 10px;
-  }
-  
-  
-  /* Style the rest of the page. */
-  body {
+	}
+	
+	/* Style the rest of the page. */
+	body {
 	background-color: #ffffff;
-  }
-  
-  header {
+	}
+	
+	header {
 	margin-top: 1em;
 	margin-top: calc(50vh - 3em);
-  }
-  
-.h1 {
-	font-family: "Nunito";
+	}
+	
+	
+	yummo {
+	position: absolute;
+	width: 40%;
+	height: 10%;
+	left: 51%;
+	top: 35%;
+	transform: translate(-50%, -30%);
+	font-family: 'Roboto', sans-serif;
+	font-style: normal;
 	font-weight: 800;
-	font-size: 60px;
+	font-size: 4vw; 
+	line-height: 1.2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	text-align: center;
-	margin-bottom: 0;
-	margin-bottom: -0.25em;
-  }
+	letter-spacing: 0.1vw; 
+	color: #000000;
+	}
+	
 
-yummo {
-/* Yummo */
-
-
-position: absolute;
-width: 1400px;
-height: 128px;
-left: 1190px;
-top: 324px;
-
-font-family: 'Roboto', sans-serif;
-font-style: normal;
-font-weight: 800;
-font-size: 4rem;
-line-height: 20px;
-/* or 33% */
-
-display: flex;
-align-items: center;
-text-align: center;
-letter-spacing: 0.1px;
-
-color: #000000;
-
-}
-
-section {
-    display: block;
-}
-
-.googleloc {
-/* Google Location */
-display: flex;
-align-items: center;
-align-content: center;
-}
+	
