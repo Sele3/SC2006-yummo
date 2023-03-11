@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser
-from rest_framework.decorators import parser_classes
 from rest_framework.response import Response
 from .models import CustomerProfile
 from .serializers import *
@@ -206,7 +205,7 @@ class YummoGroupPostsView(AuthenticatedCustomerViewClass):
         serialized_posts = PostSerializer(group.posts, many=True)
         return Response(serialized_posts.data, status=status.HTTP_200_OK)
         
-    @swagger_auto_schema(tags=['posts'], request_body=PostSerializer, responses={201: PostSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    @swagger_auto_schema(tags=['posts'], request_body=PostFormSerializer, responses={201: PostSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def post(self, request, grpID):
         group = get_object_or_404(YummoGroup, group_id=grpID)
         customer = request.user
@@ -224,3 +223,91 @@ class YummoGroupPostsView(AuthenticatedCustomerViewClass):
         serializer.save(customer=customer, group=group)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
+class YummoGroupSinglePostView(AuthenticatedCustomerViewClass):
+    
+    parser_classes = (MultiPartParser,)
+
+    @swagger_auto_schema(tags=['posts'], responses={200: PostDetailedSerializer, 403: "Forbidden", 404: "Not Found"})
+    def get(self, request, grpID, postID):
+        customer = request.user
+        group = get_object_or_404(YummoGroup, group_id=grpID)
+        post = get_object_or_404(Post, post_id=postID)
+
+        if post.group != group:
+            return Response({"message": "Post does not belong to this group."}, status=status.HTTP_403_FORBIDDEN)
+        
+        if not group.customers.filter(id=customer.id).exists():
+            return Response({"message": "You are not part of this group."}, status=status.HTTP_400_BAD_REQUEST)
+
+        serialized_post = PostDetailedSerializer(post)
+        return Response(serialized_post.data, status=status.HTTP_200_OK)
+        
+        
+    @swagger_auto_schema(
+        tags=['posts'], 
+        request_body=CommentFormSerializer, 
+        responses={201: "Created", 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    def post(self, request, grpID, postID):
+        customer = request.user
+        group = get_object_or_404(YummoGroup, group_id=grpID)
+        post = get_object_or_404(Post, post_id=postID)
+
+        if post.group != group:
+            return Response({"message": "Post does not belong to this group."}, status=status.HTTP_403_FORBIDDEN)
+
+        if not group.customers.filter(id=customer.id).exists():
+            return Response({"message": "You are not part of this group."}, status=status.HTTP_400_BAD_REQUEST)
+
+        request_data = request.data.copy()
+        request_data['user'] = customer.id
+        request_data['post'] = post.post_id
+        serialized_comment = CommentSerializer(data=request_data)
+
+        if not serialized_comment.is_valid():
+            return Response(serialized_comment.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        serialized_comment.save()
+        return Response({"message": "Comment created successfully."}, status=status.HTTP_201_CREATED)
+    
+    @swagger_auto_schema(tags=['posts'], request_body=PostFormSerializer, responses={201: PostSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    def put(self, request, grpID, postID):
+        customer = request.user
+        group = get_object_or_404(YummoGroup, group_id=grpID)
+        post = get_object_or_404(Post, post_id=postID)
+
+        if post.group != group:
+            return Response({"message": "Post does not belong to this group."}, status=status.HTTP_403_FORBIDDEN)
+
+        if not group.customers.filter(id=customer.id).exists():
+            return Response({"message": "You are not part of this group."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if post.customer != customer:
+            return Response({"message": "You are not the creator of this post."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        serialized_post = PostSerializer(post, data=request.data, partial=True)
+        if not serialized_post.is_valid():
+            return Response(serialized_post.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        serialized_post.save()
+        return Response(serialized_post.data, status=status.HTTP_201_CREATED)
+        
+
+    @swagger_auto_schema(tags=['posts'], responses={200: "OK", 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    def delete(self, request, grpID, postID):
+        customer = request.user
+        group = get_object_or_404(YummoGroup, group_id=grpID)
+        post = get_object_or_404(Post, post_id=postID)
+
+        if post.group != group:
+            return Response({"message": "Post does not belong to this group."}, status=status.HTTP_403_FORBIDDEN)
+
+        if not group.customers.filter(id=customer.id).exists():
+            return Response({"message": "You are not part of this group."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if post.customer != customer:
+            return Response({"message": "You are not the creator of this post."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        post.delete()
+        return Response({"message": "Post successfully deleted."}, status=status.HTTP_200_OK)
+    
