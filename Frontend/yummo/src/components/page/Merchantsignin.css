@@ -1,0 +1,149 @@
+/* Label styles */
+
+.Merchantsignin {
+  /*display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: #00aeb2;
+  여기까지*/
+  text-align: center;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: #00aeb2;
+}
+
+.auth-form-container,
+.login-form,
+.register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-form-container {
+  /*grid-column: 2;*/
+  /*여기까지*/
+  padding: 5rem;
+  border: 1px solid white;
+  border-radius: 20px;
+}
+
+/* Left half of the page 
+.Merchantsignin > div:first-child {
+  background-color: white;
+}*/
+
+label {
+  text-align: left;
+  padding: 0.25rem 0;
+  font-family: "Nunito", sans-serif;
+  font-weight: bold;
+  /*font-size: 12px;*/
+  color: #545563;
+  /*margin-bottom: 10px;*/
+  box-sizing: border-box;
+}
+
+input {
+  /*font-family: "Nunito", sans-serif;*/
+  margin: 1rem 0;
+  padding: 1rem; /*box thickness*/
+  border-radius: 10px;
+  border: none; /*박스 선 없음*/
+  width: 100%;
+  max-width: 400px;
+}
+
+button {
+  border: none;
+  background-color: #a6e1d7;
+  padding: 10px;
+  border-radius: 10px; /*rounded corner*/
+  cursor: pointer; /*마우스가 손 모양으로 바뀜*/
+  width: 100%;
+  margin-bottom: 10px;
+  color: #0f0e0e;
+}
+
+.link-button {
+  background: none;
+  background-color: #d3f864;
+  border-radius: 8px;
+  text-decoration: underline;
+  width: 100%;
+}
+
+.checkbox1 label,
+.checkbox2 label {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  margin-left: -30px;
+  word-wrap: break-word;
+  max-width: 800px; /* adjust the width as per your requirements */
+  /*
+  text-align: left;
+  text-decoration-color: #ec801b;
+  background-color: azure;
+  padding: 5px;
+  border-radius: 8px;
+  width: 50%;
+  font-size: 12px;
+  */
+}
+/*
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+// Input styles 
+input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 1rem;
+}
+
+// Button styles 
+button {
+  background-color: #0077c0;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+
+
+  width: 100%;
+  max-width: 400px; 
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+
+
+
+
+}
+
+button:hover {
+  background-color: #005fa3;
+}
+
+button:active {
+  background-color: #004d87;
+}
+
+// Button wrapper styles 
+button + button {
+  display: block;
+  margin-top: 1rem;
+  text-align: center;
+}
+*/
