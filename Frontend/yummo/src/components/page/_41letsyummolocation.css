@@ -1,12 +1,23 @@
+	html, body {
+	margin: 0;
+	padding: 0;
+  	}
+  
+  	#root {
+	margin: 0;
+	padding: 0;
+  	}
+	
 	.back {
 	color: #ffd600;
 	}
 	
-	.Whereareyoulocated {
-	position: absolute;
+	.texts {
+	justify-content: center;
+  	align-items: center;
+  	position: relative;
 	width: 100%;
-	height: 10%;
-	top: 46%;
+	margin-top: 17rem;
 	margin-left: 1%;
 	font-family: 'Roboto', sans-serif;
 	font-weight: 800;
@@ -15,8 +26,16 @@
 	text-align: center;
 	letter-spacing: 0.1rem;
 	color: #000000;
-	border-radius: 10px;
 	}
+
+	.location-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		width: 100%;
+	  }
+	  
 	
 	/* Style the rest of the page. */
 	body {
@@ -29,24 +48,11 @@
 	}
 	
 	
-	yummo {
-	position: absolute;
-	width: 40%;
-	height: 10%;
-	left: 51%;
-	top: 35%;
-	transform: translate(-50%, -30%);
-	font-family: 'Roboto', sans-serif;
-	font-style: normal;
-	font-weight: 800;
-	font-size: 4vw; 
-	line-height: 1.2;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	letter-spacing: 0.1vw; 
-	color: #000000;
+	.WAYL {
+		display: flex;
+		padding-top: 1rem;
+		justify-content: center;
+		align-items: center;
 	}
 	
 
