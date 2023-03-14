@@ -169,7 +169,7 @@ export default function GoogleMaps(props) {
     />
     </div>
     <br />
-    <Link to="/aboutpage" state={inputValue}>
+    <Link to="/letsyummocraving" state={inputValue}>
     <button 
     style={{
         display: 'flex',
