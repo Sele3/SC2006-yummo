@@ -1,6 +1,7 @@
 import { useLocation, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import NavBar from "../navbar";
 
 const AboutPage = (props) => {
   const location = useLocation();
@@ -41,6 +42,7 @@ const AboutPage = (props) => {
 
   return (
     <>
+    <NavBar />
       <h1>This is About page</h1>
       {state && (
         <div>
