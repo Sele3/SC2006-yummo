@@ -9,3 +9,6 @@ media
 *.bak 
 
 .DS_Store
+
+# React #
+.env

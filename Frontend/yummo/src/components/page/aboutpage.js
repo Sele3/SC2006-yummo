@@ -8,7 +8,7 @@ const AboutPage = (props) => {
   console.log(state);
 
   const url = 'http://127.0.0.1:8000/api/restaurants/recommendations';
-  const token = '1b4a3a59041c56c203a4f44e77f831bd705c029f';
+  const token = process.env.REACT_APP_BACKEND_API_KEY;
   const data = {"address": state};
 
   const [result, setResult] = useState({});

@@ -9,10 +9,9 @@ import parse from 'autosuggest-highlight/parse';
 import { debounce } from '@mui/material/utils';
 import { Link } from 'react-router-dom';
 
-
 // This key was created specifically for the demo in mui.com.
 // You need to create a new one for your application.
-const GOOGLE_MAPS_API_KEY = 'AIzaSyAqbw-_HhIKimpdhdpsyXeCUSxZmsxhrkE';
+const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLEMAP_API_KEY;
 
 function loadScript(src, position, id) {
   if (!position) {
