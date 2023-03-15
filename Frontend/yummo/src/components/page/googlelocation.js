@@ -9,10 +9,9 @@ import parse from 'autosuggest-highlight/parse';
 import { debounce } from '@mui/material/utils';
 import { Link } from 'react-router-dom';
 
-
 // This key was created specifically for the demo in mui.com.
 // You need to create a new one for your application.
-const GOOGLE_MAPS_API_KEY = 'AIzaSyAqbw-_HhIKimpdhdpsyXeCUSxZmsxhrkE';
+const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLEMAP_API_KEY;
 
 function loadScript(src, position, id) {
   if (!position) {
@@ -99,8 +98,7 @@ export default function GoogleMaps(props) {
     <>
     <div>
     <Autocomplete
-    id="google-map-demo"
-    sx={{ width: 400, pl: 137, pt: 69, borderRadius: '3px' }}
+    sx={{ display: 'flex', width: '35rem', justifyContent: 'center', alignItems: 'center', position: 'relative', borderRadius: '1rem' }}
     getOptionLabel={(option) =>
         typeof option === 'string' ? option : option.description
     }
@@ -170,21 +168,25 @@ export default function GoogleMaps(props) {
     }}
     />
     </div>
-    <Link to="/aboutpage" state={inputValue}>
+    <br />
+    <Link to="/letsyummocraving" state={inputValue}>
     <button 
     style={{
-        display: 'inline-block',
-        margin: '20px auto 0',
-        marginLeft: '1247px',
+        display: 'flex',
+        marginTop: '10rem',
+        marginLeft: '-21em',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
         fontSize: '1rem',
         padding: '12px 24px',
         backgroundColor: '#000000',
         color: '#FFD600',
-        borderRadius: '4px',
+        borderRadius: '2rem',
         fontFamily: 'Roboto',
         fontWeight: 'bold',
         textTransform: 'uppercase',
-        letterSpacing: '1px',
+        letterSpacing: '0.2rem',
         border: 'none',
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
         cursor: 'pointer'

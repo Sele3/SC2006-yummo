@@ -8,3 +8,6 @@ __pycache__
 *.bak 
 
 .DS_Store
+
+# React #
+.env
