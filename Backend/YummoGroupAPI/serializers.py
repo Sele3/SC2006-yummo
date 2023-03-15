@@ -100,4 +100,23 @@ class CommentSerializer(serializers.ModelSerializer):
         extra_kwargs ={
             'commented_at': {'read_only': True}
         }
-        
+
+
+class PostDetailedSerializer(serializers.ModelSerializer):
+    comments = CommentSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Post
+        fields = ['post_id', 'img', 'description', 'posted_at', 'customer', 'comments']
+        extra_kwargs ={
+            'posted_at': {'read_only': True}
+        }
+
+
+class PostFormSerializer(serializers.Serializer):
+    img = serializers.ImageField(required=False)
+    description = serializers.CharField()
+
+
+class CommentFormSerializer(serializers.Serializer):
+    content = serializers.CharField()
