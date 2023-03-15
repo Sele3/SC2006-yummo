@@ -174,7 +174,8 @@ SWAGGER_SETTINGS = {
             'name': 'Authorization'
         }
     },
-    'USE_SESSION_AUTH': False
+    'USE_SESSION_AUTH': False,
+    'collapse_operations': False,
 }
 
 # For convenience, the .env file has not been added to gitignore yet
