@@ -1,4 +1,4 @@
-	html, body {
+html, body {
 	margin: 0;
 	padding: 0;
   	}
@@ -28,14 +28,23 @@
 	color: #000000;
 	}
 
-	.location-container {
+	.location-container-c {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		position: relative;
 		width: 100%;
-		height: fit-content;
+		padding-top: 3rem;
 	  }
+
+	.next-button {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		width: 100%;
+		padding-top: 3rem;
+	}
 	  
 	
 	/* Style the rest of the page. */
@@ -49,7 +58,7 @@
 	}
 	
 	
-	.WAYL {
+	.WAYC {
 		display: flex;
 		padding-top: 1rem;
 		justify-content: center;
