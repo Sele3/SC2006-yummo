@@ -7,8 +7,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.response import Response
 from decimal import Decimal
-from .models import Restaurant, Reservation, Review
-from .serializers import RestaurantSerializer, ReservationSerializer, ReviewSerializer
+from ..models import Restaurant, Reservation, Review
+from ..serializers import RestaurantSerializer, ReservationSerializer, ReviewSerializer
 from Yummo.utilityfunctions import isCustomerGroup, isMerchantGroup
 from Yummo.settings import GOOGLE_API_KEY
 import requests, random
@@ -66,7 +66,8 @@ def singleRestaurantView(request, resID):
         restaurant = get_object_or_404(Restaurant, pk=resID, merchant=request.user) #find specified Restaurant owned by this Merchant
         restaurant.delete()
         return Response({"message":"Restaurant deleted"}, status=status.HTTP_200_OK)
-    
+ 
+   
 
 
 '''Currently, this returns 5 restaurants randomly from a nearby restaurant search using Places API.
