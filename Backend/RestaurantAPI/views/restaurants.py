@@ -1,13 +1,15 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser
 from ..models import Restaurant
-from ..serializers import RestaurantSerializer
+from ..serializers import RestaurantSerializer, RestaurantPOSTFormSerializer, RestaurantPUTFormSerializer
 from drf_yasg.utils import swagger_auto_schema
 from Yummo.utilityfunctions import AuthenticatedMerchantViewClass, IsMerchant, AuthenticatedViewClass
 
 
 class RestaurantsView(AuthenticatedMerchantViewClass):
+    parser_classes = (MultiPartParser,)
     
     @swagger_auto_schema(tags=['restaurants'], responses={200: RestaurantSerializer(many=True)})
     def get(self, request):
@@ -17,7 +19,7 @@ class RestaurantsView(AuthenticatedMerchantViewClass):
 
 
     @swagger_auto_schema(tags=['restaurants'], 
-                         request_body=RestaurantSerializer, 
+                         request_body=RestaurantPOSTFormSerializer, 
                          responses={201: RestaurantSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def post(self, request):
         data = request.data.copy() #make it mutable
@@ -29,6 +31,7 @@ class RestaurantsView(AuthenticatedMerchantViewClass):
 
 
 class SingleRestaurantView(AuthenticatedViewClass):
+    parser_classes = (MultiPartParser,)
     
     @swagger_auto_schema(tags=['restaurants'], responses={200: RestaurantSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def get(self, request, resID):
@@ -38,8 +41,8 @@ class SingleRestaurantView(AuthenticatedViewClass):
     
     
     @swagger_auto_schema(tags=['restaurants'], 
-                         request_body=RestaurantSerializer, 
-                         responses={200: RestaurantSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+                        request_body=RestaurantPUTFormSerializer, 
+                        responses={200: RestaurantSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def put(self, request, resID):
         restaurant = get_object_or_404(Restaurant, pk=resID, merchant=request.user)
         data = request.data.copy()

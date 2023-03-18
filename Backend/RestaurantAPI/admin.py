@@ -1,5 +1,5 @@
 from django.contrib import admin
-from RestaurantAPI.models import Restaurant, Reservation, Review
+from RestaurantAPI.models import Restaurant, Reservation, Review, Cuisine
 
 
 @admin.register(Restaurant)
@@ -13,4 +13,7 @@ class ReservationAdmin(admin.ModelAdmin):
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ['review_id', 'rating', 'description', 'restaurant', 'customer']
-    
+
+@admin.register(Cuisine)
+class CuisineAdmin(admin.ModelAdmin):
+    list_display = ['cuisineID', 'name']
