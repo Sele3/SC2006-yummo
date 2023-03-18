@@ -11,14 +11,17 @@ from Yummo.utilityfunctions import AuthenticatedMerchantViewClass, IsMerchant, A
 class RestaurantsView(AuthenticatedMerchantViewClass):
     parser_classes = (MultiPartParser,)
     
-    @swagger_auto_schema(tags=['restaurants'], responses={200: RestaurantSerializer(many=True)})
+    @swagger_auto_schema(operation_description="Get list of all `Restaurant` that belongs to this Merchant.",
+                         tags=['restaurants'], 
+                         responses={200: RestaurantSerializer(many=True)})
     def get(self, request):
         restaurant_list = request.user.restaurants
         serialized_restaurant_list = RestaurantSerializer(restaurant_list, many=True)
         return Response(serialized_restaurant_list.data, status=status.HTTP_200_OK)
 
 
-    @swagger_auto_schema(tags=['restaurants'], 
+    @swagger_auto_schema(operation_description="Create a new `Restaurant` under this Merchant.",
+                         tags=['restaurants'], 
                          request_body=RestaurantPOSTFormSerializer, 
                          responses={201: RestaurantSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def post(self, request):
@@ -33,14 +36,17 @@ class RestaurantsView(AuthenticatedMerchantViewClass):
 class SingleRestaurantView(AuthenticatedViewClass):
     parser_classes = (MultiPartParser,)
     
-    @swagger_auto_schema(tags=['restaurants'], responses={200: RestaurantSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    @swagger_auto_schema(operation_description="Get detailed info of a `Restaurant` specified by `resID`.",
+                         tags=['restaurants'], 
+                         responses={200: RestaurantSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def get(self, request, resID):
         restaurant = get_object_or_404(Restaurant, pk=resID) 
         serialized_restaurant = RestaurantSerializer(restaurant)
         return Response(serialized_restaurant.data, status=status.HTTP_200_OK)
     
     
-    @swagger_auto_schema(tags=['restaurants'], 
+    @swagger_auto_schema(operation_description="Update information of the `Restaurant` specified by `resID` if current Merchant is the owner.",
+                         tags=['restaurants'], 
                         request_body=RestaurantPUTFormSerializer, 
                         responses={200: RestaurantSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def put(self, request, resID):
@@ -53,7 +59,9 @@ class SingleRestaurantView(AuthenticatedViewClass):
         return Response(serialized_restaurant.data, status=status.HTTP_200_OK)
     
     
-    @swagger_auto_schema(tags=['restaurants'], responses={200: "OK", 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    @swagger_auto_schema(operation_description="Delete the `Restaurant` specified by `resID` if current Merchant is the owner.",
+                         tags=['restaurants'], 
+                         responses={200: "OK", 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def delete(self, request, resID):
         restaurant = get_object_or_404(Restaurant, pk=resID, merchant=request.user) #find specified Restaurant owned by this Merchant
         restaurant.delete()

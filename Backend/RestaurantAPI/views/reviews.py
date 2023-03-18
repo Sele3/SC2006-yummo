@@ -10,7 +10,9 @@ from Yummo.utilityfunctions import IsCustomer, AuthenticatedViewClass
 
 class ReviewsView(AuthenticatedViewClass):
     
-    @swagger_auto_schema(tags=['reviews'], responses={200: ReviewSerializer(many=True), 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})  
+    @swagger_auto_schema(operation_description="Get list of all `Review` under this Restaurant.",
+                         tags=['reviews'], 
+                         responses={200: ReviewSerializer(many=True), 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})  
     def get(self, request, resID):
         restaurant = get_object_or_404(Restaurant, pk=resID)
         reviews = restaurant.reviews
@@ -18,7 +20,8 @@ class ReviewsView(AuthenticatedViewClass):
         return Response(serialized_reviews.data, status=status.HTTP_200_OK)
     
     
-    @swagger_auto_schema(tags=['reviews'], 
+    @swagger_auto_schema(operation_description="Create a `Review` under the current Customer for the Restaurant specified by `resID`.",
+                         tags=['reviews'], 
                          request_body=ReviewSerializer,
                          responses={201: ReviewSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"}) 
     def post(self, request, resID):
@@ -44,14 +47,17 @@ class ReviewsView(AuthenticatedViewClass):
 
 class SingleReviewView(AuthenticatedViewClass):
     
-    @swagger_auto_schema(tags=['reviews'], responses={200: ReviewSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    @swagger_auto_schema(operation_description="Get information of a `Review` about this Restaurant.",
+                         tags=['reviews'], 
+                         responses={200: ReviewSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def get(self, request, resID, review_id):
         review = get_object_or_404(Review,pk=review_id, restaurant=resID)
         serialized_review = ReviewSerializer(review)
         return Response(serialized_review.data, status=status.HTTP_200_OK)
     
     
-    @swagger_auto_schema(tags=['reviews'], 
+    @swagger_auto_schema(operation_description="Update information of a `Review` about this Restaurant if current Customer made the `Review`.",
+                         tags=['reviews'], 
                          request_body=ReviewSerializer,
                          responses={200: ReviewSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def put(self, request, resID, review_id):
@@ -69,7 +75,9 @@ class SingleReviewView(AuthenticatedViewClass):
         return Response(serialized_review.data, status=status.HTTP_200_OK)
     
     
-    @swagger_auto_schema(tags=['reviews'], responses={200: 'OK', 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    @swagger_auto_schema(operation_description="Delete a `Review` about this Restaurant if current Customer made the `Review`.",
+                         tags=['reviews'], 
+                         responses={200: 'OK', 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def delete(self, request, resID, review_id):
         review = get_object_or_404(Review,pk=review_id, customer=request.user.id, restaurant=resID)
         review.delete()

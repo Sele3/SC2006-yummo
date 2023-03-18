@@ -21,7 +21,13 @@ To-Do: Incorporate our own Restaurants (if they are nearby) into this search res
 '''
 class SearchRestaurantsView(AuthenticatedCustomerViewClass):
        
-    @swagger_auto_schema(tags=['search/recommend restaurants'],
+    @swagger_auto_schema(operation_description=
+                         ''' Returns a list of `Restaurant` based on the search query.
+                         Address string from request, is validated, then converted to latitude and longtitude coordinates using Geocoding API.
+                         There are 3 optional parameters - radius, keyword, rankby - which are processed, and then used to find nearby restaurants using 
+                         Places API (Nearby Search).
+                         ''',
+                         tags=['search/recommend restaurants'],
                          request_body=SearchRestaurantSerializer,
                          responses={200: RestaurantSerializer(many=True), 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})                                              
     def post(self, request):
@@ -54,7 +60,10 @@ Update the algorithm to select Restaurants based on Customer's history of reserv
 '''
 class RestaurantRecommendationsView(AuthenticatedCustomerViewClass):
     
-    @swagger_auto_schema(tags=['search/recommend restaurants'],
+    @swagger_auto_schema(operation_description=
+                         ''' Returns a list of recommended `Restaurant`.
+                         ''',
+                         tags=['search/recommend restaurants'],
                          request_body=RestaurantRecommendationsSerializer,
                          responses={200: RestaurantSerializer(many=True), 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def post(self, request):

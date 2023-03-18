@@ -10,7 +10,9 @@ from drf_yasg.utils import swagger_auto_schema
 
 class ReservationsView(AuthenticatedViewClass):
     
-    @swagger_auto_schema(tags=['reservations'], responses={200: ReservationSerializer(many=True), 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    @swagger_auto_schema(operation_description="Get list of all `Reservation` under this Restaurant if current Merchant is the owner.",
+                         tags=['reservations'], 
+                         responses={200: ReservationSerializer(many=True), 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def get(self, request, resID):
         restaurant = get_object_or_404(Restaurant, pk=resID, merchant=request.user)
         reservations = restaurant.reservations
@@ -18,7 +20,8 @@ class ReservationsView(AuthenticatedViewClass):
         return Response(serialized_reservations.data, status=status.HTTP_200_OK)
     
     
-    @swagger_auto_schema(tags=['reservations'], 
+    @swagger_auto_schema(operation_description="Create a `Reservation` under this Restaurant for current Customer.",
+                         tags=['reservations'], 
                          request_body=ReservationSerializer,
                          responses={200: ReservationSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def post(self, request, resID):
@@ -44,7 +47,11 @@ class ReservationsView(AuthenticatedViewClass):
 
 class SingleReservationView(AuthenticatedViewClass):
     
-    @swagger_auto_schema(tags=['reservations'], responses={200: ReservationSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    @swagger_auto_schema(operation_description=
+                         '''Get detailed info of a `Reservation` specified by `reservID` if current Customer made the reservation or 
+                         current Merchant is the owner of the Restaurant.''',
+                         tags=['reservations'], 
+                         responses={200: ReservationSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def get(self, request, resID, reservID):
         if isCustomerGroup(request):
             reservation = get_object_or_404(Reservation, pk=reservID, customer=request.user)
@@ -56,7 +63,8 @@ class SingleReservationView(AuthenticatedViewClass):
         return Response(serialized_reservation.data,status=status.HTTP_200_OK)
     
     
-    @swagger_auto_schema(tags=['reservations'], 
+    @swagger_auto_schema(operation_description="Update information of a `Reservation` specified by `reservID` if current Customer made the reservation.",
+                         tags=['reservations'], 
                          request_body=ReservationSerializer,
                          responses={201: ReservationSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def put(self, request, resID, reservID):
@@ -71,7 +79,9 @@ class SingleReservationView(AuthenticatedViewClass):
         return Response(serialized_reservation.data,status=status.HTTP_201_CREATED)
     
     
-    @swagger_auto_schema(tags=['reservations'], responses={200: 'OK', 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    @swagger_auto_schema(operation_description="Delete the `Reservation` specified by `reservID` if current Customer made the reservation.",
+                         tags=['reservations'], 
+                         responses={200: 'OK', 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def delete(self, request, resID, reservID):
         reservation = get_object_or_404(Reservation, pk=reservID, customer=request.user) #ensure that the reservation is under the correct Customer
         reservation.delete()
