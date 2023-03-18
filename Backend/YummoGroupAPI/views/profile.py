@@ -7,7 +7,10 @@ from drf_yasg.utils import swagger_auto_schema
 
 
 class ProfileView(AuthenticatedViewClass):
-    @swagger_auto_schema(tags=["profile"], responses={200: CustomerProfileSerializer, 400: "Bad Request"})
+    @swagger_auto_schema(
+        operation_description="Get `Profile` of current `User`.",    
+        tags=["profile"], 
+        responses={200: CustomerProfileSerializer, 400: "Bad Request"})
     def get(self, request):
         profile = getProfile(request)
         serializer_class = getProfileSerializer(request)
@@ -15,7 +18,11 @@ class ProfileView(AuthenticatedViewClass):
         serialized_profile = serializer_class(profile)
         return Response(serialized_profile.data, status=status.HTTP_200_OK)
 
-    @swagger_auto_schema(tags=["profile"], request_body=CustomerProfileSerializer, responses={201: CustomerProfileSerializer, 400: "Bad Request"})
+    @swagger_auto_schema(
+        operation_description="Update `Profile` of current `User`.",
+        tags=["profile"], 
+        request_body=CustomerProfileSerializer, 
+        responses={201: CustomerProfileSerializer, 400: "Bad Request"})
     def put(self, request):
         profile = getProfile(request)
         serializer_class = getProfileSerializer(request)
