@@ -31,3 +31,14 @@ class RestaurantSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'avg_rating' : {'read_only' : True},
         }
+
+
+class SearchRestaurantSerializer(serializers.Serializer):
+    address = serializers.CharField(max_length=200, help_text="A valid address that returns a location in Google Maps")
+    radius = serializers.IntegerField(min_value=0, max_value=50000, default=1500, help_text="Optional. min=0, max=50000, default=1500")
+    keyword = serializers.CharField(max_length=200, allow_blank=True, help_text="Optional")
+    rankby = serializers.CharField(max_length=50, allow_blank=True, help_text="Optional. Two possible strings: distance or prominence(default)")
+    
+
+class RestaurantRecommendationsSerializer(serializers.Serializer):
+    address = serializers.CharField(max_length=200, help_text="A valid address that returns a location in Google Maps")
