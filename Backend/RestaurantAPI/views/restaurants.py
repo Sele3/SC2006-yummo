@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from ..models import Restaurant
 from ..serializers import RestaurantSerializer
@@ -15,6 +14,7 @@ class RestaurantsView(AuthenticatedMerchantViewClass):
         restaurant_list = request.user.restaurants
         serialized_restaurant_list = RestaurantSerializer(restaurant_list, many=True)
         return Response(serialized_restaurant_list.data, status=status.HTTP_200_OK)
+
 
     @swagger_auto_schema(tags=['restaurants'], 
                          request_body=RestaurantSerializer, 
@@ -49,6 +49,7 @@ class SingleRestaurantView(AuthenticatedViewClass):
         serialized_restaurant.save()
         return Response(serialized_restaurant.data, status=status.HTTP_200_OK)
     
+    
     @swagger_auto_schema(tags=['restaurants'], responses={200: "OK", 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def delete(self, request, resID):
         restaurant = get_object_or_404(Restaurant, pk=resID, merchant=request.user) #find specified Restaurant owned by this Merchant
@@ -59,8 +60,9 @@ class SingleRestaurantView(AuthenticatedViewClass):
     # GET method does not need authentication
     # PUT, DELETE method requires Merchants access
     def get_permissions(self):
-        permission_classes = super().permission_classes
+        permission_classes = []
         if self.request.method != 'GET':
+            permission_classes = super().permission_classes
             permission_classes.append(IsMerchant)
         return [permission() for permission in permission_classes]
 
