@@ -3,6 +3,7 @@ from .views.profile import ProfileView
 from .views.friends import FriendsView, SingleFriendView
 from .views.groups import SingleCustomerYummoGroups, YummoGroupsView, SingleYummoGroupView
 from .views.posts import YummoGroupPostsView, YummoGroupSinglePostView
+from .views.comments import SingleCommentsView
 
 urlpatterns = [
     path("users/profile", ProfileView.as_view()),
@@ -13,4 +14,5 @@ urlpatterns = [
     path("yummogroups/<int:grpID>", SingleYummoGroupView.as_view()),
     path("yummogroups/<int:grpID>/posts", YummoGroupPostsView.as_view()),
     path("yummogroups/<int:grpID>/posts/<int:postID>", YummoGroupSinglePostView.as_view()),
+    path("yummogroups/<int:grpID>/posts/<int:postID>/<int:commID>", SingleCommentsView.as_view()),
 ]
