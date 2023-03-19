@@ -25,32 +25,19 @@ function Login()
             "email": email,
             "password": password
         }
-        //useEffect(() => {
             console.log(1);
-            //Just debugging
             axios.post(url, user)
                 .then(res => {
                     if (res.data) {
                         setResult(res.data);
-                        //console.log(res.data);
-                        //authorisation token is here
+                       
                     }
                 })
                 .catch(err => {
                     console.error(err);
                 });
             console.log("Success");
-            //Just debugging
-
-        //     .then(res => {
-        //         if (res.data) {
-        //             setResult(res.data);
-        //         }
-        //     })
-        //     .catch(err => {
-        //         console.error(err);
-        //     });
-        // }, [])
+           
 
     }
     return(

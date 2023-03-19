@@ -47,11 +47,10 @@ function Signup()
         <div className="Signup">
             <h1>SignUp</h1>
             <form action="POST">
-                <input type="text" onChange={(e)=>{setEmail(e.target.value)}} placeholder="Email" />
-                <input type="text" onChange={(e)=>{setPassword(e.target.value)}} placeholder="Password" />
+                <input type="email" onChange={(e)=>{setEmail(e.target.value)}} placeholder="Email" />
+                <input type="password" onChange={(e)=>{setPassword(e.target.value)}} placeholder="Password" />
                 <input type="text" onChange={(e)=>{setUsername(e.target.value)}} placeholder="Username" />
-
-
+                
                 <input type="submit" onClick={submit}/>
             </form>
 

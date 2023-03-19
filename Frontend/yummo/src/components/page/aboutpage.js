@@ -66,5 +66,12 @@ const AboutPage = (props) => {
     </>
   );
 };
-
+function displayReviews()
+{
+  return(
+    <>
+    
+    </>
+  )
+}
 export default AboutPage;

@@ -3,6 +3,8 @@ import LetsYummoLocation from "./page/_41letsyummolocation.js"
 import AboutPage from "./page/aboutpage.js"
 import Signup from "./page/signup.js"
 import Login from "./page/login.js"
+import MerchantFeed from "./page/merchantpageaccount.js"
+import MerchantOverview from "./page/merchantpageoverview.js"
 import { Routes, Route } from "react-router-dom";
 
 function Routing() {
@@ -13,7 +15,9 @@ function Routing() {
         <Route path="/aboutpage" element={<AboutPage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-
+        
+        <Route path="/merchant" element={<MerchantFeed />} />
+        <Route path="/merchantoverview" element={<MerchantOverview />} />
 
         </Routes>
     );
