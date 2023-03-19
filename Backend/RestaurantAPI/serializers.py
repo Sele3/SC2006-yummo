@@ -1,4 +1,5 @@
 from .models import Reservation, Restaurant, Review, Cuisine
+from django.db import transaction
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
@@ -44,16 +45,22 @@ class RestaurantSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'avg_rating' : {'read_only' : True},
         }
-        
+    
+    @transaction.atomic
     def create(self, validated_data):
         cuisines = validated_data.pop('cuisines')
-        
-        restaurant = Restaurant.objects.create(**validated_data)
+
+        # Workaround to solve issue of Swagger not sending MultiPart form data of ListField correctly.
+        # Swagger sends array of string as ['e1, e2, e3'] instead of ['e1', 'e2', 'e3']
+        if len(cuisines) == 1:
+            cuisines = [s.strip() for s in cuisines[0].split(',')]
         
         try:
-            for c in cuisines:
-                cuisine = Cuisine.objects.get(name=c) # raises DoesNotExist exception if the cuisine name is invalid
-                restaurant.cuisine.add(cuisine)
+            with transaction.atomic():
+                restaurant = Restaurant.objects.create(**validated_data)
+                for c in cuisines:
+                    cuisine = Cuisine.objects.get(name=c) # raises DoesNotExist exception if the cuisine name is invalid
+                    restaurant.cuisine.add(cuisine)
         except ObjectDoesNotExist as e:
             raise serializers.ValidationError({"detail": "The cuisine does not exist"})
 
