@@ -33,7 +33,7 @@ class CustomerProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomerProfile
-        fields = ['user', 'bio', 'contact_no']
+        fields = ['user', 'bio', 'contact_no', 'icon']
     
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user', {})
@@ -43,15 +43,13 @@ class CustomerProfileSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
     
-        
-
 class MerchantProfileSerializer(serializers.ModelSerializer):
     user = UserFullInfoSerializer()
     #restaurants = serializers.SerializerMethodField()
 
     class Meta:
         model = MerchantProfile
-        fields = ['user', 'bio', 'contact_no']#, 'restaurants']
+        fields = ['user', 'bio', 'contact_no', 'icon']#, 'restaurants']
 
     # def get_restaurants(self, obj):
     #     restaurant_list = Restaurant.objects.filter(merchant=obj.user)
@@ -79,7 +77,7 @@ class YummoGroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = YummoGroup
-        fields = ['group_id', 'name', 'description', 'customers']
+        fields = ['group_id', 'name', 'owner', 'icon', 'description', 'customers']
         
 
 class PostSerializer(serializers.ModelSerializer):
