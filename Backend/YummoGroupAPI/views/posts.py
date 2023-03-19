@@ -4,7 +4,8 @@ from rest_framework import status
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from ..serializers import *
-from ..utils.post_utils import validate_customer_in_group, validate_post_in_group, validate_post_created_by_customer
+from ..utils.group_utils import validate_customer_in_group
+from ..utils.post_utils import validate_post_in_group, validate_post_by_customer
 from drf_yasg.utils import swagger_auto_schema
 
 
@@ -100,7 +101,7 @@ class YummoGroupSinglePostView(AuthenticatedCustomerViewClass):
 
         validate_post_in_group(group, post)
         validate_customer_in_group(group, customer)
-        validate_post_created_by_customer(post, customer)
+        validate_post_by_customer(post, customer)
         
         serialized_post = PostSerializer(post, data=request.data, partial=True)
         if not serialized_post.is_valid():
@@ -121,7 +122,7 @@ class YummoGroupSinglePostView(AuthenticatedCustomerViewClass):
 
         validate_post_in_group(group, post)
         validate_customer_in_group(group, customer)
-        validate_post_created_by_customer(post, customer)
+        validate_post_by_customer(post, customer)
         
         post.delete()
         return Response({"message": "Post successfully deleted."}, status=status.HTTP_200_OK)
