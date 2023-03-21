@@ -180,6 +180,16 @@ export default function Yummosuggestions(props) {
         }
     }, [selected]);
 
+    // Data to be passed to next page
+
+    const FinalData = {
+        selectedLat: selectedLat,
+        selectedLng: selectedLng,
+        selectedRating: selectedRating,
+        selectedPrice: selectedPrice,
+        selectedDist: selectedDist
+    }
+
     return (
         <>
         <NavBar />
@@ -235,7 +245,7 @@ export default function Yummosuggestions(props) {
                     </div>
                 </div>
                 <div className="suggestions-button">
-                    <Link to="" state={""}>
+                    <Link to="/yummoreservation" state={FinalData}>
                         <button 
                             style={{
                                 display: 'flex',
