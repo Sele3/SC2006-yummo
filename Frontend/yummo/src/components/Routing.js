@@ -3,6 +3,7 @@ import LetsYummoLocation from "./page/_41letsyummolocation.js"
 import AboutPage from "./page/aboutpage.js"
 import LetsYummoCraving from "./page/letsyummocraving.js"
 import YummoSuggestions from "./page/yummosuggestions.js"
+import YummoReservation from "./page/yummoreservation.js"
 import { Routes, Route } from "react-router-dom";
 
 function Routing() {
@@ -13,6 +14,7 @@ function Routing() {
         <Route path="/letsyummocraving" element={<LetsYummoCraving />} />
         <Route path="/yummosuggestions" element={<YummoSuggestions />} />
         <Route path="/aboutpage" element={<AboutPage />} />
+        <Route path="/yummoreservation" elemenet={<YummoReservation />} />
         </Routes>
     );
 }
