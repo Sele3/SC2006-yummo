@@ -1,0 +1,83 @@
+.graph {
+    position: relative;
+    max-width: 800px;
+    height: 400px;
+    background: #ddd;
+}
+
+.heading {
+position: relative;
+width: 222px;
+height: 28px;
+left: 100px;
+top: 20px;
+
+font-family: 'Nunito';
+font-style: normal;
+font-weight: 800;
+font-size: 25px;
+/* or 80% */
+
+display: flex;
+letter-spacing: 0.1px;
+
+color: #000000;
+}
+
+.left {
+    position: relative;
+    width: 222px;
+    height: 28px;
+    left: 100px;
+    top: 25px;
+    white-space: nowrap;
+    
+    font-family: 'Nunito';
+    font-style: normal;
+    font-size: 20px;
+    /* or 80% */
+    
+    display: flow-root;
+    letter-spacing: 0.1px;
+    
+    color: #000000;
+    }
+    .right {
+        position: relative;
+        width: 222px;
+        height: 28px;
+        left: 600px;
+        top: 10px;
+        white-space: nowrap;
+        
+        font-family: 'Nunito';
+        font-style: normal;
+        font-size: 20px;
+        /* or 80% */
+        
+        display: flex;
+        letter-spacing: 0.1px;
+        
+        color: #000000;
+        }
+svg {
+    filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4));
+  }
+
+  .button{
+  cursor: pointer;
+  outline: 0;
+  color: #fff;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  font-size: 16px;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+ 
+}
