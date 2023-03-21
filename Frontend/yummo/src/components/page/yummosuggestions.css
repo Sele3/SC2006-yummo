@@ -83,8 +83,7 @@
   
   .map-api {
     display: flex;
-    min-height: 12%;
-    padding-bottom: 75%;
+    height: 410px;
   }
   
   .map-texts {

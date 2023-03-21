@@ -14,6 +14,7 @@ export default function Yummosuggestions(props) {
     const location = useLocation();
     const state = location.state;
 
+    // Currently values not used, waiting for backend to support the filter function.
     const [priceFilter, setPriceFilter] = useState(2);
     const [distanceFilter, setDistanceFilter] = useState(1);
     const [ratingFilter, setRatingFilter] = useState(5);
@@ -100,7 +101,7 @@ export default function Yummosuggestions(props) {
         .catch(err => {
             console.error(err);
         });
-    }, [loc1.lat, loc1.lng]);
+    }, [loc1.lat, loc1.lng, state.location]);
 
     useEffect(() => {
         const origins = `origins=${loc2.lat},${loc2.lng}&`;
@@ -115,7 +116,7 @@ export default function Yummosuggestions(props) {
         .catch(err => {
             console.error(err);
         });
-    }, [loc2.lat, loc2.lng]);
+    }, [loc2.lat, loc2.lng, state.location]);
 
     useEffect(() => {
         const origins = `origins=${loc3.lat},${loc3.lng}&`;
@@ -130,9 +131,10 @@ export default function Yummosuggestions(props) {
         .catch(err => {
             console.error(err);
         });
-    }, [loc3.lat, loc3.lng]);
+    }, [loc3.lat, loc3.lng, state.location]);
 
     const [selected, setSelected] = useState(0);
+    const [selectedName, setSelectedName] = useState("Loading Name...");
     const [selectedLat, setSelectedLat] = useState(0);
     const [selectedLng, setSelectedLng] = useState(0);
     const [selectedRating, setSelectedRating] = useState(2);
@@ -153,6 +155,7 @@ export default function Yummosuggestions(props) {
                 if(result && result.results && result.results.length > 0){
                     setSelectedRating(result.results[0].rating);};
                 setSelectedDist(dist1);
+                setSelectedName(name1);
                 break;
         
             case 1:
@@ -163,6 +166,7 @@ export default function Yummosuggestions(props) {
                 if(result && result.results && result.results.length > 1){
                     setSelectedRating(result.results[1].rating);};
                 setSelectedDist(dist2);
+                setSelectedName(name2);
                 break;
 
             case 2:
@@ -173,6 +177,7 @@ export default function Yummosuggestions(props) {
                 if(result && result.results && result.results.length > 2){
                     setSelectedRating(result.results[2].rating);};
                 setSelectedDist(dist3);
+                setSelectedName(name3);
                 break;
 
             default:
@@ -187,7 +192,8 @@ export default function Yummosuggestions(props) {
         selectedLng: selectedLng,
         selectedRating: selectedRating,
         selectedPrice: selectedPrice,
-        selectedDist: selectedDist
+        selectedDist: selectedDist,
+        selectedName: selectedName
     }
 
     return (
