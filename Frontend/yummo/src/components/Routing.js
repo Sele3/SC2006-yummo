@@ -14,7 +14,7 @@ function Routing() {
         <Route path="/letsyummocraving" element={<LetsYummoCraving />} />
         <Route path="/yummosuggestions" element={<YummoSuggestions />} />
         <Route path="/aboutpage" element={<AboutPage />} />
-        <Route path="/yummoreservation" elemenet={<YummoReservation />} />
+        <Route path="/yummoreservation" element={<YummoReservation />} />
         </Routes>
     );
 }
