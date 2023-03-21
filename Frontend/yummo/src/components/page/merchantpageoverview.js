@@ -80,6 +80,10 @@ function App() {
   );
 };
 function GetReservations(){
+    const getFormattedDate = (dateStr) => {
+        const date = new Date(dateStr);
+        return date.toLocaleString();
+      }
     const [reservations, setReservations] = useState({});
     async function getreservations(){
         const token = "5a99c68c923d65db2c51da84a736ddc6ac41a40a";
@@ -104,8 +108,7 @@ function GetReservations(){
                 <div className = "sidebar-item" key={key}>
                     <p>Customer Name: {reservations[key].customer_name}</p>
                     <p>Pax: {reservations[key].pax}</p>
-                    <p>Reservation Date and time: {reservations[key].reserved_at}</p>
-                    <p>Reservation Time: {Date.parse(reservations[key].reserved_at)}</p> 
+                    <p>Reserved At: {getFormattedDate(reservations[key].reserved_at)}</p>
                 </div>
         ))} 
         </div>
