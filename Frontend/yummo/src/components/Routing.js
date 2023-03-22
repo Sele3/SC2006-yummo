@@ -15,7 +15,7 @@ function Routing() {
         <Route path="/letsyummocraving" element={<LetsYummoCraving />} />
         <Route path="/yummosuggestions" element={<YummoSuggestions />} />
         <Route path="/aboutpage" element={<AboutPage />} />
-        <Route path="/CustomerAccountSetting" element={<Customer_Acc_Setting/>} />
+        <Route path="/customeraccountsetting" element={<Customer_Acc_Setting/>} />
         <Route path="/merchantoverview" element={<MerchantOverview />} />
 
         </Routes>
