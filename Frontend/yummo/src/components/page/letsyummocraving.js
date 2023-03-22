@@ -195,7 +195,7 @@ export default function Letsyummocraving () {
 			renderInput={(params) => <TextField {...params} label="" />}
 			/>
 		</div>
-		<Link to="/aboutpage" state={finaldata}>
+		<Link to="/yummosuggestions" state={finaldata}>
 			<div className="next-button">
 			<button 
 			style={{

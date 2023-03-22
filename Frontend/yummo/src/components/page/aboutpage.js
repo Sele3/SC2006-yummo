@@ -1,7 +1,7 @@
 import { useLocation, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import NavBar from "../navbar";
+import NavBar from "../navbar.js";
 
 const AboutPage = (props) => {
   const location = useLocation();
