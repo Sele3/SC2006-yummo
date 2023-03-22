@@ -11,6 +11,7 @@ pillow = "*"
 django-environ = "*"
 drf-yasg = "*"
 django-cors-headers = "*"
+googlemaps = "*"
 
 [dev-packages]
 
