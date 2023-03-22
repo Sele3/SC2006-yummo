@@ -3,6 +3,7 @@ import LetsYummoLocation from "./page/_41letsyummolocation.js"
 import AboutPage from "./page/aboutpage.js"
 import LetsYummoCraving from "./page/letsyummocraving.js"
 import { Routes, Route } from "react-router-dom";
+import Customer_Acc_Setting from "./page/Customer_Acc_Sett.js";
 
 function Routing() {
     return (
@@ -11,6 +12,7 @@ function Routing() {
         <Route path="/letsyummolocation" element={<LetsYummoLocation />} />
         <Route path="/letsyummocraving" element={<LetsYummoCraving />} />
         <Route path="/aboutpage" element={<AboutPage />} />
+        <Route path="/CustomerAccountSetting" element={<Customer_Acc_Setting/>} />
         </Routes>
     );
 }
