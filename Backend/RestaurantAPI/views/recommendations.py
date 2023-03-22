@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from ..models import Restaurant
 from ..serializers import RestaurantSerializer, SearchRestaurantSerializer, RestaurantRecommendationsSerializer
 from Yummo.utilityfunctions import AuthenticatedCustomerViewClass
-from ..utils.googleAPI_utils import getGeocode, searchGoogleRestaurants, formatGoogleRestaurant, getDistanceMatrix, searchYummoRestaurants
+from ..utils.googleAPI_utils import getGeocode, searchGoogleRestaurants, formatGoogleRestaurant, getDistanceMatrix, searchYummoRestaurants, updateAdditionalGoogleRestaurantsDetail
 import requests, random
 from drf_yasg.utils import swagger_auto_schema
 
@@ -32,7 +32,7 @@ class SearchRestaurantsView(AuthenticatedCustomerViewClass):
     def post(self, request):
         geocode_json = getGeocode(request.data.get('address'))
         
-        if geocode_json["status"] != "OK":
+        if geocode_json.get('status') != "OK":
             return Response({'status':geocode_json["status"], 'error_message':geocode_json.get("error_message")}, status=status.HTTP_400_BAD_REQUEST)
         
         # status OK, Place found.
@@ -40,18 +40,22 @@ class SearchRestaurantsView(AuthenticatedCustomerViewClass):
         
         googleRestaurants_json = searchGoogleRestaurants(request=request, location=location)
         
-        # Transform googleRestaurants into YummoRestaurant format
-        googleRestaurants_YummoFormat = formatGoogleRestaurant(googleRestaurants_json)
+        # Get additional details and update the existing results. Returns a list of Restaurant jsons with all the required details.
+        googleRestaurants_detailed_list = updateAdditionalGoogleRestaurantsDetail(googleRestaurants_json)
         
-        # Get YummoRestaurants that satisfy search query.
-        yummoRestaurants = searchYummoRestaurants(request)
-        # Merge with YummoRestaurant with GoogleRestaurant
+        
+        # Transform googleRestaurants into YummoRestaurant format
+        googleRestaurants_YummoFormat = formatGoogleRestaurant(googleRestaurants_detailed_list)
+        
+        # # Get YummoRestaurants that satisfy search query.
+        # yummoRestaurants = searchYummoRestaurants(request)
+        # # Merge with YummoRestaurant with GoogleRestaurant
         
         # Apply filter (if any)
         
         # return search results
         
-        results = googleRestaurants_json #tentative
+        results = googleRestaurants_YummoFormat #tentative
         
         return Response(results, status=status.HTTP_200_OK)
 
@@ -84,12 +88,14 @@ class RestaurantRecommendationsView(AuthenticatedCustomerViewClass):
             "address": address #radius defaults to 1500m
         }
         data = requests.post(url=url,data=payload, headers={'Authorization': request.META.get('HTTP_AUTHORIZATION')})
-        data_json = data.json()
-        #print("data_json is", data_json)
-        if data_json["status"] != "OK":
-            return Response({'message':data_json["status"], 'error_message':data_json.get("error_message")}, status=status.HTTP_400_BAD_REQUEST)
+        results = data.json()
+
         
-        results = data_json["results"] #list of Place objects
+        
+        # if data_json["status"] != "OK":
+        #     return Response({'message':data_json["status"], 'error_message':data_json.get("error_message")}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # results = data_json["results"] #list of Place objects
         
         
         #CHANGE THIS TO AN ALGORITHM FOR SELECTING RESTAURANTS
