@@ -17,9 +17,10 @@ import "react-datepicker/dist/react-datepicker.css";
 const NumPax = (props) => {
     const [paxChild, setPaxChild] = useState(0);
 
-    const handlePaxChange = (event, newValue) => {
-        setPaxChild(newValue);
-        props.handlePax(newValue);
+    const handlePaxChange = (event) => {
+        setPaxChild(event.target.value);
+        props.handlePax(event.target.value);
+        console.log('paxChild: ' + event.target.value);
     };
 
     return (
@@ -90,6 +91,14 @@ const TimeSelection = (props) => {
         props.handleTime(time);
         props.handleDate(startDate);
     }, [time, startDate]);
+
+    const DataPassing = {
+        'time': props.time,
+        'date': props.date,
+        'pax': props.pax,
+        'name': props.selectedName,
+    }
+    console.log(DataPassing);
 
     const timing = [
         "10:00",
@@ -206,6 +215,7 @@ export default function Yummoreservation(props) {
     const [time, setTime] = useState("");
     function handlePax(value) {
         setPax(value);
+        console.log("new pax: ", value);
     }
     function handleDate(value) {
         setDate(value);
@@ -255,7 +265,7 @@ export default function Yummoreservation(props) {
                         timeout={800}
                         unmountOnExit
                     >
-                        {nextClicked ? <TimeSelection handleDate={handleDate} handleTime={handleTime}/> : <NumPax numPax={pax} handlePax={handlePax} handleNext={handleNext}/>}
+                        {nextClicked ? <TimeSelection handleDate={handleDate} handleTime={handleTime} pax={pax} date={date} time={time} selectedName={selectedName}/> : <NumPax numPax={pax} handlePax={handlePax} handleNext={handleNext}/>}
                     </CSSTransition>
                 </TransitionGroup>
             </div>
