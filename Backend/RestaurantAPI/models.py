@@ -3,10 +3,24 @@ from django.db.models import Avg, Q
 from django.contrib.auth.models import User
 
 
+class Cuisine(models.Model):
+    cuisineID = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=50, unique=True)
+    
+    def __str__(self):
+        return self.name
+    
+
 class Restaurant(models.Model):
     resID = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     location = models.CharField(max_length=100)
+    img = models.ImageField(upload_to='images/restaurant', default=None, null=True, blank=True)
+    cuisine = models.ManyToManyField(
+        Cuisine,
+        related_name='restaurants',
+        blank=True
+    )
     avg_rating = models.DecimalField(max_digits=3, decimal_places=2 ,default=0.0)
     merchant = models.ForeignKey(
         User, 
