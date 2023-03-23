@@ -25,6 +25,7 @@ class SearchRestaurantsView(AuthenticatedCustomerViewClass):
                          Address string from request, is validated, then converted to latitude and longtitude coordinates using Geocoding API.
                          There are 3 optional parameters - radius, keyword, rankby - which are processed, and then used to find nearby restaurants using 
                          Places API (Nearby Search).
+                         \nAuthorization: `Customer`
                          ''',
                          tags=['search/recommend restaurants'],
                          request_body=SearchRestaurantSerializer,
@@ -70,6 +71,7 @@ class RestaurantRecommendationsView(AuthenticatedCustomerViewClass):
     
     @swagger_auto_schema(operation_description=
                          ''' Returns a list of recommended `Restaurant`.
+                         \nAuthorization: `Customer`
                          ''',
                          tags=['search/recommend restaurants'],
                          request_body=RestaurantRecommendationsSerializer,
