@@ -4,12 +4,9 @@ import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import MoneyOffIcon from '@mui/icons-material/MoneyOff';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import NavBar from "../navbar.js";
 import MapContainer from "../map.js";
 import "./yummoreservation.css";
-import "react-datepicker/dist/react-datepicker.css";
-
 
 export default function Yummoreservation() {
     const location = useLocation();
