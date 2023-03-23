@@ -73,7 +73,7 @@ class SingleRestaurantView(AuthenticatedViewClass):
     def get_permissions(self):
         permission_classes = []
         if self.request.method != 'GET':
-            permission_classes = super().permission_classes
+            permission_classes = super().permission_classes.copy()
             permission_classes.append(IsMerchant)
         return [permission() for permission in permission_classes]
 
