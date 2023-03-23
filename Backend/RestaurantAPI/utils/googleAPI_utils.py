@@ -62,7 +62,7 @@ def getPlaceDetail(placeID):
     url = f"https://maps.googleapis.com/maps/api/place/details/{FORMAT}?place_id={placeID}&fields={parameters}&key={GOOGLE_API_KEY}"
     
     restaurant = requests.get(url)
-    print(restaurant.json()) #REMOVE LATER
+    # print(restaurant.json()) #REMOVE LATER
     return restaurant.json()
 
 
@@ -77,7 +77,7 @@ def updateAdditionalGoogleRestaurantsDetail(googleRestaurants_json):
     placeID_list = []
     for place in googleRestaurants_list:
         placeID_list.append(place.get("place_id"))
-        print("placeID is: ", placeID_list[-1]) #REMOVE LATER
+        # print("placeID is: ", placeID_list[-1]) #REMOVE LATER
         
 
         
@@ -85,10 +85,10 @@ def updateAdditionalGoogleRestaurantsDetail(googleRestaurants_json):
     for idx, placeID in enumerate(placeID_list):
         additionalDetail = getPlaceDetail(placeID)
         if additionalDetail.get("status") == "OK":
-            print("additional result is,", additionalDetail.get('result'), "\n\n")
-            print("existing result is, ", googleRestaurants_list[idx], "\n\n")
+            # print("additional result is,", additionalDetail.get('result'), "\n\n")
+            # print("existing result is, ", googleRestaurants_list[idx], "\n\n")
             googleRestaurants_list[idx].update(additionalDetail.get('result'))
-            print("updated result is, ", googleRestaurants_list[idx], "\n\n")
+            # print("updated result is, ", googleRestaurants_list[idx], "\n\n")
     
     return googleRestaurants_list
 

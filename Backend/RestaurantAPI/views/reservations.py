@@ -37,7 +37,7 @@ class ReservationsView(AuthenticatedViewClass):
     # GET method requires Merchants access
     # POST method requires Customers access
     def get_permissions(self):
-        permission_classes = super().permission_classes
+        permission_classes = super().permission_classes.copy()
         if self.request.method == 'GET':
             permission_classes.append(IsMerchant)
         elif self.request.method == 'POST':
@@ -91,7 +91,7 @@ class SingleReservationView(AuthenticatedViewClass):
     # GET method requires Customers, Merchants access
     # PUT, DELETE method requires Customers access
     def get_permissions(self):
-        permission_classes = super().permission_classes
+        permission_classes = super().permission_classes.copy()
         if self.request.method != 'GET':
             permission_classes.append(IsCustomer)
         return [permission() for permission in permission_classes]
