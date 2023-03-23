@@ -43,7 +43,8 @@ const NumPax = (props) => {
                         "& input": {
                             textAlign: "center"
                         }
-                    }
+                    },
+                    inputProps: { min: 0 }
                 }}
             />
             </Box>
