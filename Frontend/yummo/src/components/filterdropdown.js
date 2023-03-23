@@ -1,14 +1,26 @@
-import React from "react";
+import {useState, useEffect} from "react";
 import { makeStyles } from "@mui/styles";
-import { Slider, Typography, Select, MenuItem } from '@mui/material';
+import { Slider, Typography, Select, MenuItem, Box } from '@mui/material';
 
 const useStyles = makeStyles({
-  root: {
-    width: 300,
-  },
-  slider: {
-    marginTop: 10,
-  },
+    root: {
+      width: "5rem",
+      marginLeft: "2rem",
+    },
+    dropdown: {
+      minWidth: "5rem",
+      minHeight: "5rem",
+    },
+    slider: {
+      marginTop: 10,
+      width: 20,
+      "& .MuiSlider-rail": { // added rail class to increase rail width
+        width: 200,
+      },
+      "& .MuiSlider-track": { // added track class to increase track width
+        width: 36,
+      },
+    },
 });
 
 const marksPrice = [
@@ -34,24 +46,32 @@ const marksPrice = [
   },
 ];
 
+function valuePrice(value) {
+    return `{value}`;
+  }
+
 const marksDistance = [
   {
-    value: 0.1,
-    label: "0.1 km",
+    value: 1,
+    label: "1",
   },
   {
     value: 10,
-    label: "10 km",
+    label: "10",
   },
   {
     value: 50,
-    label: "50 km",
+    label: "50",
   },
   {
     value: 100,
-    label: "100 km",
+    label: "100",
   },
 ];
+
+function valueDistance(value) {
+    return `{value}`;
+  }
 
 const marksRating = [
   {
@@ -76,65 +96,108 @@ const marksRating = [
   },
 ];
 
-export default function FilterDropdown() {
+function valueRating(value) {
+    return `{value}`;
+  }
+
+export default function FilterDropdown(props) {
   const classes = useStyles();
-  const [priceRange, setPriceRange] = React.useState([1, 5]);
-  const [distanceRange, setDistanceRange] = React.useState([0.1, 100]);
-  const [ratingRange, setRatingRange] = React.useState([1, 5]);
+
+  const [priceFilter, setPriceFilter] = useState(2);
+  const [distanceFilter, setDistanceFilter] = useState(1);
+  const [ratingFilter, setRatingFilter] = useState(5);
 
   const handlePriceChange = (event, newValue) => {
-    setPriceRange(newValue);
-  };
-
+      setPriceFilter(newValue);
+      props.handlePriceFiltered(newValue);
+    };
+  
   const handleDistanceChange = (event, newValue) => {
-    setDistanceRange(newValue);
-  };
+      setDistanceFilter(newValue);
+      props.handleDistanceFiltered(newValue);
 
+    };
+  
   const handleRatingChange = (event, newValue) => {
-    setRatingRange(newValue);
-  };
+      setRatingFilter(newValue);
+      props.handleRatingFiltered(newValue);
+    };
 
   return (
     <div className={classes.root}>
-      <Select value="" displayEmpty>
+        <Select
+            value=""
+            displayEmpty
+            className={classes.dropdown}
+            // add the following lines
+            MenuProps={{
+            PaperProps: {
+                style: {
+                height: "auto",
+                minWidth: "35rem",
+                },
+            },
+            }}
+        >
         <MenuItem value="" disabled>
           Filter by
         </MenuItem>
         <MenuItem value="price">
-          <Typography variant="subtitle1">Price Range</Typography>
-          <Slider
-            value={priceRange}
-            onChange={handlePriceChange}
-            valueLabelDisplay="auto"
-            marks={marksPrice}
-            step={null}
-            className={classes.slider}
-            orientation="vertical"
-          />
+            <Box display="flex" flexDirection="row">
+                <Typography variant="subtitle1" paddingRight={20}>Price Range</Typography>
+                <Slider
+                    onChange={handlePriceChange}
+                    getAriaValueText={valuePrice}
+                    marks={marksPrice}
+                    size="medium"
+                    sx={{ width: 200 }}
+                    step={1}
+                    aria-label="price-filter"
+                    defaultValue={2}
+                    value={priceFilter}
+                    min={1}
+                    max={5}
+                    valueLabelDisplay="auto"
+                />
+            </Box>
         </MenuItem>
         <MenuItem value="distance">
-          <Typography variant="subtitle1">Distance Range (in km)</Typography>
-          <Slider
-            value={distanceRange}
-            onChange={handleDistanceChange}
-            valueLabelDisplay="auto"
-            marks={marksDistance}
-            step={null}
-            className={classes.slider}
-            orientation="vertical"
-          />
+            <Box display="flex" flexDirection="row">
+                <Typography variant="subtitle1" paddingRight={10}>Distance Range (in km)</Typography>
+                <Slider
+                    onChange={handleDistanceChange}
+                    getAriaValueText={valueDistance}
+                    marks={marksDistance}
+                    size="medium"
+                    sx={{ width: 200 }}
+                    step={1}
+                    aria-label="dist-filter"
+                    defaultValue={0.1}
+                    value={distanceFilter}
+                    min={1}
+                    max={100}
+                    valueLabelDisplay="auto"
+                />
+            </Box>
         </MenuItem>
         <MenuItem value="rating">
-          <Typography variant="subtitle1">Rating Range</Typography>
-          <Slider
-            value={ratingRange}
-            onChange={handleRatingChange}
-            valueLabelDisplay="auto"
-            marks={marksRating}
-            step={null}
-            className={classes.slider}
-            orientation="vertical"
-          />
+            <Box display="flex" flexDirection="row">
+                <Typography variant="subtitle1" paddingRight={18}>Rating Range</Typography>
+                <Slider
+                    onChange={handleRatingChange}
+                    getAriaValueText={valueRating}
+                    marks={marksRating}
+                    size="medium"
+                    sx={{ width: 200 }}
+                    step={1}
+                    aria-label="rating-filter"
+                    defaultValue={5}
+                    value={ratingFilter}
+                    min={1}
+                    max={5}
+                    valueLabelDisplay="auto"
+                />
+            </Box>
         </MenuItem>
       </Select>
     </div>
