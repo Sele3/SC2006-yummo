@@ -4,7 +4,7 @@ from RestaurantAPI.models import Restaurant, Reservation, Review, Cuisine
 
 @admin.register(Restaurant)
 class RestaurantAdmin(admin.ModelAdmin):
-    list_display = ['resID', 'name', 'location', 'avg_rating', 'merchant']
+    list_display = ['resID', 'name', 'address', 'avg_rating', 'merchant']
     
 @admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
