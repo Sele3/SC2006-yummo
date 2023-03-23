@@ -40,12 +40,12 @@ class SearchRestaurantsView(AuthenticatedCustomerViewClass):
         
         googleRestaurants_json = searchGoogleRestaurants(request=request, location=location)
         
-        # Transform googleRestaurants into YummoRestaurant format
-        googleRestaurants_YummoFormat = formatGoogleRestaurant(googleRestaurants_json)
+        # # Transform googleRestaurants into YummoRestaurant format
+        # googleRestaurants_YummoFormat = formatGoogleRestaurant(googleRestaurants_json)
         
-        # Get YummoRestaurants that satisfy search query.
-        yummoRestaurants = searchYummoRestaurants(request)
-        # Merge with YummoRestaurant with GoogleRestaurant
+        # # Get YummoRestaurants that satisfy search query.
+        # yummoRestaurants = searchYummoRestaurants(request)
+        # # Merge with YummoRestaurant with GoogleRestaurant
         
         # Apply filter (if any)
         
