@@ -14,14 +14,19 @@ class Cuisine(models.Model):
 class Restaurant(models.Model):
     resID = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
-    location = models.CharField(max_length=100)
+    address = models.CharField(max_length=100)
+    contact_no = models.CharField(max_length=20, blank=True, null=True)
     img = models.ImageField(upload_to='images/restaurant', default=None, null=True, blank=True)
     cuisine = models.ManyToManyField(
         Cuisine,
         related_name='restaurants',
-        blank=True
+        blank=True,
+        default=Cuisine.objects.get_or_create(name='Asian')[0].cuisineID,
     )
     avg_rating = models.DecimalField(max_digits=3, decimal_places=2 ,default=0.0)
+    price = models.IntegerField(
+        choices=[(i, str(i)) for i in range(1, 6)],
+        default=3)
     merchant = models.ForeignKey(
         User, 
         on_delete=models.CASCADE,
