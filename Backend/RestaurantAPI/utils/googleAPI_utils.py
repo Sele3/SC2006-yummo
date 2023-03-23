@@ -1,14 +1,11 @@
 from Yummo.settings import GOOGLE_API_KEY
 from rest_framework.exceptions import ParseError
 import requests
-import googlemaps
 
 
 """
 search API need price Range attribute, rating, lat, lng, photo, cuisine
 """
-
-
 FORMAT = "json" #accepts json or xml
 
 def getGeocode(address:str):
@@ -21,7 +18,7 @@ def getGeocode(address:str):
     url = f"https://maps.googleapis.com/maps/api/geocode/{FORMAT}?address={address}&key={GOOGLE_API_KEY}"
     
     geocode = requests.get(url)
-    print(geocode.json())
+    #print(geocode.json())
     return geocode.json()
 
 
@@ -49,6 +46,11 @@ def searchGoogleRestaurants(request, location):
     restaurants = requests.get(url)
     return restaurants.json()
 
+
+def get_lat_lng(address: str) -> dict:
+    json: dict = getGeocode(address)
+    return json.get("results")[0].get("geometry").get("location")
+    
 
 # Convert a list of GoogleRestaurants into the format of YummoRestaurant.
 def formatGoogleRestaurant(googleRestaurants_json):
