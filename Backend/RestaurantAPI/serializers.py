@@ -3,6 +3,7 @@ from django.db import transaction
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
+from .utils.googleAPI_utils import get_lat_lng
 
 
 
@@ -35,15 +36,19 @@ class ReviewSerializer(serializers.ModelSerializer):
 class RestaurantSerializer(serializers.ModelSerializer):
     merchant_name = serializers.StringRelatedField(source='merchant')
     #reviews = ReviewSerializer(many=True, read_only=True)
+    #address = serializers.StringRelatedField(source='location')
     cuisine = CuisineSerializer(many=True, read_only=True)
     cuisines = serializers.ListField(child=serializers.CharField(), write_only=True)
+    location = serializers.SerializerMethodField()
+
+
     class Meta:
         model = Restaurant
-        fields = ['resID', 'name', 'location', 'img', 'cuisine', 'cuisines','avg_rating', 'merchant', 'merchant_name',
-                  #'reviews'
-                  ]
+        fields = ['resID', 'name', 'address', 'contact_no', 'img', 'cuisine', 'cuisines', 
+                  'avg_rating', 'price','merchant', 'merchant_name', 'location']
         extra_kwargs = {
             'avg_rating' : {'read_only' : True},
+            'location': {'read_only' : True},
         }
     
     @transaction.atomic
@@ -90,6 +95,10 @@ class RestaurantSerializer(serializers.ModelSerializer):
             
         instance.save()
         return instance
+    
+    def get_location(self, obj):
+        return get_lat_lng(obj.address)
+    
     
     
 class RestaurantPOSTFormSerializer(serializers.Serializer):
