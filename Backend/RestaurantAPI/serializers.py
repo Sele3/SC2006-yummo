@@ -25,6 +25,11 @@ class ReservationSerializer(serializers.ModelSerializer):
         fields = ['reservID', 'reserved_at', 'pax', 'restaurant', 'restaurant_name', 'customer', 'customer_name']
 
 
+class ReservationPOSTFormSerializer(serializers.Serializer):
+    reserved_at = serializers.DateField()
+    pax = serializers.IntegerField(min_value=1)
+
+
 class ReviewSerializer(serializers.ModelSerializer):
     restaurant_name = serializers.StringRelatedField(source='restaurant')
     customer_name = serializers.StringRelatedField(source='customer')
@@ -98,21 +103,23 @@ class RestaurantSerializer(serializers.ModelSerializer):
     
     def get_location(self, obj):
         return get_lat_lng(obj.address)
-    
-    
+
     
 class RestaurantPOSTFormSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=50)
-    location = serializers.CharField(max_length=100)
+    address = serializers.CharField(max_length=100)
+    contact_no = serializers.CharField(max_length=20)
     img = serializers.ImageField(required=False)
     cuisines = serializers.ListField(child=serializers.CharField())
-    
+    price = serializers.IntegerField(min_value=1, max_value=5)
     
 class RestaurantPUTFormSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=50, required=False)
-    location = serializers.CharField(max_length=100, required=False)
+    address = serializers.CharField(max_length=100, required=False)
+    contact_no = serializers.CharField(max_length=20, required=False)
     img = serializers.ImageField(required=False)
     cuisines = serializers.ListField(child=serializers.CharField(), required=False)
+    price = serializers.IntegerField(min_value=1, max_value=5, required=False)
     
     
 class SearchRestaurantSerializer(serializers.Serializer):

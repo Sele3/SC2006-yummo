@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 from ..models import Restaurant, Reservation
-from ..serializers import ReservationSerializer
+from ..serializers import ReservationSerializer, ReservationPOSTFormSerializer
 from Yummo.utilityfunctions import IsMerchant, IsCustomer, AuthenticatedViewClass, isCustomerGroup, isMerchantGroup
 from drf_yasg.utils import swagger_auto_schema
 
@@ -10,7 +10,9 @@ from drf_yasg.utils import swagger_auto_schema
 
 class ReservationsView(AuthenticatedViewClass):
     
-    @swagger_auto_schema(operation_description="Get list of all `Reservation` under this Restaurant if current Merchant is the owner.",
+    @swagger_auto_schema(operation_description='''Get list of all `Reservation` under this Restaurant if current Merchant is the owner.
+                         \nAuthorization: `Merchant`
+                         ''',
                          tags=['reservations'], 
                          responses={200: ReservationSerializer(many=True), 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def get(self, request, resID):
@@ -20,9 +22,11 @@ class ReservationsView(AuthenticatedViewClass):
         return Response(serialized_reservations.data, status=status.HTTP_200_OK)
     
     
-    @swagger_auto_schema(operation_description="Create a `Reservation` under this Restaurant for current Customer.",
+    @swagger_auto_schema(operation_description='''Create a `Reservation` under this Restaurant for current Customer.
+                         \nAuthorization: `Customer`
+                         ''',
                          tags=['reservations'], 
-                         request_body=ReservationSerializer,
+                         request_body=ReservationPOSTFormSerializer,
                          responses={200: ReservationSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def post(self, request, resID):
         data = request.data.copy()
@@ -48,8 +52,10 @@ class ReservationsView(AuthenticatedViewClass):
 class SingleReservationView(AuthenticatedViewClass):
     
     @swagger_auto_schema(operation_description=
-                         '''Get detailed info of a `Reservation` specified by `reservID` if current Customer made the reservation or 
-                         current Merchant is the owner of the Restaurant.''',
+                         '''Get detailed info of a `Reservation` specified by `reservID` if current `Customer` made the reservation or 
+                         current `Merchant` is the owner of the `Restaurant`.
+                         \nAuthorization: `Customer`, `Merchant`
+                         ''',
                          tags=['reservations'], 
                          responses={200: ReservationSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def get(self, request, resID, reservID):
@@ -63,9 +69,12 @@ class SingleReservationView(AuthenticatedViewClass):
         return Response(serialized_reservation.data,status=status.HTTP_200_OK)
     
     
-    @swagger_auto_schema(operation_description="Update information of a `Reservation` specified by `reservID` if current Customer made the reservation.",
+    @swagger_auto_schema(operation_description=
+                         '''Update information of a `Reservation` specified by `reservID` if current Customer made the reservation.                        
+                         \nAuthorization: `Customer`
+                         ''',
                          tags=['reservations'], 
-                         request_body=ReservationSerializer,
+                         request_body=ReservationPOSTFormSerializer,
                          responses={201: ReservationSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def put(self, request, resID, reservID):
         reservation = get_object_or_404(Reservation, pk=reservID, customer=request.user)
@@ -79,7 +88,9 @@ class SingleReservationView(AuthenticatedViewClass):
         return Response(serialized_reservation.data,status=status.HTTP_201_CREATED)
     
     
-    @swagger_auto_schema(operation_description="Delete the `Reservation` specified by `reservID` if current Customer made the reservation.",
+    @swagger_auto_schema(operation_description='''Delete the `Reservation` specified by `reservID` if current Customer made the reservation.
+                         \nAuthorization: `Customer`
+                         ''',
                          tags=['reservations'], 
                          responses={200: 'OK', 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def delete(self, request, resID, reservID):
