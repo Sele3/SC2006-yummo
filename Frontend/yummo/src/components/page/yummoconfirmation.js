@@ -4,6 +4,8 @@ import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import MoneyOffIcon from '@mui/icons-material/MoneyOff';
+import { createEvent } from "ics";
+import { saveAs } from "file-saver";
 import NavBar from "../navbar.js";
 import MapContainer from "../map.js";
 import "./yummoconfirmation.css";
@@ -41,17 +43,40 @@ const YummoRestaurant = (props) => {
     const [date, setDate] = useState(new Date());
     const [time, setTime] = useState("12:00");
     const [pax, setPax] = useState(1);
+    const [location, setLocation] = useState("123 Yummo Street");
+    const [lat, setLat] = useState(1.323);
+    const [lng, setLng] = useState(103.823);
 
     useEffect(() => {
         setName(props.name);
         setDate(props.date);
         setTime(props.time);
         setPax(props.pax);
-    }, [props.name, props.date, props.time, props.pax]);
+        setLocation(props.location);
+        setLat(props.lat);
+        setLng(props.lng);
+    }, [props.name, props.date, props.time, props.pax, props.location, props.lat, props.lng]);
+
+    const event = {
+        title: 'Reservation at ' + name,
+        description: "Reservation will be cancelled if you are more than 15 minutes late.",
+        start: [date.getFullYear(), date.getMonth() + 1, date.getDate(), parseInt(time.split(":")[0]), parseInt(time.split(":")[1])],
+        location: location,
+        geo: { lat: lat, lon: lng },
+        status: 'CONFIRMED',
+      }
+    console.log(event)
+
+    const handleSave = () => {
+        createEvent(event, (error, value) => {
+          const blob = new Blob([value], { type: "text/plain;charset=utf-8" });
+          saveAs(blob, "event-schedule.ics");
+        });
+      };
 
     return (
         <>
-        <div className="input-box-container">
+        <div className="yloc-box-container">
             <div className="yloc-box-title">
                 <img src="congrats-icon.png" alt="oops" width="70%" className="center-img"/>
                 <h1>Your booking has been confirmed!</h1>
@@ -62,6 +87,27 @@ const YummoRestaurant = (props) => {
                 <p>Time: {time}</p>
                 <p>Pax: {pax}</p>
             </div>
+            <button style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            position: 'relative',
+                            fontSize: '1rem',
+                            padding: '12px 24px',
+                            backgroundColor: '#000000',
+                            color: '#FFD600',
+                            borderRadius: '2rem',
+                            fontFamily: 'Roboto',
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.2rem',
+                            border: 'none',
+                            boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+                            cursor: 'pointer'
+                        }}
+                    onClick={handleSave}>
+                    Save your schedule
+            </button>
         </div>
         </>
         );
@@ -85,13 +131,13 @@ export default function Yummoreservation() {
     const [confirmedDist, setconfirmedDist] = useState(0);
 
     useEffect(() => {
-        setconfirmedName(state.selectedName);
+        setconfirmedName(state.name);
         setconfirmedDate(state.date);
         setconfirmedTime(state.time);
         setconfirmedPax(state.pax);
-        setconfirmedAddress(state.selectedAddress);
-        setconfirmedContact(state.selectedContact);
-        setconfirmedresID(state.selectedresID);
+        setconfirmedAddress(state.address);
+        setconfirmedContact(state.contact);
+        setconfirmedresID(state.resID);
         setconfirmedLat(state.selectedLat);
         setconfirmedLng(state.selectedLng);
         setconfirmedRating(state.selectedRating);
@@ -130,7 +176,14 @@ export default function Yummoreservation() {
             </div>
             <div className="gloc-time-container">
                 {/*<GoogleRestaurant name={confirmedName} address={confirmedAddress} contact={confirmedContact}/>*/}
-                <YummoRestaurant name={confirmedName} date={confirmedDate} time={confirmedTime} pax={confirmedPax}/>
+                <YummoRestaurant name={confirmedName} 
+                                date={confirmedDate} 
+                                time={confirmedTime} 
+                                pax={confirmedPax} 
+                                location={confirmedAddress}
+                                lat={confirmedLat}
+                                lng={confirmedLng}
+                />
             </div>
         </div>
         </>
