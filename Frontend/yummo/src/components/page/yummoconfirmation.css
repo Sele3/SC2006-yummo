@@ -26,6 +26,12 @@
     margin-top: 5rem;
 }
 
+.yloc-box-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .yloc-box-content {
     display: flex;
     justify-content: center;
@@ -44,7 +50,6 @@
     flex-direction: column;
     width: 30rem;
     font-weight: bold;
-    margin-top: 3rem;
 }
 
 .center-img {
