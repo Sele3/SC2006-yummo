@@ -56,6 +56,23 @@ class RestaurantSerializer(serializers.ModelSerializer):
             'location': {'read_only' : True},
         }
     
+    def _handle_cuisines_field(self, instance, validated_data):
+        cuisines = validated_data.get('cuisines', None)
+        
+        if cuisines:
+            try:
+                instance.cuisine.clear()
+                
+                if len(cuisines) == 1:
+                    cuisines = [s.strip() for s in cuisines[0].split(',')]
+                
+                for c in cuisines:
+                    cuisine = Cuisine.objects.get(name=c)
+                    instance.cuisine.add(cuisine)
+                    
+            except ObjectDoesNotExist as e:
+                raise serializers.ValidationError({"detail": "The cuisine does not exist"})
+            
     @transaction.atomic
     def create(self, validated_data):
         cuisines = validated_data.pop('cuisines')
@@ -65,12 +82,14 @@ class RestaurantSerializer(serializers.ModelSerializer):
         if len(cuisines) == 1:
             cuisines = [s.strip() for s in cuisines[0].split(',')]
         
+        location = get_lat_lng(validated_data['address'])
+        validated_data['lat'] = location['lat']
+        validated_data['lng'] = location['lng']
+
         try:
             with transaction.atomic():
                 restaurant = Restaurant.objects.create(**validated_data)
-                for c in cuisines:
-                    cuisine = Cuisine.objects.get(name=c) # raises DoesNotExist exception if the cuisine name is invalid
-                    restaurant.cuisine.add(cuisine)
+                self._handle_cuisines_field(restaurant, validated_data)
         except ObjectDoesNotExist as e:
             raise serializers.ValidationError({"detail": "The cuisine does not exist"})
 
@@ -81,28 +100,19 @@ class RestaurantSerializer(serializers.ModelSerializer):
         instance.location = validated_data.get('location', instance.location)
         instance.img = validated_data.get('img', instance.img)
         
-        cuisines = validated_data.get('cuisines', None)
+        self._handle_cuisines_field(instance, validated_data)
         
-        if cuisines:
-            try:
-                instance.cuisine.clear() #removes all objects from related cuisine set
-                
-                # Workaround to solve issue of Swagger not sending MultiPart form data of ListField correctly.
-                # Swagger sends array of string as ['e1, e2, e3'] instead of ['e1', 'e2', 'e3']
-                if len(cuisines) == 1:
-                    cuisines = [s.strip() for s in cuisines[0].split(',')]
-                
-                for c in cuisines:
-                    cuisine = Cuisine.objects.get(name=c) # raises DoesNotExist exception if the cuisine name is invalid
-                    instance.cuisine.add(cuisine)
-            except ObjectDoesNotExist as e:
-                raise serializers.ValidationError({"detail": "The cuisine does not exist"})
+        address = validated_data.get('address', instance.address)
+        if address != instance.address:
+            location = get_lat_lng(address)
+            instance.lat = location['lat']
+            instance.lng = location['lng']
             
         instance.save()
         return instance
     
     def get_location(self, obj):
-        return get_lat_lng(obj.address)
+        return {'lat': obj.lat, 'lng': obj.lng}
 
     
 class RestaurantPOSTFormSerializer(serializers.Serializer):
