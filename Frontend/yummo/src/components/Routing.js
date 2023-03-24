@@ -5,6 +5,7 @@ import LetsYummoCraving from "./page/letsyummocraving.js"
 import YummoSuggestions from "./page/yummosuggestions.js"
 import YummoReservation from "./page/yummoreservation.js"
 import MerchantOverview from "./page/merchantpageoverview"
+import Login from './page/Login'
 import { Routes, Route } from "react-router-dom";
 import Customer_Acc_Setting from "./page/Customer_Acc_Sett.js";
 
@@ -19,7 +20,7 @@ function Routing() {
         <Route path="/yummoreservation" element={<YummoReservation />} />
         <Route path="/customeraccountsetting" element={<Customer_Acc_Setting/>} />
         <Route path="/merchantoverview" element={<MerchantOverview />} />
-
+        <Route path="/customerlogin" element={<Login />} />
         </Routes>
     );
 }
