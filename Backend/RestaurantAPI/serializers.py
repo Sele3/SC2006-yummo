@@ -1,6 +1,6 @@
 from .models import Reservation, Restaurant, Review, Cuisine
 from django.db import transaction
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from .utils.googleAPI_utils import get_lat_lng
@@ -56,13 +56,14 @@ class RestaurantSerializer(serializers.ModelSerializer):
             'location': {'read_only' : True},
         }
     
-    def _handle_cuisines_field(self, instance, validated_data):
-        cuisines = validated_data.get('cuisines', None)
+    def _handle_cuisines_field(self, instance, cuisines):
         
         if cuisines:
             try:
                 instance.cuisine.clear()
                 
+                # Workaround to solve issue of Swagger not sending MultiPart form data of ListField correctly.
+                # Swagger sends array of string as ['e1, e2, e3'] instead of ['e1', 'e2', 'e3']
                 if len(cuisines) == 1:
                     cuisines = [s.strip() for s in cuisines[0].split(',')]
                 
@@ -76,38 +77,41 @@ class RestaurantSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data):
         cuisines = validated_data.pop('cuisines')
-
-        # Workaround to solve issue of Swagger not sending MultiPart form data of ListField correctly.
-        # Swagger sends array of string as ['e1, e2, e3'] instead of ['e1', 'e2', 'e3']
-        if len(cuisines) == 1:
-            cuisines = [s.strip() for s in cuisines[0].split(',')]
         
-        location = get_lat_lng(validated_data['address'])
-        validated_data['lat'] = location['lat']
-        validated_data['lng'] = location['lng']
-
+        try:    
+            location = get_lat_lng(validated_data['address'])
+            validated_data['lat'] = location['lat']
+            validated_data['lng'] = location['lng']
+        except ValidationError as e:
+            raise e
+        
         try:
             with transaction.atomic():
                 restaurant = Restaurant.objects.create(**validated_data)
-                self._handle_cuisines_field(restaurant, validated_data)
+                self._handle_cuisines_field(restaurant, cuisines)
         except ObjectDoesNotExist as e:
-            raise serializers.ValidationError({"detail": "The cuisine does not exist"})
+            raise serializers.ValidationError({"detail": "Thee cuisine does not exist"})
 
         return restaurant
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
-        instance.location = validated_data.get('location', instance.location)
-        instance.img = validated_data.get('img', instance.img)
-        
-        self._handle_cuisines_field(instance, validated_data)
         
         address = validated_data.get('address', instance.address)
-        if address != instance.address:
-            location = get_lat_lng(address)
-            instance.lat = location['lat']
-            instance.lng = location['lng']
-            
+        try:
+            if address != instance.address:
+                location = get_lat_lng(address)
+                instance.lat = location['lat']
+                instance.lng = location['lng']
+                instance.address = address
+        except ValidationError as e:
+            raise e
+        
+        instance.contact_no = validated_data.get('contact_no', instance.contact_no)
+        instance.img = validated_data.get('img', instance.img)
+        instance.price = validated_data.get('price', instance.price)
+        self._handle_cuisines_field(instance, validated_data.get('cuisines', None))
+        
         instance.save()
         return instance
     

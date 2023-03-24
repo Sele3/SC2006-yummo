@@ -24,6 +24,7 @@ class RestaurantsView(AuthenticatedMerchantViewClass):
 
     @swagger_auto_schema(operation_description='''Create a new `Restaurant` under this Merchant.                       
                          \nAuthorization: `Merchant`
+                         \nContent-Type: multipart/form-data
                          ''',
                          tags=['restaurants'], 
                          request_body=RestaurantPOSTFormSerializer, 
@@ -53,6 +54,7 @@ class SingleRestaurantView(AuthenticatedViewClass):
     
     @swagger_auto_schema(operation_description='''Update information of the `Restaurant` specified by `resID` if current Merchant is the owner.                       
                          \nAuthorization: `Merchant`
+                         \nContent-Type: multipart/form-data
                          ''',
                          tags=['restaurants'], 
                         request_body=RestaurantPUTFormSerializer, 
