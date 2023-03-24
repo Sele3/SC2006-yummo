@@ -15,7 +15,7 @@ import "./yummoreservation.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 const NumPax = (props) => {
-    const [paxChild, setPaxChild] = useState(0);
+    const [paxChild, setPaxChild] = useState(1);
 
     const handlePaxChange = (event) => {
         setPaxChild(event.target.value);
@@ -44,7 +44,9 @@ const NumPax = (props) => {
                             textAlign: "center"
                         }
                     },
-                    inputProps: { min: 0 }
+                    inputProps: {
+                        min: 1
+                    }
                 }}
             />
             </Box>
