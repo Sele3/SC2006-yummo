@@ -137,10 +137,12 @@ class RestaurantPUTFormSerializer(serializers.Serializer):
     
     
 class SearchRestaurantSerializer(serializers.Serializer):
-    address = serializers.CharField(max_length=200, help_text="A valid address that returns a location in Google Maps")
+    address = serializers.CharField(max_length=200, default='NTU', help_text="A valid address that returns a location in Google Maps")
     radius = serializers.IntegerField(min_value=0, max_value=50000, default=1500, help_text="Optional. min=0, max=50000, default=1500")
-    keyword = serializers.CharField(max_length=200, allow_blank=True, help_text="Optional")
+    keyword = serializers.CharField(max_length=200, default='Asian', allow_blank=True, help_text="Optional")
     rankby = serializers.CharField(max_length=50, allow_blank=True, help_text="Optional. Two possible strings: distance or prominence(default)")
+    price = serializers.IntegerField(min_value=1, default=3, max_value=5, required=False)
+    rating = serializers.CharField(max_length=10, default='DESC', required=False, help_text="Optional. Accepts 'ASC' or 'DESC' only.")
     
 
 class RestaurantRecommendationsSerializer(serializers.Serializer):
