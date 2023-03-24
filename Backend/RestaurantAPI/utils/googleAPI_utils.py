@@ -1,6 +1,7 @@
 from Yummo.settings import GOOGLE_API_KEY
-from rest_framework.exceptions import ParseError
+from rest_framework.exceptions import ParseError, ValidationError
 import requests
+
 
 
 """
@@ -95,6 +96,9 @@ def updateAdditionalGoogleRestaurantsDetail(googleRestaurants_json):
 
 def get_lat_lng(address: str) -> dict:
     json: dict = getGeocode(address)
+    if json.get('status') != 'OK':
+        raise ValidationError({'detail':f"The address '{address}' does not exist or might be uncompleted."})
+    
     return json.get("results")[0].get("geometry").get("location")
     
 
