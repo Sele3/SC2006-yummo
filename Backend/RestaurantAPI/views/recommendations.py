@@ -1,11 +1,9 @@
-from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.response import Response
-from ..models import Restaurant
 from ..serializers import RestaurantSerializer, SearchRestaurantSerializer, RestaurantRecommendationsSerializer
 from Yummo.utilityfunctions import AuthenticatedCustomerViewClass
-from ..utils.googleAPI_utils import getGeocode, searchGoogleRestaurants, formatGoogleRestaurant, getDistanceMatrix, searchYummoRestaurants, updateAdditionalGoogleRestaurantsDetail
+from ..utils.googleAPI_utils import getGeocode, searchGoogleRestaurants, formatGoogleRestaurant, searchYummoRestaurants, updateAdditionalGoogleRestaurantsDetail, sortByRating, sortByDistance
 import requests, random
 from drf_yasg.utils import swagger_auto_schema
 
@@ -38,26 +36,31 @@ class SearchRestaurantsView(AuthenticatedCustomerViewClass):
         
         # status OK, Place found.
         location = geocode_json["results"][0]["geometry"]["location"]
-        
+
         googleRestaurants_json = searchGoogleRestaurants(request=request, location=location)
         
         # Get additional details and update the existing results. Returns a list of Restaurant jsons with all the required details.
         googleRestaurants_detailed_list = updateAdditionalGoogleRestaurantsDetail(googleRestaurants_json)
         
-        
         # Transform googleRestaurants into YummoRestaurant format
         googleRestaurants_YummoFormat = formatGoogleRestaurant(googleRestaurants_detailed_list)
         
-        # # Get YummoRestaurants that satisfy search query.
-        # yummoRestaurants = searchYummoRestaurants(request)
-        # # Merge with YummoRestaurant with GoogleRestaurant
+        # Get YummoRestaurants that satisfy search query.
+        yummo_restaurants = searchYummoRestaurants(request=request, location=location)
+
+        # Merge with YummoRestaurant with GoogleRestaurant
+        yummo_restaurants.extend(googleRestaurants_YummoFormat)
         
-        # Apply filter (if any)
-        
+        # Apply filter (if any) by rating, rankby
+        if request.data.get('rating'):
+            yummo_restaurants = sortByRating(yummo_restaurants, request.data.get('rating'))
+
+            
+        if request.data.get('rankby') == "distance":
+            yummo_restaurants = sortByDistance(yummo_restaurants, location=location)
+            
         # return search results
-        
-        results = googleRestaurants_YummoFormat #tentative
-        
+        results = yummo_restaurants
         return Response(results, status=status.HTTP_200_OK)
 
 
