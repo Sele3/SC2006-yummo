@@ -11,16 +11,6 @@ const useStyles = makeStyles({
       minWidth: "5rem",
       minHeight: "5rem",
     },
-    slider: {
-      marginTop: 10,
-      width: 20,
-      "& .MuiSlider-rail": { // added rail class to increase rail width
-        width: 200,
-      },
-      "& .MuiSlider-track": { // added track class to increase track width
-        width: 36,
-      },
-    },
 });
 
 const marksPrice = [

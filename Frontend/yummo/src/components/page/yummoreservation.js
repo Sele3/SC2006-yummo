@@ -50,29 +50,29 @@ const NumPax = (props) => {
             </Box>
         </div>
         <div className="next-button-container">
-            <button 
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    position: 'relative',
-                    fontSize: '1rem',
-                    padding: '12px 24px',
-                    backgroundColor: '#000000',
-                    color: '#FFD600',
-                    borderRadius: '2rem',
-                    fontFamily: 'Roboto',
-                    fontWeight: 'bold',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.2rem',
-                    border: 'none',
-                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
-                    cursor: 'pointer'
-                }}
-                onClick={() => props.handleNext(1)}
-            >
-            Next
-            </button>
+                <button 
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        position: 'relative',
+                        fontSize: '1rem',
+                        padding: '12px 24px',
+                        backgroundColor: '#000000',
+                        color: '#FFD600',
+                        borderRadius: '2rem',
+                        fontFamily: 'Roboto',
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.2rem',
+                        border: 'none',
+                        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+                        cursor: 'pointer'
+                    }}
+                    onClick={() => props.handleNext(1)}
+                >
+                Next
+                </button>
         </div>
     </div>
     </>
@@ -98,6 +98,14 @@ const TimeSelection = (props) => {
         'date': props.date,
         'pax': props.pax,
         'name': props.selectedName,
+        'resID': props.selectedresID,
+        'address': props.selectedAddress,
+        'contact': props.selectedContact,
+        'selectedLng': props.selectedLng,
+        'selectedLat': props.selectedLat,
+        'selectedRating': props.selectedRating,
+        'selectedPrice': props.selectedPrice,
+        'selectedDist': props.selectedDist,
     }
     console.log(DataPassing);
 
@@ -161,28 +169,30 @@ const TimeSelection = (props) => {
                 </div>
             </div>
             <div className="confirm-button-container">
-                <button 
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        position: 'relative',
-                        fontSize: '1rem',
-                        padding: '12px 24px',
-                        backgroundColor: '#000000',
-                        color: '#FFD600',
-                        borderRadius: '2rem',
-                        fontFamily: 'Roboto',
-                        fontWeight: 'bold',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.2rem',
-                        border: 'none',
-                        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
-                        cursor: 'pointer'
-                    }}
-                >
-                Confirm
-                </button>
+                <Link to="/yummoconfirmation" state={DataPassing}>
+                    <button 
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            position: 'relative',
+                            fontSize: '1rem',
+                            padding: '12px 24px',
+                            backgroundColor: '#000000',
+                            color: '#FFD600',
+                            borderRadius: '2rem',
+                            fontFamily: 'Roboto',
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.2rem',
+                            border: 'none',
+                            boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+                            cursor: 'pointer'
+                        }}
+                    >
+                    Confirm
+                    </button>
+                </Link>
             </div>
         </div>
         </>
@@ -199,6 +209,9 @@ export default function Yummoreservation(props) {
     const [selectedRating, setSelectedRating] = useState(2);
     const [selectedPrice, setSelectedPrice] = useState(2);
     const [selectedDist, setSelectedDist] = useState(0);
+    const [selectedresID, setSelectedresID] = useState(-1);
+    const [selectedContact, setSelectedContact] = useState("9000 0000");
+    const [selectedAddress, setSelectedAddress] = useState("1 Yummo Road, Singapore 123456");
 
     useEffect(() => {
         setSelectedLat(state.selectedLat);
@@ -207,6 +220,9 @@ export default function Yummoreservation(props) {
         setSelectedPrice(state.selectedPrice);
         setSelectedDist(state.selectedDist);
         setSelectedName(state.selectedName);
+        setSelectedresID(state.selectedresID);
+        setSelectedContact(state.selectedContact);
+        setSelectedAddress(state.selectedAddress);
     }, [state]);
 
     const [nextClicked, setNextClicked] = useState(false);
@@ -266,7 +282,26 @@ export default function Yummoreservation(props) {
                         timeout={800}
                         unmountOnExit
                     >
-                        {nextClicked ? <TimeSelection handleDate={handleDate} handleTime={handleTime} pax={pax} date={date} time={time} selectedName={selectedName}/> : <NumPax numPax={pax} handlePax={handlePax} handleNext={handleNext}/>}
+                        {nextClicked ?
+                        <TimeSelection handleDate={handleDate} 
+                                    handleTime={handleTime} 
+                                    pax={pax} 
+                                    date={date} 
+                                    time={time} 
+                                    selectedName={selectedName} 
+                                    selectedresID={selectedresID} 
+                                    selectedAddress={selectedAddress} 
+                                    selectedContact={selectedContact}
+                                    selectedLat={selectedLat}
+                                    selectedLng={selectedLng}
+                                    selectedRating={selectedRating}
+                                    selectedPrice={selectedPrice}
+                                    selectedDist={selectedDist}
+                        /> 
+                        : 
+                        <NumPax numPax={pax} 
+                                handlePax={handlePax} 
+                                handleNext={handleNext}/>}
                     </CSSTransition>
                 </TransitionGroup>
             </div>

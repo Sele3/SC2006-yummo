@@ -16,8 +16,9 @@ export default function Yummosuggestions(props) {
 
     // Currently values not used, waiting for backend to support the filter function.
     const [priceFilter, setPriceFilter] = useState(2);
-    const [distanceFilter, setDistanceFilter] = useState(1);
+    const [distanceFilter, setDistanceFilter] = useState(0);
     const [ratingFilter, setRatingFilter] = useState(5);
+    const [rankby, setRankby] = useState("prominence");
 
     function handlePriceFiltered(value) {
         setPriceFilter(value);
@@ -31,14 +32,22 @@ export default function Yummosuggestions(props) {
         setRatingFilter(value);
     }
 
+    useEffect(() => {
+        if (distanceFilter === 0) {
+            setRankby("prominence");
+        } else {
+            setRankby("distance");
+        }
+    }, [distanceFilter]);
+
     const url = 'http://127.0.0.1:8000/api/restaurants/search';
     const token = process.env.REACT_APP_BACKEND_API_KEY;
     const data = 
     {
         "address": state.location,
-        "radius": "",
+        "radius": distanceFilter,
         "keyword": state.craving,
-        "rankby": ""
+        "rankby": rankby,
     };
 
     const [result, setResult] = useState({});
@@ -59,19 +68,36 @@ export default function Yummosuggestions(props) {
         });
     }, []);
 
+    // Current Response Format
+    // {[{
+    // 'resID': INT,
+    // 'name': STRING,
+    // 'address': STRING,
+    // 'contact_no': STRING,
+    // 'img': STRING,
+    // 'average_rating': FLOAT,
+    // 'price': INT,
+    // 'location': {
+    //     'lat': FLOAT,
+    //     'lng': FLOAT
+    //     }
+    // },
 
-    const [loc1, setLoc1] = useState({ lat: 1.4459423, lng: 103.7736212 });
-    const [loc2, setLoc2] = useState({ lat: 1.4459423, lng: 103.7736212 });
-    const [loc3, setLoc3] = useState({ lat: 1.4459423, lng: 103.7736212 });
-    
+
+    // resID
+    const [resID1, setResID1] = useState(-1);
+    const [resID2, setResID2] = useState(-1);
+    const [resID3, setResID3] = useState(-1);
+
     useEffect(() => {
         if (result && result.results && result.results.length > 2) {
-          setLoc1(result.results[0].geometry.location);
-          setLoc2(result.results[1].geometry.location);
-          setLoc3(result.results[2].geometry.location);
+            setResID1(result.results[0].resID);
+            setResID2(result.results[1].resID);
+            setResID3(result.results[2].resID);
         }
     }, [result]);
 
+    // Name
     const [name1, setName1] = useState("Loading Name...");
     const [name2, setName2] = useState("Loading Name...");
     const [name3, setName3] = useState("Loading Name...");
@@ -84,6 +110,85 @@ export default function Yummosuggestions(props) {
         }
     }, [result]);
 
+    // Address
+    const [address1, setAddress1] = useState("Loading Address...");
+    const [address2, setAddress2] = useState("Loading Address...");
+    const [address3, setAddress3] = useState("Loading Address...");
+
+    useEffect(() => {
+        if (result && result.results && result.results.length > 2) {
+            setAddress1(result.results[0].address);
+            setAddress2(result.results[1].address);
+            setAddress3(result.results[2].address);
+        }
+    }, [result]);
+
+    // Contact_no
+    const [contact1, setContact1] = useState("Loading Contact...");
+    const [contact2, setContact2] = useState("Loading Contact...");
+    const [contact3, setContact3] = useState("Loading Contact...");
+
+    useEffect(() => {
+        if (result && result.results && result.results.length > 2) {
+            setContact1(result.results[0].contact_no);
+            setContact2(result.results[1].contact_no);
+            setContact3(result.results[2].contact_no);
+        }
+    }, [result]);
+
+    // Image
+    const [img1, setImg1] = useState("https://i.imgur.com/3ZQ3Z9C.png");
+    const [img2, setImg2] = useState("https://i.imgur.com/3ZQ3Z9C.png");
+    const [img3, setImg3] = useState("https://i.imgur.com/3ZQ3Z9C.png");
+
+    useEffect(() => {
+        if (result && result.results && result.results.length > 2) {
+            setImg1(result.results[0].img);
+            setImg2(result.results[1].img);
+            setImg3(result.results[2].img);
+        }
+    }, [result]);
+
+    // Average Rating
+    const [rating1, setRating1] = useState(0);
+    const [rating2, setRating2] = useState(0);
+    const [rating3, setRating3] = useState(0);
+
+    useEffect(() => {
+        if (result && result.results && result.results.length > 2) {
+            setRating1(result.results[0].average_rating);
+            setRating2(result.results[1].average_rating);
+            setRating3(result.results[2].average_rating);
+        }
+    }, [result]);
+
+    // Price
+    const [price1, setPrice1] = useState(0);
+    const [price2, setPrice2] = useState(0);
+    const [price3, setPrice3] = useState(0);
+
+    useEffect(() => {
+        if (result && result.results && result.results.length > 2) {
+            setPrice1(result.results[0].price);
+            setPrice2(result.results[1].price);
+            setPrice3(result.results[2].price);
+        }
+    }, [result]);
+
+    // Location
+    const [loc1, setLoc1] = useState({ lat: 1.4459423, lng: 103.7736212 });
+    const [loc2, setLoc2] = useState({ lat: 1.4459423, lng: 103.7736212 });
+    const [loc3, setLoc3] = useState({ lat: 1.4459423, lng: 103.7736212 });
+    
+    useEffect(() => {
+        if (result && result.results && result.results.length > 2) {
+          setLoc1(result.results[0].geometry.location);
+          setLoc2(result.results[1].geometry.location);
+          setLoc3(result.results[2].geometry.location);
+        }
+    }, [result]);
+
+   // Distance
     const [dist1, setDist1] = useState(0);
     const [dist2, setDist2] = useState(0);
     const [dist3, setDist3] = useState(0);
@@ -133,7 +238,11 @@ export default function Yummosuggestions(props) {
         });
     }, [loc3.lat, loc3.lng, state.location]);
 
+    // Selected Content
     const [selected, setSelected] = useState(0);
+    const [selectedresID, setSelectedresID] = useState(-1);
+    const [selectedAddress, setSelectedAddress] = useState("123 Yummo Rd, Singapore 123456");
+    const [selectedContact, setSelectedContact] = useState("9000 0000");
     const [selectedName, setSelectedName] = useState("Loading Name...");
     const [selectedLat, setSelectedLat] = useState(0);
     const [selectedLng, setSelectedLng] = useState(0);
@@ -150,34 +259,37 @@ export default function Yummosuggestions(props) {
             case 0:
                 setSelectedLat(loc1.lat);
                 setSelectedLng(loc1.lng);
-                /*if(result && result.results && result.results.length > 0){
-                    setSelectedPrice(result.results[0].price_level);}*/
-                if(result && result.results && result.results.length > 0){
-                    setSelectedRating(result.results[0].rating);};
+                setSelectedPrice(price1);
+                setSelectedRating(rating1);
                 setSelectedDist(dist1);
                 setSelectedName(name1);
+                setSelectedresID(resID1);
+                setSelectedAddress(address1);
+                setSelectedContact(contact1);
                 break;
         
             case 1:
                 setSelectedLat(loc2.lat);
                 setSelectedLng(loc2.lng);
-                /*if(result && result.results && result.results.length > 1){
-                    setSelectedPrice(result.results[1].price_level);}*/
-                if(result && result.results && result.results.length > 1){
-                    setSelectedRating(result.results[1].rating);};
+                setSelectedPrice(price2);
+                setSelectedRating(rating2);
                 setSelectedDist(dist2);
                 setSelectedName(name2);
+                setSelectedresID(resID2);
+                setSelectedAddress(address2);
+                setSelectedContact(contact2);
                 break;
 
             case 2:
                 setSelectedLat(loc3.lat);
                 setSelectedLng(loc3.lng);
-                /*if(result && result.results && result.results.length > 2){
-                    setSelectedPrice(result.results[2].price_level);}*/
-                if(result && result.results && result.results.length > 2){
-                    setSelectedRating(result.results[2].rating);};
+                setSelectedPrice(price3);
+                setSelectedRating(rating3);
                 setSelectedDist(dist3);
                 setSelectedName(name3);
+                setSelectedresID(resID3);
+                setSelectedAddress(address3);
+                setSelectedContact(contact3);
                 break;
 
             default:
@@ -193,8 +305,12 @@ export default function Yummosuggestions(props) {
         selectedRating: selectedRating,
         selectedPrice: selectedPrice,
         selectedDist: selectedDist,
-        selectedName: selectedName
+        selectedName: selectedName,
+        selectedresID: selectedresID,
+        selectedAddress: selectedAddress,
+        selectedContact: selectedContact,
     }
+    console.log(FinalData);
 
     return (
         <>
@@ -214,6 +330,7 @@ export default function Yummosuggestions(props) {
                       className={`rectangle ${selected === 0 ? 'selected' : 'unselected'}`}
                       onClick={() => handleRectClick(0)}>
                         <div className="rectangle-icon-container">
+                            <img className="rest-img" src={img1} alt="restaurant"/>
                         </div>
                         <div className="rectangle-text-container">
                             <div className="rectangle-text-title">
@@ -227,6 +344,7 @@ export default function Yummosuggestions(props) {
                       className={`rectangle ${selected === 1 ? 'selected' : 'unselected'}`}
                       onClick={() => handleRectClick(1)}>
                         <div className="rectangle-icon-container">
+                            <img className="rest-img" src={img2} alt="restaurant"/>
                         </div>
                         <div className="rectangle-text-container">
                             <div className="rectangle-text-title">
@@ -240,6 +358,7 @@ export default function Yummosuggestions(props) {
                       className={`rectangle ${selected === 2 ? 'selected' : 'unselected'}`}
                       onClick={() => handleRectClick(2)}>
                         <div className="rectangle-icon-container">
+                            <img className="rest-img" src={img3} alt="restaurant"/>
                         </div>
                         <div className="rectangle-text-container">
                             <div className="rectangle-text-title">
@@ -303,4 +422,4 @@ export default function Yummosuggestions(props) {
         </div>
         </>
     );
-}; 
+};
