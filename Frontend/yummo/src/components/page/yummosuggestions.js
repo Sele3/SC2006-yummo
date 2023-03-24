@@ -14,6 +14,23 @@ export default function Yummosuggestions(props) {
     const location = useLocation();
     const state = location.state;
 
+    // Currently values not used, waiting for backend to support the filter function.
+    const [priceFilter, setPriceFilter] = useState(2);
+    const [distanceFilter, setDistanceFilter] = useState(1);
+    const [ratingFilter, setRatingFilter] = useState(5);
+
+    function handlePriceFiltered(value) {
+        setPriceFilter(value);
+    }
+
+    function handleDistanceFiltered(value) {
+        setDistanceFilter(value);
+    }
+
+    function handleRatingFiltered(value) {
+        setRatingFilter(value);
+    }
+
     const url = 'http://127.0.0.1:8000/api/restaurants/search';
     const token = process.env.REACT_APP_BACKEND_API_KEY;
     const data = 
@@ -84,7 +101,7 @@ export default function Yummosuggestions(props) {
         .catch(err => {
             console.error(err);
         });
-    }, [loc1.lat, loc1.lng]);
+    }, [loc1.lat, loc1.lng, state.location]);
 
     useEffect(() => {
         const origins = `origins=${loc2.lat},${loc2.lng}&`;
@@ -99,7 +116,7 @@ export default function Yummosuggestions(props) {
         .catch(err => {
             console.error(err);
         });
-    }, [loc2.lat, loc2.lng]);
+    }, [loc2.lat, loc2.lng, state.location]);
 
     useEffect(() => {
         const origins = `origins=${loc3.lat},${loc3.lng}&`;
@@ -114,9 +131,10 @@ export default function Yummosuggestions(props) {
         .catch(err => {
             console.error(err);
         });
-    }, [loc3.lat, loc3.lng]);
+    }, [loc3.lat, loc3.lng, state.location]);
 
     const [selected, setSelected] = useState(0);
+    const [selectedName, setSelectedName] = useState("Loading Name...");
     const [selectedLat, setSelectedLat] = useState(0);
     const [selectedLng, setSelectedLng] = useState(0);
     const [selectedRating, setSelectedRating] = useState(2);
@@ -132,37 +150,51 @@ export default function Yummosuggestions(props) {
             case 0:
                 setSelectedLat(loc1.lat);
                 setSelectedLng(loc1.lng);
+                /*if(result && result.results && result.results.length > 0){
+                    setSelectedPrice(result.results[0].price_level);}*/
                 if(result && result.results && result.results.length > 0){
-                    setSelectedPrice(result.results[0].price_level);}
-                if(result && result.results && result.results.length > 0){
-                    setSelectedRating(result.results[0].rating);}
+                    setSelectedRating(result.results[0].rating);};
                 setSelectedDist(dist1);
+                setSelectedName(name1);
                 break;
         
             case 1:
                 setSelectedLat(loc2.lat);
                 setSelectedLng(loc2.lng);
+                /*if(result && result.results && result.results.length > 1){
+                    setSelectedPrice(result.results[1].price_level);}*/
                 if(result && result.results && result.results.length > 1){
-                    setSelectedPrice(result.results[1].price_level);}
-                if(result && result.results && result.results.length > 1){
-                    setSelectedRating(result.results[1].rating);}
+                    setSelectedRating(result.results[1].rating);};
                 setSelectedDist(dist2);
+                setSelectedName(name2);
                 break;
 
             case 2:
                 setSelectedLat(loc3.lat);
                 setSelectedLng(loc3.lng);
+                /*if(result && result.results && result.results.length > 2){
+                    setSelectedPrice(result.results[2].price_level);}*/
                 if(result && result.results && result.results.length > 2){
-                    setSelectedPrice(result.results[2].price_level);}
-                if(result && result.results && result.results.length > 2){
-                    setSelectedRating(result.results[2].rating);}
+                    setSelectedRating(result.results[2].rating);};
                 setSelectedDist(dist3);
+                setSelectedName(name3);
                 break;
 
             default:
                 break;
         }
     }, [selected]);
+
+    // Data to be passed to next page
+
+    const FinalData = {
+        selectedLat: selectedLat,
+        selectedLng: selectedLng,
+        selectedRating: selectedRating,
+        selectedPrice: selectedPrice,
+        selectedDist: selectedDist,
+        selectedName: selectedName
+    }
 
     return (
         <>
@@ -174,7 +206,7 @@ export default function Yummosuggestions(props) {
                         <h2>Nearby restaurants</h2>
                     </div>
                     <div className="suggestions-filter">
-                        <FilterDropdown />
+                        <FilterDropdown handlePriceFiltered={handlePriceFiltered} handleDistanceFiltered={handleDistanceFiltered} handleRatingFiltered={handleRatingFiltered}/>
                     </div>
                 </div>
                 <div className="rectangle-container">
@@ -219,7 +251,7 @@ export default function Yummosuggestions(props) {
                     </div>
                 </div>
                 <div className="suggestions-button">
-                    <Link to="" state={""}>
+                    <Link to="/yummoreservation" state={FinalData}>
                         <button 
                             style={{
                                 display: 'flex',
