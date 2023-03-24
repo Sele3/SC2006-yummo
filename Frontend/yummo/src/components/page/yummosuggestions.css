@@ -108,3 +108,8 @@
     align-items: center;
     margin-bottom: 1rem;
   }
+
+  .rest-img {
+    width: 10px;
+    height: 10px;
+  }
