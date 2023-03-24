@@ -24,6 +24,9 @@ class Restaurant(models.Model):
         default=Cuisine.objects.get_or_create(name='Asian')[0].cuisineID,
     )
     avg_rating = models.DecimalField(max_digits=3, decimal_places=2 ,default=0.0)
+    lat = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    lng = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+
     price = models.IntegerField(
         choices=[(i, str(i)) for i in range(1, 6)],
         default=3)
