@@ -90,7 +90,7 @@ class RestaurantSerializer(serializers.ModelSerializer):
                 restaurant = Restaurant.objects.create(**validated_data)
                 self._handle_cuisines_field(restaurant, cuisines)
         except ObjectDoesNotExist as e:
-            raise serializers.ValidationError({"detail": "Thee cuisine does not exist"})
+            raise serializers.ValidationError({"detail": "The cuisine does not exist"})
 
         return restaurant
 
