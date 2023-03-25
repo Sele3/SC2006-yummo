@@ -42,7 +42,7 @@ def searchGoogleRestaurants(request, location):
         keyword = "&keyword=" + request.data.get("keyword")
         
     if request.data.get("price"):
-        price = "&maxprice={0}&minprice={0}".format(int(request.data.get("price"))-1)
+        price = "&maxprice={0}".format(int(request.data.get("price"))-1)
 
     if request.data.get("rankby") == 'distance': #two possible values: distance or prominence (default)
         rankby = "&rankby=distance" 
@@ -138,7 +138,7 @@ def searchYummoRestaurants(request, location):
     rankby = request.data.get("rankby")
     
     if price:
-        restaurants = restaurants.filter(price__iexact=price)
+        restaurants = restaurants.filter(price__lte=price)
         print("\n\nAfter Price filter",restaurants, "\n\n")
 
     if keyword:
