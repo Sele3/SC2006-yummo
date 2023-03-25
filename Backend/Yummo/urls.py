@@ -18,8 +18,11 @@ from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import permissions
+from rest_framework.routers import DefaultRouter
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+
+from Yummo.views import CustomUserViewSet
 
 
 schema_view = get_schema_view(
@@ -32,11 +35,19 @@ schema_view = get_schema_view(
    permission_classes=[permissions.AllowAny],
 )
 
+router = DefaultRouter()
+router.register("auth/users", CustomUserViewSet)  
+
 urlpatterns = [
     re_path(r'^$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('admin/', admin.site.urls),
-    path('auth/', include('djoser.urls')),
+    #path('auth/', include('djoser.urls')),
+    path('', include(router.urls)),
     path('auth/', include('djoser.urls.authtoken')),
+    #path('auth/users/customer/', CustomUserViewSet.as_view({'post': 'create_customer'})),
+    #path('auth/users/merchant/', CustomUserViewSet.as_view({'post': 'create_merchant'})),
+    #path('auth/users/customer/', CustomUserViewSet.as_view({'post': 'create'}), name='create-customer'),
+    #path('auth/users/merchant/', CustomUserViewSet.as_view({'post': 'create'}), name='create-merchant'),
     path('api/', include("RestaurantAPI.urls")),
     path('api/', include("YummoGroupAPI.urls")),
 ]
@@ -45,18 +56,3 @@ urlpatterns = [
 if settings.DEBUG:
         urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
         
-
-"""Djoser package's authentication endpoints (for reference)
-    auth/users/
-    auth/users/me/
-    auth/users/confirm/
-    auth/users/resend_activation/
-    auth/users/set_password/
-    auth/users/reset_password/
-    auth/users/rest_password_confirm/
-    auth/users/set_username/
-    auth/users/reset_username/
-    auth/users/reset_username_confirm/
-    auth/token/login/
-    auth/token/logout/
-"""
