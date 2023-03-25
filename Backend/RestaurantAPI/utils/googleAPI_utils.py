@@ -128,7 +128,7 @@ def searchYummoRestaurants(request, location):
     '''
     filter by price, 
     then filtered by cuisine,
-    then filtered by within radius. If rankby=='distance', it will be ranked by distance 
+    then filtered by within radius. If rankby=='distance', radius will be ignored.
     '''
     restaurants = Restaurant.objects.all()
     
@@ -178,7 +178,7 @@ def getDistanceMatrix(restaurants, location):
     
     destinations = destinations.strip('|')
     
-    url = f"https://maps.googleapis.com/maps/api/distancematrix/{FORMAT}?origins={origin}&destinations={destinations}&key={GOOGLE_API_KEY}"
+    url = f"https://maps.googleapis.com/maps/api/distancematrix/{FORMAT}?origins={origin}&destinations={destinations}&mode=walking&key={GOOGLE_API_KEY}"
 
     distance_matrix = requests.get(url)
     print("\n\n", distance_matrix.json(), "\n\n")
@@ -190,7 +190,7 @@ def filterWithinRadius(restaurants, distanceMatrix, radius):
     distance_list = distanceMatrix.get('rows')[0].get('elements')
     for idx, restaurant in enumerate(restaurants.all()):
         # exclude restaurant outside radius
-        if distance_list[idx].get('distance').get('value') > int(radius):
+        if distance_list[idx].get('status') != 'OK' or distance_list[idx].get('distance').get('value') > int(radius):
             restaurants = restaurants.exclude(resID=restaurant.resID)
     
     return restaurants
