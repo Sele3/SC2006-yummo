@@ -127,7 +127,7 @@ const TimeSelection = (props) => {
             <h1>Confirm your selection</h1>
             <div className="date-container">
                 <div className="date-title">
-                    <h2>Date&Time:</h2>
+                    <h2>Select a date and time:</h2>
                 </div>
                 <div className="date-content">
                     <DatePicker
@@ -200,7 +200,7 @@ export default function Yummoreservation(props) {
 
     const [nextClicked, setNextClicked] = useState(false);
 
-    const [pax, setPax] = useState(0);
+    const [pax, setPax] = useState(1);
     const [date, setDate] = useState(new Date());
     function handlePax(value) {
         setPax(value);
