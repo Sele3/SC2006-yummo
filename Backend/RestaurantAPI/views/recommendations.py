@@ -1,11 +1,9 @@
-from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.response import Response
-from ..models import Restaurant
 from ..serializers import RestaurantSerializer, SearchRestaurantSerializer, RestaurantRecommendationsSerializer
 from Yummo.utilityfunctions import AuthenticatedCustomerViewClass
-from ..utils.googleAPI_utils import getGeocode, searchGoogleRestaurants, formatGoogleRestaurant, getDistanceMatrix, searchYummoRestaurants
+from ..utils.googleAPI_utils import getGeocode, searchGoogleRestaurants, formatGoogleRestaurant, searchYummoRestaurants, updateAdditionalGoogleRestaurantsDetail, sortByRating, sortByDistance
 import requests, random
 from drf_yasg.utils import swagger_auto_schema
 
@@ -25,6 +23,7 @@ class SearchRestaurantsView(AuthenticatedCustomerViewClass):
                          Address string from request, is validated, then converted to latitude and longtitude coordinates using Geocoding API.
                          There are 3 optional parameters - radius, keyword, rankby - which are processed, and then used to find nearby restaurants using 
                          Places API (Nearby Search).
+                         \nAuthorization: `Customer`
                          ''',
                          tags=['search/recommend restaurants'],
                          request_body=SearchRestaurantSerializer,
@@ -32,27 +31,36 @@ class SearchRestaurantsView(AuthenticatedCustomerViewClass):
     def post(self, request):
         geocode_json = getGeocode(request.data.get('address'))
         
-        if geocode_json["status"] != "OK":
+        if geocode_json.get('status') != "OK":
             return Response({'status':geocode_json["status"], 'error_message':geocode_json.get("error_message")}, status=status.HTTP_400_BAD_REQUEST)
         
         # status OK, Place found.
         location = geocode_json["results"][0]["geometry"]["location"]
-        
+
         googleRestaurants_json = searchGoogleRestaurants(request=request, location=location)
         
-        # # Transform googleRestaurants into YummoRestaurant format
-        # googleRestaurants_YummoFormat = formatGoogleRestaurant(googleRestaurants_json)
+        # Get additional details and update the existing results. Returns a list of Restaurant jsons with all the required details.
+        googleRestaurants_detailed_list = updateAdditionalGoogleRestaurantsDetail(googleRestaurants_json)
         
-        # # Get YummoRestaurants that satisfy search query.
-        # yummoRestaurants = searchYummoRestaurants(request)
-        # # Merge with YummoRestaurant with GoogleRestaurant
+        # Transform googleRestaurants into YummoRestaurant format
+        googleRestaurants_YummoFormat = formatGoogleRestaurant(googleRestaurants_detailed_list)
         
-        # Apply filter (if any)
+        # Get YummoRestaurants that satisfy search query.
+        yummo_restaurants = searchYummoRestaurants(request=request, location=location)
+
+        # Merge with YummoRestaurant with GoogleRestaurant
+        yummo_restaurants.extend(googleRestaurants_YummoFormat)
         
+        # Apply filter (if any) by rating, rankby
+        if request.data.get('rating'):
+            yummo_restaurants = sortByRating(yummo_restaurants, request.data.get('rating'))
+
+            
+        if request.data.get('rankby') == "distance":
+            yummo_restaurants = sortByDistance(yummo_restaurants, location=location)
+            
         # return search results
-        
-        results = googleRestaurants_json #tentative
-        
+        results = yummo_restaurants
         return Response(results, status=status.HTTP_200_OK)
 
 
@@ -66,6 +74,7 @@ class RestaurantRecommendationsView(AuthenticatedCustomerViewClass):
     
     @swagger_auto_schema(operation_description=
                          ''' Returns a list of recommended `Restaurant`.
+                         \nAuthorization: `Customer`
                          ''',
                          tags=['search/recommend restaurants'],
                          request_body=RestaurantRecommendationsSerializer,
@@ -84,12 +93,14 @@ class RestaurantRecommendationsView(AuthenticatedCustomerViewClass):
             "address": address #radius defaults to 1500m
         }
         data = requests.post(url=url,data=payload, headers={'Authorization': request.META.get('HTTP_AUTHORIZATION')})
-        data_json = data.json()
-        #print("data_json is", data_json)
-        if data_json["status"] != "OK":
-            return Response({'message':data_json["status"], 'error_message':data_json.get("error_message")}, status=status.HTTP_400_BAD_REQUEST)
+        results = data.json()
+
         
-        results = data_json["results"] #list of Place objects
+        
+        # if data_json["status"] != "OK":
+        #     return Response({'message':data_json["status"], 'error_message':data_json.get("error_message")}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # results = data_json["results"] #list of Place objects
         
         
         #CHANGE THIS TO AN ALGORITHM FOR SELECTING RESTAURANTS

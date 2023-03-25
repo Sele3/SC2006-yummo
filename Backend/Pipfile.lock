@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f1f834fa93040c2d374541f15eebd8c0b705a36d50922d67a77b7ae4d252d10a"
+            "sha256": "c60fae22d46331b8b3a907389d5b986985500682acd256eda9e27b0f6fa66b31"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -295,13 +295,6 @@
             ],
             "index": "pypi",
             "version": "==1.21.5"
-        },
-        "googlemaps": {
-            "hashes": [
-                "sha256:3055fcbb1aa262a9159b589b5e6af762b10e80634ae11c59495bd44867e47d88"
-            ],
-            "index": "pypi",
-            "version": "==4.10.0"
         },
         "idna": {
             "hashes": [
