@@ -41,7 +41,6 @@ const GoogleRestaurant = (props) => {
 const YummoRestaurant = (props) => {
     const [name, setName] = useState("Yummo Restaurant");
     const [date, setDate] = useState(new Date());
-    const [time, setTime] = useState("12:00");
     const [pax, setPax] = useState(1);
     const [location, setLocation] = useState("123 Yummo Street");
     const [lat, setLat] = useState(1.323);
@@ -50,17 +49,16 @@ const YummoRestaurant = (props) => {
     useEffect(() => {
         setName(props.name);
         setDate(props.date);
-        setTime(props.time);
         setPax(props.pax);
         setLocation(props.location);
         setLat(props.lat);
         setLng(props.lng);
-    }, [props.name, props.date, props.time, props.pax, props.location, props.lat, props.lng]);
+    }, [props.name, props.date, props.pax, props.location, props.lat, props.lng]);
 
     const event = {
         title: 'Reservation at ' + name,
         description: "Reservation will be cancelled if you are more than 15 minutes late.",
-        start: [date.getFullYear(), date.getMonth() + 1, date.getDate(), parseInt(time.split(":")[0]), parseInt(time.split(":")[1])],
+        start: [date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes()],
         location: location,
         geo: { lat: lat, lon: lng },
         status: 'CONFIRMED',
@@ -84,7 +82,7 @@ const YummoRestaurant = (props) => {
             <div className="yloc-box-content">
                 <p>Restaurant Name: {name}</p>
                 <p>Date: {date.toDateString()}</p>
-                <p>Time: {time}</p>
+                <p>Time: {date.toLocaleTimeString('en-US')}</p>
                 <p>Pax: {pax}</p>
             </div>
             <button style={{

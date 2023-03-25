@@ -4,7 +4,6 @@ import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import MoneyOffIcon from '@mui/icons-material/MoneyOff';
-import Autocomplete from '@mui/material/Autocomplete';
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -88,15 +87,22 @@ const TimeSelection = (props) => {
         {value}
       </button>
     ));
-    const [time, setTime] = useState("12:00");
+
+    const minDate = new Date();
+    minDate.setHours(minDate.getHours() + 1);
+
+    const filterPassedTime = (time) => {
+        const currentDate = new Date();
+        const selectedDate = new Date(time);
+    
+        return currentDate.getTime() < selectedDate.getTime();
+    };
 
     useEffect(() => {
-        props.handleTime(time);
         props.handleDate(startDate);
-    }, [time, startDate]);
+    }, [startDate]);
 
     const DataPassing = {
-        'time': props.time,
         'date': props.date,
         'pax': props.pax,
         'name': props.selectedName,
@@ -111,31 +117,6 @@ const TimeSelection = (props) => {
     }
     console.log(DataPassing);
 
-    const timing = [
-        "10:00",
-        "10:30",
-        "11:00",
-        "11:30",
-        "12:00",
-        "12:30",
-        "13:00",
-        "13:30",
-        "14:00",
-        "14:30",
-        "15:00",
-        "15:30",
-        "16:00",
-        "16:30",
-        "17:00",
-        "17:30",
-        "18:00",
-        "18:30",
-        "19:00",
-        "19:30",
-        "20:00",
-        "20:30",
-        "21:00",
-    ];
 
     return (
         <>
@@ -143,30 +124,17 @@ const TimeSelection = (props) => {
             <h1>Confirm your selection</h1>
             <div className="date-container">
                 <div className="date-title">
-                    <h2>Date:</h2>
+                    <h2>Date&Time:</h2>
                 </div>
                 <div className="date-content">
                     <DatePicker
                     selected={startDate}
+                    minDate={minDate}
                     onChange={(date) => setStartDate(date)}
+                    showTimeSelect
+                    filterTime={filterPassedTime}
+                    dateFormat="MMMM d, yyyy h:mm aa"
                     customInput={<ExampleCustomInput />}
-                    />
-                </div>
-            </div>
-            <div className="time-container">
-                <div className="time-title">
-                    <h2>Time:</h2>
-                </div>
-                <div className="time-content">
-                    <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    options={timing}
-                    sx={{ width: '10rem', backgroundColor: '#FFD600', fontWeight: 'bold' }}
-                    onInputChange={(event, newTime) => {
-                        setTime(newTime);
-                    }}
-                    renderInput={(params) => <TextField {...params} label="" />}
                     />
                 </div>
             </div>
@@ -231,7 +199,6 @@ export default function Yummoreservation(props) {
 
     const [pax, setPax] = useState(0);
     const [date, setDate] = useState(new Date());
-    const [time, setTime] = useState("");
     function handlePax(value) {
         setPax(value);
         console.log("new pax: ", value);
@@ -239,10 +206,6 @@ export default function Yummoreservation(props) {
     function handleDate(value) {
         setDate(value);
         console.log("new date: ", value);
-    }
-    function handleTime(value) {
-        setTime(value);
-        console.log("new time: ", value);
     }
     function handleNext() {
         setNextClicked(true);
@@ -286,10 +249,8 @@ export default function Yummoreservation(props) {
                     >
                         {nextClicked ?
                         <TimeSelection handleDate={handleDate} 
-                                    handleTime={handleTime} 
                                     pax={pax} 
                                     date={date} 
-                                    time={time} 
                                     selectedName={selectedName} 
                                     selectedresID={selectedresID} 
                                     selectedAddress={selectedAddress} 
