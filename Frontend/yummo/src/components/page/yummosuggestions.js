@@ -21,6 +21,7 @@ export default function Yummosuggestions(props) {
     const [ratingFilter, setRatingFilter] = useState(0);
     const [ratingToggle, setRatingToggle] = useState("DESC");
     const [rankby, setRankby] = useState("prominence");
+    const [isLoading, setIsLoading] = useState(false);
 
     function handlePriceFiltered(value) {
         setPriceFilter(value);
@@ -65,7 +66,8 @@ export default function Yummosuggestions(props) {
 
     const [result, setResult] = useState({});
 
-    useEffect(() => {
+    const handleUpdateClick = () => {
+        console.log("Update Clicked");
         axios.post(url, data, {
         headers: {
             'Authorization': `Token ${token}`,
@@ -79,7 +81,29 @@ export default function Yummosuggestions(props) {
         .catch(err => {
             console.error(err);
         });
-    }, []);
+    }
+
+    useEffect(() => {
+        const request = axios.CancelToken.source() // (*)
+        
+        const fetchPost = async () => {
+          try {
+            const response = await axios.post(url, data, {
+                headers: {
+                'Authorization': `Token ${token}`,
+                },
+                cancelToken: request.token, // (*)
+            })
+            setResult(response.data)
+            setIsLoading(false)
+          } catch (err) {
+            console.log('There was a problem or request was cancelled.')
+          }
+        }
+        fetchPost()
+        
+        return () => request.cancel() // (*)
+    }, [])
     
     console.log(result); // move the console.log outside of the then block to get updated value after rendering
 
@@ -354,6 +378,31 @@ export default function Yummosuggestions(props) {
                     </div>
                     <div className="suggestions-filter">
                         <FilterDropdown handlePriceFiltered={handlePriceFiltered} handleDistanceFiltered={handleDistanceFiltered} handleRatingFiltered={handleRatingFiltered}/>
+                    </div>
+                    <div className="update-button">
+                    <button 
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                position: 'relative',
+                                fontSize: '1rem',
+                                padding: '12px 24px',
+                                backgroundColor: '#000000',
+                                color: '#FFD600',
+                                borderRadius: '2rem',
+                                fontFamily: 'Roboto',
+                                fontWeight: 'bold',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.2rem',
+                                border: 'none',
+                                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+                                cursor: 'pointer'
+                            }}
+                            onClick={handleUpdateClick}
+                            >
+                            Update
+                        </button>
                     </div>
                 </div>
                 <div className="rectangle-container">
