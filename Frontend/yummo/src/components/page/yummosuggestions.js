@@ -13,11 +13,13 @@ import "./yummosuggestions.css";
 export default function Yummosuggestions(props) {
     const location = useLocation();
     const state = location.state;
+    const GOOGLEMAP_API_KEY = process.env.REACT_APP_GOOGLEMAP_API_KEY;
 
     // Currently values not used, waiting for backend to support the filter function.
     const [priceFilter, setPriceFilter] = useState(2);
-    const [distanceFilter, setDistanceFilter] = useState(0);
-    const [ratingFilter, setRatingFilter] = useState(5);
+    const [distanceFilter, setDistanceFilter] = useState(15000);
+    const [ratingFilter, setRatingFilter] = useState(0);
+    const [ratingToggle, setRatingToggle] = useState("DESC");
     const [rankby, setRankby] = useState("prominence");
 
     function handlePriceFiltered(value) {
@@ -31,6 +33,14 @@ export default function Yummosuggestions(props) {
     function handleRatingFiltered(value) {
         setRatingFilter(value);
     }
+
+    useEffect(() => {
+        if (ratingFilter === 0) {
+            setRatingToggle("DESC");
+        } else {
+            setRatingToggle("ASC");
+        }
+    }, [ratingFilter]);
 
     useEffect(() => {
         if (distanceFilter === 0) {
@@ -48,7 +58,10 @@ export default function Yummosuggestions(props) {
         "radius": distanceFilter,
         "keyword": state.craving,
         "rankby": rankby,
+        "price": priceFilter,
+        "rating": ratingToggle
     };
+    console.log(data)
 
     const [result, setResult] = useState({});
 
@@ -67,6 +80,8 @@ export default function Yummosuggestions(props) {
             console.error(err);
         });
     }, []);
+    
+    console.log(result); // move the console.log outside of the then block to get updated value after rendering
 
     // Current Response Format
     // {[{
@@ -90,10 +105,10 @@ export default function Yummosuggestions(props) {
     const [resID3, setResID3] = useState(-1);
 
     useEffect(() => {
-        if (result && result.results && result.results.length > 2) {
-            setResID1(result.results[0].resID);
-            setResID2(result.results[1].resID);
-            setResID3(result.results[2].resID);
+        if (result && result && result.length > 2) {
+            setResID1(result[0].resID);
+            setResID2(result[1].resID);
+            setResID3(result[2].resID);
         }
     }, [result]);
 
@@ -103,10 +118,10 @@ export default function Yummosuggestions(props) {
     const [name3, setName3] = useState("Loading Name...");
     
     useEffect(() => {
-        if (result && result.results && result.results.length >= 3) {
-          setName1(result.results[0].name);
-          setName2(result.results[1].name);
-          setName3(result.results[2].name);
+        if (result && result && result.length >= 3) {
+          setName1(result[0].name);
+          setName2(result[1].name);
+          setName3(result[2].name);
         }
     }, [result]);
 
@@ -116,10 +131,10 @@ export default function Yummosuggestions(props) {
     const [address3, setAddress3] = useState("Loading Address...");
 
     useEffect(() => {
-        if (result && result.results && result.results.length > 2) {
-            setAddress1(result.results[0].address);
-            setAddress2(result.results[1].address);
-            setAddress3(result.results[2].address);
+        if (result && result && result.length > 2) {
+            setAddress1(result[0].address);
+            setAddress2(result[1].address);
+            setAddress3(result[2].address);
         }
     }, [result]);
 
@@ -129,10 +144,10 @@ export default function Yummosuggestions(props) {
     const [contact3, setContact3] = useState("Loading Contact...");
 
     useEffect(() => {
-        if (result && result.results && result.results.length > 2) {
-            setContact1(result.results[0].contact_no);
-            setContact2(result.results[1].contact_no);
-            setContact3(result.results[2].contact_no);
+        if (result && result && result.length > 2) {
+            setContact1(result[0].contact_no);
+            setContact2(result[1].contact_no);
+            setContact3(result[2].contact_no);
         }
     }, [result]);
 
@@ -142,12 +157,28 @@ export default function Yummosuggestions(props) {
     const [img3, setImg3] = useState("https://i.imgur.com/3ZQ3Z9C.png");
 
     useEffect(() => {
-        if (result && result.results && result.results.length > 2) {
-            setImg1(result.results[0].img);
-            setImg2(result.results[1].img);
-            setImg3(result.results[2].img);
+        if (result && result && result.length > 2) {
+            if (resID1 === 0 ){
+                setImg1("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="+result[0].img+"&key="+GOOGLEMAP_API_KEY);
+            }
+            else{
+                setImg1("localhost:8000/"+result[0].img);
+            }
+            if (resID2 === 0 ){
+                setImg2("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="+result[1].img+"&key="+GOOGLEMAP_API_KEY);
+            }
+            else{
+                setImg2("localhost:8000/"+result[1].img);
+            }
+            if (resID3 === 0 ){
+                setImg3("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="+result[2].img+"&key="+GOOGLEMAP_API_KEY);
+            }
+            else{
+                setImg3("localhost:8000/"+result[2].img);
+            }
         }
     }, [result]);
+
 
     // Average Rating
     const [rating1, setRating1] = useState(0);
@@ -155,10 +186,10 @@ export default function Yummosuggestions(props) {
     const [rating3, setRating3] = useState(0);
 
     useEffect(() => {
-        if (result && result.results && result.results.length > 2) {
-            setRating1(result.results[0].average_rating);
-            setRating2(result.results[1].average_rating);
-            setRating3(result.results[2].average_rating);
+        if (result && result && result.length > 2) {
+            setRating1(result[0].avg_rating);
+            setRating2(result[1].avg_rating);
+            setRating3(result[2].avg_rating);
         }
     }, [result]);
 
@@ -168,10 +199,10 @@ export default function Yummosuggestions(props) {
     const [price3, setPrice3] = useState(0);
 
     useEffect(() => {
-        if (result && result.results && result.results.length > 2) {
-            setPrice1(result.results[0].price);
-            setPrice2(result.results[1].price);
-            setPrice3(result.results[2].price);
+        if (result && result && result.length > 2) {
+            setPrice1(result[0].price);
+            setPrice2(result[1].price);
+            setPrice3(result[2].price);
         }
     }, [result]);
 
@@ -181,10 +212,10 @@ export default function Yummosuggestions(props) {
     const [loc3, setLoc3] = useState({ lat: 1.4459423, lng: 103.7736212 });
     
     useEffect(() => {
-        if (result && result.results && result.results.length > 2) {
-          setLoc1(result.results[0].geometry.location);
-          setLoc2(result.results[1].geometry.location);
-          setLoc3(result.results[2].geometry.location);
+        if (result && result && result.length > 2) {
+          setLoc1(result[0].location);
+          setLoc2(result[1].location);
+          setLoc3(result[2].location);
         }
     }, [result]);
 

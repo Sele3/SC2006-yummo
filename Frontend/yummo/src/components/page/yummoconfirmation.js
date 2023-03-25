@@ -111,13 +111,12 @@ const YummoRestaurant = (props) => {
         );
     };
 
-export default function Yummoreservation() {
+export default function Yummoconfirmation() {
     const location = useLocation();
     const state = location.state;
 
     const [confirmedName, setconfirmedName] = useState("Keanu Reeves");
     const [confirmedDate, setconfirmedDate] = useState(new Date());
-    const [confirmedTime, setconfirmedTime] = useState("12:00");
     const [confirmedPax, setconfirmedPax] = useState(0);
     const [confirmedresID, setconfirmedresID] = useState(0);
     const [confirmedAddress, setconfirmedAddress] = useState("123 Yummo Street");
@@ -131,7 +130,6 @@ export default function Yummoreservation() {
     useEffect(() => {
         setconfirmedName(state.name);
         setconfirmedDate(state.date);
-        setconfirmedTime(state.time);
         setconfirmedPax(state.pax);
         setconfirmedAddress(state.address);
         setconfirmedContact(state.contact);
@@ -143,7 +141,7 @@ export default function Yummoreservation() {
         setconfirmedDist(state.selectedDist);
     }, [state]);
 
-    console.log({confirmedName, confirmedDate, confirmedTime, confirmedPax, confirmedAddress, confirmedContact, confirmedresID, confirmedLat, confirmedLng, confirmedRating, confirmedPrice, confirmedDist});
+    console.log({confirmedName, confirmedDate, confirmedPax, confirmedAddress, confirmedContact, confirmedresID, confirmedLat, confirmedLng, confirmedRating, confirmedPrice, confirmedDist});
 
     return (
         <>
@@ -173,15 +171,17 @@ export default function Yummoreservation() {
                     </div>
             </div>
             <div className="gloc-time-container">
-                {/*<GoogleRestaurant name={confirmedName} address={confirmedAddress} contact={confirmedContact}/>*/}
+            { confirmedresID ? 
                 <YummoRestaurant name={confirmedName} 
                                 date={confirmedDate} 
-                                time={confirmedTime} 
                                 pax={confirmedPax} 
                                 location={confirmedAddress}
                                 lat={confirmedLat}
                                 lng={confirmedLng}
                 />
+                :
+                <GoogleRestaurant name={confirmedName} address={confirmedAddress} contact={confirmedContact}/>
+            }
             </div>
         </div>
         </>
