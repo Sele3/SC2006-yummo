@@ -18,9 +18,12 @@ const NumPax = (props) => {
     const [paxChild, setPaxChild] = useState(1);
 
     const handlePaxChange = (event) => {
-        setPaxChild(event.target.value);
-        props.handlePax(event.target.value);
-        console.log('paxChild: ' + event.target.value);
+        const inputPax = parseInt(event.target.value);
+        if (!isNaN(inputPax) && inputPax >= 1 && inputPax <= 10) {
+          setPaxChild(inputPax);
+          props.handlePax(inputPax);
+          console.log('paxChild: ' + inputPax);
+        }
     };
 
     return (
@@ -147,9 +150,10 @@ const TimeSelection = (props) => {
                 </div>
                 <div className="date-content">
                     <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    customInput={<ExampleCustomInput />}
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        customInput={<ExampleCustomInput />}
+                        minDate={new Date()}
                     />
                 </div>
             </div>
