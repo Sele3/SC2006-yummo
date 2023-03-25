@@ -7,7 +7,7 @@ import YummoReservation from "./page/yummoreservation.js"
 import MerchantOverview from "./page/merchantpageoverview"
 import { Routes, Route } from "react-router-dom";
 import Customer_Acc_Setting from "./page/Customer_Acc_Sett.js";
-
+import Customer_Signup from "./page/customersignup.js";
 function Routing() {
     return (
         <Routes>
@@ -19,7 +19,7 @@ function Routing() {
         <Route path="/yummoreservation" element={<YummoReservation />} />
         <Route path="/customeraccountsetting" element={<Customer_Acc_Setting/>} />
         <Route path="/merchantoverview" element={<MerchantOverview />} />
-
+        <Route path="/signup" element={<Customer_Signup />} />
         </Routes>
     );
 }
