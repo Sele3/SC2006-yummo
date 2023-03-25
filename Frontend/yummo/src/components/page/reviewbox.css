@@ -1,0 +1,17 @@
+review-box a:link, a:visited {
+    background-color: rgb(62, 234, 168);
+    border: 1px;
+    color: rgb(0, 0, 0);
+    padding: 15px 7px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 8px;
+    
+    font-size: 16px;
+    font-weight: 400px;
+  }
+  
+review-box a:hover, a:active {
+    background-color: #13aa82;
+  }
