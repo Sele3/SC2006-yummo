@@ -35,6 +35,7 @@ function Customer_Signup() {
     } 
     catch (error) {
       console.error(error);
+      alert("Error! Try Again.");
     }
   };
 
