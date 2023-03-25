@@ -110,6 +110,7 @@
   }
 
   .rest-img {
-    width: 10px;
-    height: 10px;
+    width: 5.5rem;
+    height: 5rem;
+    border-radius: 2rem;
   }
