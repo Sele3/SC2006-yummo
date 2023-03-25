@@ -1,0 +1,140 @@
+html,
+body {
+  background-color: #f4f4f4;
+  display: 100%;
+}
+
+.merchantpageaccount {
+  display: flex;
+  flex-direction: column;
+}
+
+/* .merchant-info {
+  margin-left: 0; //initial margin
+  transition: margin-left 0.3s ease;
+}
+
+.toggleSidebar.merchant-info {
+  margin-left: 300px;
+} */
+
+.soThatMnavBelow {
+  margin-top: auto;
+}
+
+.items-to-be-left {
+  text-align: left;
+  margin-left: 200px;
+  margin-top: 20px;
+}
+
+/* .input-container {
+  display: flex;
+  flex-direction: column;
+} */
+
+.names {
+  display: flex;
+  display: 100%;
+  flex-direction: row;
+  gap: 200px;
+}
+
+.names label {
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+.email-and-tele {
+  display: flex;
+  flex-direction: row;
+  gap: 200px;
+}
+
+.email-and-tele label {
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+.merch-id {
+  display: flex;
+  flex-direction: row;
+  gap: 200px;
+}
+.merch-id label {
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+/* .names input:first-child,
+.email-and-tele input:first-child,
+.merch-id input:first-child {
+  margin-right: 20px;
+} */
+
+/* .names input[type="text"],
+.email-and-tele input[type="text"],
+.merch-id input[type="text"] {
+  display: block;
+  margin-bottom: 10px;
+  width: 200%;
+  height: 40px;
+  font-size: 16px;
+  padding: 10px;
+  box-sizing: border-box;
+} */
+
+.names input,
+.email-and-tele input,
+.merch-id input {
+  width: 180% !important;
+  padding: 5px;
+  margin-bottom: 20px;
+  height: 40px;
+  font-size: 16px;
+}
+
+.questionitems {
+  text-align: centre;
+  margin: auto;
+  margin-top: 4rem !important;
+}
+
+.avatar-image {
+  float: left;
+  margin-right: 20px;
+}
+
+.centre-item {
+  justify-content: center;
+  align-content: center;
+  cursor: pointer;
+}
+
+.merchantpageaccount {
+  display: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #626363;
+}
+
+.h4 {
+  font-size: 30px;
+  font-weight: bold;
+}
