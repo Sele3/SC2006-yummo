@@ -4,6 +4,7 @@ import AboutPage from "./page/aboutpage.js"
 import LetsYummoCraving from "./page/letsyummocraving.js"
 import YummoSuggestions from "./page/yummosuggestions.js"
 import YummoReservation from "./page/yummoreservation.js"
+import YummoConfirmation from "./page/yummoconfirmation.js"
 import MerchantOverview from "./page/merchantpageoverview"
 import Login from './page/Login'
 import { Routes, Route } from "react-router-dom";
@@ -18,6 +19,7 @@ function Routing() {
         <Route path="/yummosuggestions" element={<YummoSuggestions />} />
         <Route path="/aboutpage" element={<AboutPage />} />
         <Route path="/yummoreservation" element={<YummoReservation />} />
+        <Route path="/yummoconfirmation" element={<YummoConfirmation />} />
         <Route path="/customeraccountsetting" element={<Customer_Acc_Setting/>} />
         <Route path="/merchantoverview" element={<MerchantOverview />} />
         <Route path="/signup" element={<Customer_Signup />} />
