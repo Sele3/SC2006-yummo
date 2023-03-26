@@ -14,7 +14,7 @@ class YummoGroupPostsView(AuthenticatedCustomerViewClass):
     parser_classes = (MultiPartParser,)
 
     @swagger_auto_schema(
-        operation_description="Get a list of all `Post` in the `YummoGroup`.",
+        operation_description="Get a list of all `Post` in the `YummoGroup`, sorted by latest post first.",
         tags=['posts'], 
         responses={200: PostSerializer(many=True), 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def get(self, request, grpID):
@@ -23,7 +23,7 @@ class YummoGroupPostsView(AuthenticatedCustomerViewClass):
 
         validate_customer_in_group(group, customer)
         
-        serialized_posts = PostSerializer(group.posts, many=True)
+        serialized_posts = PostSerializer(group.posts.order_by('-posted_at'), many=True)
         return Response(serialized_posts.data, status=status.HTTP_200_OK)
         
     @swagger_auto_schema(
@@ -46,6 +46,22 @@ class YummoGroupPostsView(AuthenticatedCustomerViewClass):
         serializer.save(customer=customer, group=group)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
+class YummoGroupAllPostsView(AuthenticatedCustomerViewClass):
+    
+    parser_classes = (MultiPartParser,)
+
+    @swagger_auto_schema(
+        operation_description="Get all `Post` in every `YummoGroup` the Customer has joined, sorted by latest post first.",
+        tags=['posts'], responses={200: PostDetailedSerializer(many=True), 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    def get(self, request):
+        customer = request.user
+        groups = list(customer.yummogroups.all())
+
+        posts = Post.objects.filter(group__in=groups).order_by('-posted_at')
+        serialized_posts = PostDetailedSerializer(posts, many=True)
+        return Response(serialized_posts.data, status=status.HTTP_200_OK)
+    
 
 class YummoGroupSinglePostView(AuthenticatedCustomerViewClass):
     
