@@ -57,10 +57,6 @@ def assign_group(sender, user, request, **kwargs):
             user.delete()
             raise BadRequest({'detail' : 'Please enter a valid Group name'})
 
-        
-    
-        
-
 
 #create a Customer/Merchant profile when User are added to either Group
 #delete the profile when User are removed from the Group
