@@ -145,13 +145,16 @@ def searchYummoRestaurants(request, location):
         restaurants = restaurants.filter(cuisine__name__icontains=keyword)
         print("\n\nAfter Cuisine filter",restaurants, "\n\n")
         
+    distanceMatrix = getDistanceMatrix(restaurants=restaurants, location=location)
+        
     #order the distance by
     if rankby == 'distance': # two possible values: distance or prominence (default)
         radius = None # rankby cannot be used in conjunction with radius
+        # Default cutoff distance is 1500m.
+        restaurants = filterWithinRadius(restaurants=restaurants, distanceMatrix=distanceMatrix, radius=1500)
     
     # find restaurants within radius
     if radius:
-        distanceMatrix = getDistanceMatrix(restaurants=restaurants, location=location)
         restaurants = filterWithinRadius(restaurants=restaurants, distanceMatrix=distanceMatrix, radius=radius)
         
     
