@@ -100,7 +100,8 @@ body {
 .questionitems {
   text-align: centre;
   margin: auto;
-  margin-top: 4rem !important;
+  margin-top: 3rem !important;
+  margin-left: 40rem;
 }
 
 .avatar-image {
@@ -137,4 +138,58 @@ body {
 .h4 {
   font-size: 30px;
   font-weight: bold;
+}
+
+.m-centre-items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: fit-content;
+}
+
+.m-by-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.merchant-acc-pg-buttons {
+  margin-top: 3rem !important;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  gap: 15rem;
+}
+
+.m-save-discard {
+  display: flex;
+  justify-content: flex-end !important;
+}
+
+.m-save-discard input[type="submit"] {
+  background-color: #00aeb2;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  display: inline-block;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 10px;
+  /* outline: 2px solid black; */
+  border-radius: 10px;
+}
+
+.m-log-out {
+  border: none;
+  color: #ff5c60;
+  padding: 10px;
+  text-align: center;
+  display: inline-block;
+  font-size: 20px;
+  cursor: pointer;
+  margin-right: 40px;
+  outline: 3px solid #ff5c60;
+  border-radius: 10px;
 }

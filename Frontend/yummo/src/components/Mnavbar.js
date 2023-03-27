@@ -106,35 +106,39 @@ function Mnavbar(props) {
                   }}
                 />
               </div>
-              <span className="sidebar-item-setting">Setting</span>
+              <span className="msidebar-item-setting">Setting</span>
               {/* <Routes> */}
               <button
-                className="sidebar-item"
-                onClick={() => (window.location.href = "/merchantPageAccount")}
+                className="msidebar-item"
+                onClick={() => (window.location.href = "/merchantoverview")}
               >
                 <FontAwesomeIcon icon={faChartBar} />
                 &nbsp; <strong>Overview</strong>
                 <span class="description">Restaurant Information</span>
               </button>
 
-              <button 
-              className="sidebar-item"
-              onClick={() => (window.location.href = "/merchantPageAccount")}>
+              <button
+                className="msidebar-item"
+                onClick={() => (window.location.href = "/merchantPageAccount")}
+              >
                 <FontAwesomeIcon icon={faUserAlt} />
                 &nbsp; <strong>Account</strong>
                 <span class="description">Merchant Information</span>
               </button>
 
-              <button 
-              className="sidebar-item"
-              onClick={() => (window.location.href = "/MerchantAddRestaurant")}>
+              <button
+                className="msidebar-item"
+                onClick={() =>
+                  (window.location.href = "/MerchantAddRestaurant")
+                }
+              >
                 <FontAwesomeIcon icon={faCommentAlt} />
                 &nbsp; <strong>Merchant Reviews</strong>
                 <span class="description">Based On Locations</span>
               </button>
 
               <button
-                className="sidebar-item"
+                className="msidebar-item"
                 onClick={() =>
                   (window.location.href = "/MerchantAddRestaurant")
                 }

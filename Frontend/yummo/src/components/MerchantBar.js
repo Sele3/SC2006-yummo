@@ -10,7 +10,7 @@ function MerchantBar() {
 
   return (
     <div className="merchant-bar">
-      <div className="navbar">
+      <div className="merchant-navbar">
         <img
           src={logo}
           alt="Merchant logo"

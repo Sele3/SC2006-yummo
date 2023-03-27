@@ -1,5 +1,9 @@
 .Mnavbar {
   position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999; /* set a high value to make it appear on top */
 }
 
 .sidebar {
@@ -14,7 +18,7 @@
   box-sizing: border-box;
 }
 
-.sidebar-item .description {
+.msidebar-item .description {
   display: block;
   margin-top: 5px;
 }
@@ -29,7 +33,7 @@
   padding: 20px;
 }
 
-.sidebar-item-setting {
+.msidebar-item-setting {
   display: block;
   width: 100%;
   padding: 10px;
@@ -43,7 +47,7 @@
   font-weight: bold !important;
   font-family: "Nunito", sans-serif;
 }
-.sidebar-item {
+.msidebar-item {
   border-radius: 0.5rem;
   display: block;
   width: 100%;
@@ -58,7 +62,7 @@
   padding: 20px;
 }
 
-.sidebar-item:hover {
+.msidebar-item:hover {
   background-color: #ddd;
 }
 

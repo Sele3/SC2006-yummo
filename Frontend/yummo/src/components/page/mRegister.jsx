@@ -28,7 +28,6 @@ export const Register = (props) => {
     isChecked2: isChecked2,
     merchantID: merchantID,
   };
-  
 
   // const handleSubmit = (e) => {
   //   e.preventDefault();
@@ -56,16 +55,16 @@ export const Register = (props) => {
         username: merchantID,
       })
 
-      .post("http://127.0.0.1:8000/auth/users/", {
-        email: email,
-        password: pass,
-        username: merchantID,
-      })
-      
+      // .post("http://127.0.0.1:8000/auth/users/", {
+      //   email: email,
+      //   password: pass,
+      //   username: merchantID,
+      // })
+
       .then((response) => {
         console.log(response.data);
         console.log(response.data["auth_token"]);
-        window.location.href = "/merchantPageAccount";
+        window.location.href = "/merchantMerchantLogin";
       })
       .catch((error) => {
         console.error(error);
@@ -140,12 +139,12 @@ export const Register = (props) => {
           <form className="register-form">
             <h2>Yummo partner merchant sign up:</h2> {/*header*/}
             <p>
-              Enter your store details to get started. Upon submission, you
-              should receive the registration instructions in your email
-              provided below.
+              Enter your details to get started. Upon submission, you should
+              receive the registration instructions in your email provided
+              below.
             </p>
-            <div class="name-group">
-              <label htmlFor="firstName">First name</label>
+            {/* <div class="name-group">
+              <label htmlFor="firstName"></label>
               <input
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
@@ -153,7 +152,7 @@ export const Register = (props) => {
                 id="firstName"
                 placeholder="First Name"
               />
-              <label htmlFor="lastName">Last name</label>
+              <label htmlFor="lastName"></label>
               <input
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
@@ -161,9 +160,9 @@ export const Register = (props) => {
                 id="lastName"
                 placeholder="Last Name"
               />
-            </div>
+            </div> */}
             <div className="email-item-only">
-              <label htmlFor="email">Email</label>
+              <label htmlFor="email"></label>
               <input
                 clasdName="email-input"
                 value={email}
@@ -174,44 +173,60 @@ export const Register = (props) => {
                 name="email"
               />
             </div>
-            <div class="pass-group">
-              <label htmlFor="password">Password</label>
-              <input
-                value={pass}
-                onChange={(e) => setPass(e.target.value)}
-                type="password"
-                placeholder="********"
-                id="password"
-                name="password"
-              />
-              <label htmlFor="confirmPassword">Confirm Password</label>
-              <input
-                value={confirmPass}
-                onChange={(e) => setConfirmPass(e.target.value)}
-                type="password"
-                placeholder="********"
-                id="confirmPassword"
-                name="confirmPassword"
-              />
-            </div>
-            <div class="others-group">
-              <label htmlFor="telephonenumber">Mobile Phone</label>
-              <input
-                value={telephonenumber}
-                onChange={(e) => setTelephoneNumber(e.target.value)}
-                name="telePhonenumber"
-                id="telePhonenumber"
-                placeholder="98766543"
-              />
-              <label htmlFor="merchantID">Merchant Username</label>
+            <div className="email-item-only">
+              <label htmlFor="merchantID"></label>
               <input
                 value={merchantID}
-                onChange={(e) => setTelephoneNumber(e.target.value)}
+                onChange={(e) => setMerchantID(e.target.value)}
                 name="merchantID"
                 id="merchantID"
                 placeholder="Merchant Username"
               />
             </div>
+            {/* <div class="pass-group"> */}
+            <div className="email-item-only">
+              <label htmlFor="password"></label>
+              <input
+                value={pass}
+                onChange={(e) => setPass(e.target.value)}
+                type="password"
+                placeholder="Password"
+                id="password"
+                name="password"
+              />
+            </div>
+            <div className="email-item-only">
+              <label htmlFor="confirmPassword"></label>
+              <input
+                value={confirmPass}
+                onChange={(e) => setConfirmPass(e.target.value)}
+                type="password"
+                placeholder="Confirm Password"
+                id="confirmPassword"
+                name="confirmPassword"
+              />
+            </div>
+            {/* </div> */}
+            {/* <div class="others-group"> */}
+            {/* <label htmlFor="telephonenumber"></label>
+              <input
+                value={telephonenumber}
+                onChange={(e) => setTelephoneNumber(e.target.value)}
+                name="telePhonenumber"
+                id="telePhonenumber"
+                placeholder="Mobile Number"
+              /> */}
+            {/* <div className="email-item-only">
+            <label htmlFor="merchantID"></label>
+            <input
+              value={merchantID}
+              onChange={(e) => setMerchantID(e.target.value)}
+              name="merchantID"
+              id="merchantID"
+              placeholder="Merchant Username"
+            />
+            </div> */}
+            {/* </div> */}
             <div className="chkbox-submit">
               <Checkbox1
                 isChecked1={isChecked1}
