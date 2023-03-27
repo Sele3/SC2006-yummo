@@ -32,7 +32,7 @@ export const Login = (props) => {
   };
 
   return (
-    <div className="auth-form-container">
+    <div className="mlog-auth-form-container">
       <img
         src={logo}
         alt="Merchant logo"
@@ -40,12 +40,12 @@ export const Login = (props) => {
         style={{ paddingLeft: "8rem" }}
       />
       <div className="left-right">
-        <div className="login-detail">
+        <div className="mlogin-detail">
           <h2>Welcome! </h2>
           <p>
             Sign in with your data that you entered during your registration.
           </p>
-          <form className="login-form" onSubmit={handleSubmit}>
+          <form className="mlogin-form" onSubmit={handleSubmit}>
             <label htmlFor="email">email</label>
             <input
               value={email}
@@ -76,11 +76,11 @@ export const Login = (props) => {
                   marginBottom: "1rem",
                 }}
               >
-                *Invalid password, please try again.
+                *Invalid entry, please try again.
               </div>
             )}
             <button
-              className="login-button"
+              className="mlogin-button"
               type="submit"
               onClick={() => {
                 handleSubmit();
