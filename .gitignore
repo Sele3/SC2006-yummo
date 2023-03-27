@@ -3,9 +3,11 @@
 *.pot
 *.pyc
 __pycache__
-media
 
 # Backup files # 
 *.bak 
 
 .DS_Store
+
+# React #
+.env
