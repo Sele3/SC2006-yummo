@@ -178,6 +178,7 @@ export default function Yummoconfirmation() {
                                 location={confirmedAddress}
                                 lat={confirmedLat}
                                 lng={confirmedLng}
+                                resID={confirmedresID}
                 />
                 :
                 <GoogleRestaurant name={confirmedName} address={confirmedAddress} contact={confirmedContact}/>
