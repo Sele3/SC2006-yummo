@@ -108,3 +108,14 @@
     align-items: center;
     margin-bottom: 1rem;
   }
+
+  .rest-img {
+    width: 5.5rem;
+    height: 5rem;
+    border-radius: 2rem;
+  }
+
+  .update-button {
+    display: flex;
+    margin-left: 4rem;
+  }
