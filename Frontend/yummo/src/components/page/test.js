@@ -1,5 +1,6 @@
-import "./merchantpageaccount";
-import PersonList from "./PersonList.js";
+import './test.css';
+import PersonList from './PersonList.js';
+
 
 function test() {
   return (

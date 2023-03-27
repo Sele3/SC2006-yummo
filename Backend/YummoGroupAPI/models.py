@@ -7,6 +7,7 @@ from django.dispatch import receiver
 class BaseProfile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     contact_no = models.CharField(max_length=20, blank=True, null=True)
+    icon = models.ImageField(upload_to='images/', default=None, null=True, blank=True)
 
     class Meta:
         abstract = True
@@ -73,11 +74,18 @@ class YummoGroup(models.Model):
     group_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+    icon = models.ImageField(upload_to='images/', default=None, null=True, blank=True)
+    owner = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        limit_choices_to={'groups__name': 'Customers'},
+        related_name='owners')
     customers = models.ManyToManyField(
         User, 
         limit_choices_to={'groups__name': 'Customers'},
         #calling user.yummogroups will return the YummoGroup related to this User
-        related_name='yummogroups')
+        related_name='yummogroups',
+        blank=True)
     
     def __str__(self):
         return self.name
