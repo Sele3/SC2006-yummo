@@ -4,24 +4,20 @@ import { useNavigate, Link } from "react-router-dom";
 import "./merchantpageaccount.css";
 import Mnavbar from "../../components/Mnavbar.js";
 import MerchantBar from "../../components/MerchantBar.js";
-import avatar from "../../components/musk.png";
+import avatar from "../../components/yummo_profile.png";
 
 function MerchantPageAccount() {
   const rootPath = "../../../../../Backend/";
   const geturl = "http://127.0.0.1:8000/auth/users/";
   const posturl = "http://127.0.0.1:8000/auth/users/";
 
-  const [mid, setmID] = useState('');
+  const [mid, setmID] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [telephonenumber, setTelephoneNumber] = useState("");
   const [bio, setBio] = useState("");
   const [MerUsername, setMerUsername] = useState("");
-  const [isChecked1, setIsChecked1] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
-  const [isChecked3, setIsChecked3] = useState(false);
-  const [isChecked4, setIsChecked4] = useState(false);
 
   const information = {
     firstName: "Raymond",
@@ -82,81 +78,6 @@ function MerchantPageAccount() {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Submit the form (if desired)
-  };
-
-  const Checkbox1 = ({ isChecked1, handleCheckboxChange1 }) => {
-    return (
-      <div className="checkbox1">
-        <label>
-          <input
-            type="checkbox"
-            checked={isChecked1}
-            onChange={handleCheckboxChange1}
-          />
-          New Deals
-        </label>
-      </div>
-    );
-  };
-
-  const Checkbox2 = ({ isChecked2, handleCheckboxChange2 }) => {
-    return (
-      <div className="checkbox2">
-        <label>
-          <input
-            type="checkbox"
-            checked={isChecked2}
-            onChange={handleCheckboxChange2}
-          />
-          Password Change
-        </label>
-      </div>
-    );
-  };
-
-  const Checkbox3 = ({ isChecked3, handleCheckboxChange3 }) => {
-    return (
-      <div className="checkbox3">
-        <label>
-          <input
-            type="checkbox"
-            checked={isChecked3}
-            onChange={handleCheckboxChange3}
-          />
-          New Reviews
-        </label>
-      </div>
-    );
-  };
-
-  const Checkbox4 = ({ isChecked4, handleCheckboxChange4 }) => {
-    return (
-      <div className="checkbox4">
-        <label>
-          <input
-            type="checkbox"
-            checked={isChecked4}
-            onChange={handleCheckboxChange4}
-          />
-          Newsletter
-        </label>
-      </div>
-    );
-  };
-
-  const handleCheckboxChange1 = () => {
-    setIsChecked1(!isChecked1);
-  };
-
-  const handleCheckboxChange2 = () => {
-    setIsChecked2(!isChecked2);
-  };
-  const handleCheckboxChange3 = () => {
-    setIsChecked3(!isChecked3);
-  };
-
-  const handleCheckboxChange4 = () => {
-    setIsChecked4(!isChecked4);
   };
 
   return (
@@ -263,26 +184,8 @@ function MerchantPageAccount() {
             />
           </div>
         </div>
-        <h4>Email notifications:</h4>
-        <div className="checkboxes">
-          <Checkbox1
-            isChecked1={isChecked1}
-            handleCheckboxChange1={handleCheckboxChange1}
-          />
-          <Checkbox2
-            isChecked2={isChecked2}
-            handleCheckboxChange2={handleCheckboxChange2}
-          />
-          <Checkbox3
-            isChecked3={isChecked3}
-            handleCheckboxChange3={handleCheckboxChange3}
-          />
-          <Checkbox4
-            isChecked4={isChecked4}
-            handleCheckboxChange4={handleCheckboxChange4}
-          />
-        </div>
-        <h5></h5>
+        {/* <h4>Email notifications:</h4>
+        <h5></h5> */}
         <div class="m-container">
           <div className="merchant-acc-pg-buttons">
             <div>

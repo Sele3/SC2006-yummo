@@ -43,7 +43,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 50px;
+  margin-top: 10px;
   margin-left: 140px;
 }
 
@@ -57,12 +57,22 @@
   margin-bottom: 30px;
 }
 
+.price-drop-down {
+  margin-bottom: 10px;
+  /* padding: 20px; */
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  /* width: 500px; */
+  margin-bottom: 30px;
+}
+
 .register-res input[type="submit"] {
   background-color: #00aeb2;
   color: #fff;
   /* padding: 10px 20px; */
   /* border: none; */
-  border-radius: 5px;
+  /* border-radius: 5px; */
   cursor: pointer;
   /* width: 500px !important; */
   font-weight: bold;

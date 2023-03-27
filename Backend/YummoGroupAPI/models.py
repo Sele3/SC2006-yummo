@@ -46,6 +46,7 @@ class MerchantProfile(BaseProfile):
 
 @receiver(user_registered)
 def assign_group(sender, user, request, **kwargs):
+    print(request.data)
 
     group_name = request.data.get("group_name")
  
