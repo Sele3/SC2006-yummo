@@ -19,8 +19,13 @@ export const Login = (props) => {
         username: username,
       })
       .then((response) => {
+        const authToken = response.data["auth_token"];
         console.log(response.data);
-        console.log(response.data["auth_token"]);
+        console.log(authToken);
+        // Set username and password in session storage
+        sessionStorage.setItem("username", username);
+        sessionStorage.setItem("password", pass);
+        sessionStorage.setItem("authToken", authToken);
         window.location.href = "/merchantPageAccount";
       })
       .catch((error) => {

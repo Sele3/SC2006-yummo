@@ -195,3 +195,21 @@ body {
   outline: 3px solid #ff5c60;
   border-radius: 10px;
 }
+
+.img-and-username {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
+
+.welcome-msg {
+  color: #000;
+  font-size: 15pt;
+  font-weight: bold;
+  text-align: centre;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+
+.blue-text {
+  color: #00aeb2;
+}
