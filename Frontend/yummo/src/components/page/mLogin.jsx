@@ -7,7 +7,7 @@ import axios from "axios";
 import { Routes } from "react-router-dom";
 
 export const Login = (props) => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [pass, setPass] = useState("");
   const [isInValidPassword, setIsInvalidPassword] = useState(false);
 
@@ -16,7 +16,7 @@ export const Login = (props) => {
     axios
       .post("http://127.0.0.1:8000/auth/token/login/", {
         password: pass,
-        email: email,
+        username: username,
       })
       .then((response) => {
         console.log(response.data);
@@ -46,14 +46,14 @@ export const Login = (props) => {
             Sign in with your data that you entered during your registration.
           </p>
           <form className="mlogin-form" onSubmit={handleSubmit}>
-            <label htmlFor="email">email</label>
+            <label htmlFor="username">username</label>
             <input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              type="email"
-              placeholder="yummo@gmail.com"
-              id="email"
-              name="email"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              type="username"
+              placeholder="Username"
+              id="username"
+              name="username"
               style={{ height: "40px", width: "300px" }}
             />
             <label htmlFor="password">password</label>

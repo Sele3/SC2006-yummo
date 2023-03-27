@@ -1,6 +1,6 @@
 .mlog-auth-form-container {
   background-color: #ffffff;
-  height: 100vh;
+  /* height: 100%; */
 }
 
 .left-right {
@@ -15,7 +15,7 @@
   border-radius: 0.5rem;
   /* width: 100px; */
   width: 40%;
-  height: 940px;
+  /* height: 940px; */
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -94,7 +94,8 @@
   border-radius: 0.5rem;
   /* width: 100px; */
   width: 60%;
-  height: 940px;
+  /* height: 940px; */
+  height: 50rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -106,6 +107,6 @@
 .reg-inst p2 {
   font-size: 3rem;
   font-weight: bold;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   color: white;
 }

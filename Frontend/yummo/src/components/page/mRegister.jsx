@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import "./merchantRegister.css";
 import logo from "../../components/merchant.png";
 import bottomlogo from "../../components/bottomlogo.png";
@@ -7,71 +6,62 @@ import backImage from "../../components/MBackground.png";
 import axios from "axios";
 
 export const Register = (props) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [id, setID] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
-  const [telephonenumber, setTelephoneNumber] = useState("");
-  const [merchantID, setMerchantID] = useState("");
+  const [username, setUsername] = useState("");
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(false);
 
   const finaldata = {
-    firstName: firstName,
-    lastName: lastName,
     email: email,
     password: pass,
     confirmPass: confirmPass,
-    telephonenumber: telephonenumber,
+    merchantID: username,
     isChecked1: isChecked1,
     isChecked2: isChecked2,
-    merchantID: merchantID,
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (pass !== confirmPass) {
-  //     alert("Passwords do not match");
-  //     return;
-  //   }
-  //   console.log(email);
-  // };
-
-  // set up config object for axios request
   const config = {
     headers: {
       "Content-Type": "application/json",
     },
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("Love TA");
+
     axios
-      .post("http://127.0.0.1:8000/auth/users/", {
+      .post("http://localhost:8000/auth/users/", {
         email: email,
         password: pass,
-        username: merchantID,
+        username: username,
+        group_name: "Merchants",
       })
 
-      // .post("http://127.0.0.1:8000/auth/users/", {
-      //   email: email,
-      //   password: pass,
-      //   username: merchantID,
-      // })
-
       .then((response) => {
+        console.log("activated");
         console.log(response.data);
         console.log(response.data["auth_token"]);
-        window.location.href = "/merchantMerchantLogin";
+        window.location.href = "/MerchantLogin";
       })
       .catch((error) => {
         console.error(error);
       });
+  };
 
-    // console.log(email);
-    // console.log(pass);
+  const handleUserNameChange = (e) => {
+    setUsername(e.target.value);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+  const handlePasswordChange = (e) => {
+    setPass(e.target.value);
   };
 
   const Checkbox1 = ({ isChecked1, handleCheckboxChange1 }) => {
@@ -136,37 +126,19 @@ export const Register = (props) => {
           <img src={backImage} alt="Background Image" />
         </div>
         <div className="register-infos">
-          <form className="register-form">
-            <h2>Yummo partner merchant sign up:</h2> {/*header*/}
+          <form className="register-form" onSubmit={handleSubmit}>
+            <h2>Yummo partner merchant sign up:</h2>
             <p>
               Enter your details to get started. Upon submission, you should
               receive the registration instructions in your email provided
               below.
             </p>
-            {/* <div class="name-group">
-              <label htmlFor="firstName"></label>
-              <input
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                name="firstName"
-                id="firstName"
-                placeholder="First Name"
-              />
-              <label htmlFor="lastName"></label>
-              <input
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                name="lastName"
-                id="lastName"
-                placeholder="Last Name"
-              />
-            </div> */}
             <div className="email-item-only">
               <label htmlFor="email"></label>
               <input
-                clasdName="email-input"
+                className="email-input"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmailChange}
                 type="email"
                 placeholder="yummo@gmail.com"
                 id="email"
@@ -174,21 +146,20 @@ export const Register = (props) => {
               />
             </div>
             <div className="email-item-only">
-              <label htmlFor="merchantID"></label>
+              <label htmlFor="username"></label>
               <input
-                value={merchantID}
-                onChange={(e) => setMerchantID(e.target.value)}
-                name="merchantID"
-                id="merchantID"
-                placeholder="Merchant Username"
+                value={username}
+                onChange={handleUserNameChange}
+                name="username"
+                id="username"
+                placeholder="Username"
               />
             </div>
-            {/* <div class="pass-group"> */}
             <div className="email-item-only">
               <label htmlFor="password"></label>
               <input
                 value={pass}
-                onChange={(e) => setPass(e.target.value)}
+                onChange={handlePasswordChange}
                 type="password"
                 placeholder="Password"
                 id="password"
@@ -206,27 +177,6 @@ export const Register = (props) => {
                 name="confirmPassword"
               />
             </div>
-            {/* </div> */}
-            {/* <div class="others-group"> */}
-            {/* <label htmlFor="telephonenumber"></label>
-              <input
-                value={telephonenumber}
-                onChange={(e) => setTelephoneNumber(e.target.value)}
-                name="telePhonenumber"
-                id="telePhonenumber"
-                placeholder="Mobile Number"
-              /> */}
-            {/* <div className="email-item-only">
-            <label htmlFor="merchantID"></label>
-            <input
-              value={merchantID}
-              onChange={(e) => setMerchantID(e.target.value)}
-              name="merchantID"
-              id="merchantID"
-              placeholder="Merchant Username"
-            />
-            </div> */}
-            {/* </div> */}
             <div className="chkbox-submit">
               <Checkbox1
                 isChecked1={isChecked1}
@@ -239,22 +189,12 @@ export const Register = (props) => {
               <button
                 className="submit-button"
                 type="submit"
-                onClick={() => {
-                  if (pass !== confirmPass) {
-                    alert("Passwords do not match");
-                    handleSubmit();
-                  }
-                }}
+                // onClick={handleSubmit}
               >
                 Submit
               </button>
             </div>
           </form>
-          {/* <button
-            onClick={() => props.onFormSwitch("login")}
-          >
-            Already have an account? Log in here
-          </button> */}
         </div>
       </div>
     </div>

@@ -90,7 +90,7 @@ body {
 .names input,
 .email-and-tele input,
 .merch-id input {
-  width: 180% !important;
+  width: 170% !important;
   padding: 5px;
   margin-bottom: 20px;
   height: 40px;
@@ -100,8 +100,10 @@ body {
 .questionitems {
   text-align: centre;
   margin: auto;
-  margin-top: 3rem !important;
-  margin-left: 40rem;
+  margin-top: 0rem !important;
+  margin-left: 26rem;
+  padding: 2rem;
+  /* display: flex; */
 }
 
 .avatar-image {
