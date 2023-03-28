@@ -182,26 +182,12 @@ export default function Yummosuggestions(props) {
 
     useEffect(() => {
         if (result && result && result.length > 2) {
-            if (resID1 === 0 ){
-                setImg1("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="+result[0].img+"&key="+GOOGLEMAP_API_KEY);
-            }
-            else{
-                setImg1("localhost:8000/"+result[0].img);
-            }
-            if (resID2 === 0 ){
-                setImg2("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="+result[1].img+"&key="+GOOGLEMAP_API_KEY);
-            }
-            else{
-                setImg2("localhost:8000/"+result[1].img);
-            }
-            if (resID3 === 0 ){
-                setImg3("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="+result[2].img+"&key="+GOOGLEMAP_API_KEY);
-            }
-            else{
-                setImg3("localhost:8000/"+result[2].img);
-            }
+            resID1 ? setImg1("http://localhost:8000"+result[0].img) : setImg1("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="+result[0].img+"&key="+GOOGLEMAP_API_KEY);
+            resID2 ? setImg2("http://localhost:8000"+result[1].img) : setImg2("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="+result[1].img+"&key="+GOOGLEMAP_API_KEY);
+            resID3 ? setImg3("http://localhost:8000"+result[2].img) : setImg3("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="+result[2].img+"&key="+GOOGLEMAP_API_KEY);
         }
     }, [result]);
+    console.log(img1)
 
 
     // Average Rating
