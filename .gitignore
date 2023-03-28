@@ -11,3 +11,4 @@ __pycache__
 
 # React #
 .env
+node_modules
