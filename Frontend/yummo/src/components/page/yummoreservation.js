@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import DatePicker from "react-datepicker";
+import axios from 'axios';
 import NavBar from "../navbar.js";
 import MapContainer from "../map.js";
 import "./yummoreservation.css";
@@ -120,6 +121,33 @@ const TimeSelection = (props) => {
     }
     console.log(DataPassing);
 
+    // API Function Call to Submit Data to Backend
+    const [response, setResponse] = useState();
+    const token = process.env.REACT_APP_BACKEND_API_KEY;
+    const url = "http://127.0.0.1:8000/api/restaurants/"+props.selectedresID+"/reservations";
+    const apidata = 
+    {
+        "reserved_at": props.date.toISOString(),
+        "pax": props.pax
+    }
+    console.log(url)
+    console.log(apidata)
+    const handleConfirmClick = () => {
+        console.log("Confirm Clicked");
+        axios.post(url, apidata, {
+        headers: {
+            'Authorization': `Token ${token}`,
+        },
+        })
+        .then(res => {
+            if (res.data) {
+                setResponse(res.data);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        });
+    }
 
     return (
         <>
@@ -162,6 +190,7 @@ const TimeSelection = (props) => {
                             boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
                             cursor: 'pointer'
                         }}
+                        onClick={handleConfirmClick}
                     >
                     Confirm
                     </button>

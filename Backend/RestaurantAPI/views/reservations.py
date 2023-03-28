@@ -45,7 +45,7 @@ class ReservationsView(AuthenticatedViewClass):
                          responses={200: ReservationSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def post(self, request, resID):
         data = request.data.copy()
-        data['restaurant'] = resID
+        data['restaurant_id'] = resID
         data['customer'] = request.user.id
         serialized_reservation = ReservationSerializer(data=data)
         serialized_reservation.is_valid(raise_exception=True)
@@ -95,7 +95,7 @@ class SingleReservationView(AuthenticatedViewClass):
         reservation = get_object_or_404(Reservation, pk=reservID, customer=request.user)
         data = request.data.copy()
         #Only reservation time and pax can be changed
-        data['restaurant'] = reservation.restaurant.resID
+        data['restaurant_id'] = reservation.restaurant.resID
         data['customer'] = reservation.customer.id
         serialized_reservation = ReservationSerializer(reservation, data=data, partial=True)
         serialized_reservation.is_valid(raise_exception=True)
