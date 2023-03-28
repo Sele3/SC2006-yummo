@@ -77,7 +77,7 @@ function MerchantPageAccount(props) {
       });
       setSavedSuccessfully(true);
       setShowSuccessModal(true);
-      console.log(response.data); // Log the updated user data
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -108,7 +108,9 @@ function MerchantPageAccount(props) {
             alt="Avatar"
             style={{ width: "100px", height: "100px", borderRadius: "20%" }}
           />
-          <h4 className="welcome-msg">Merchant: "<span class="blue-text">{USERNAME}</span>"</h4>
+          <h4 className="welcome-msg">
+            Merchant: "<span class="blue-text">{USERNAME}</span>"
+          </h4>
         </div>
       </div>
       <div className="questionitems">
