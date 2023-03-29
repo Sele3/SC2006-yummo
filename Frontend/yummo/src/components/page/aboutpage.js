@@ -22,20 +22,19 @@ const AboutPage = (props) => {
   const [result, setResult] = useState({});
 
   useEffect(() => {
-    axios
-      .post(url, data, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
-      .then((res) => {
-        if (res.data) {
-          setResult(res.data);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    axios.post(url, data, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    })
+    .then((res) => {
+      if (res.data) {
+        setResult(res.data);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    });
   }, []);
   console.log(result); // move the console.log outside of the then block to get updated value after rendering
   console.log(result?.status);
