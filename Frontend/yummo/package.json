@@ -5,7 +5,12 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+<<<<<<< HEAD
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
+=======
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
+    "@fortawesome/free-solid-svg-icons": "^6.3.0",
+>>>>>>> 0e2696308e99371524749275a4ca7ed5ff51fea0
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@iconify/icons-mdi": "^1.2.44",
     "@iconify/react": "^4.1.0",
@@ -26,11 +31,13 @@
     "google-map-react": "^2.2.0",
     "google-maps-api-loader": "^1.1.1",
     "google-maps-react": "^2.0.6",
+    "i": "^0.3.7",
     "ics": "^3.1.0",
     "path": "^0.12.7",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-app-rewired": "^2.2.1",
+    "react-bootstrap": "^2.7.2",
     "react-datepicker": "^4.10.0",
     "react-dom": "^18.2.0",
     "react-google-maps": "^9.4.5",
