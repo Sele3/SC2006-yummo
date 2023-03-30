@@ -10,6 +10,8 @@ import Login from './page/Login'
 import { Routes, Route } from "react-router-dom";
 import Customer_Acc_Setting from "./page/Customer_Acc_Sett.js";
 import Customer_Signup from "./page/customersignup.js";
+import MyReservations from "./page/myreservations.js";
+
 function Routing() {
     return (
         <Routes>
@@ -23,6 +25,7 @@ function Routing() {
         <Route path="/customeraccountsetting" element={<Customer_Acc_Setting/>} />
         <Route path="/merchantoverview" element={<MerchantOverview />} />
         <Route path="/signup" element={<Customer_Signup />} />
+        <Route path="/myreservations" element={<MyReservations />} />
         </Routes>
     );
 }

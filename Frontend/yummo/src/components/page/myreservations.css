@@ -1,0 +1,62 @@
+html {
+    font-size: 14px;
+}
+
+body {
+    font-family: var(--font-family);
+    font-weight: normal;
+    color: var(--text-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.card-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+
+}
+
+.card {
+    background: var(--surface-card);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    width: 75%;
+    height: 100%;
+}
+
+.card2 {
+    display: flex;
+    background: var(--surface-card);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.trivia-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;   width: 25%;
+}
+
+.p-datatable-wrapper {
+    border: 1px solid #dee2e6;
+}
+
+.card2-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.birdie-pic {
+    width: 55%;
+    object-fit: cover;
+    margin-left: 10rem;
+    margin-top: 3rem;
+}
