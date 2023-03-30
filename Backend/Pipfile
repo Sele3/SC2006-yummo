@@ -11,7 +11,6 @@ pillow = "*"
 django-environ = "*"
 drf-yasg = "*"
 django-cors-headers = "*"
-setuptools = "*"
 
 [dev-packages]
 
