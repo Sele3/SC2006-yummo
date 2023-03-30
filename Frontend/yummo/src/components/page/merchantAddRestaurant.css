@@ -20,7 +20,7 @@
   align-items: flex-start;
   margin-top: 50px;
   width: 100%;
-  gap: 4rem;
+  gap: 1.2rem;
 }
 
 /* .m-by-col {
@@ -64,7 +64,8 @@
   border: none;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   /* width: 500px; */
-  margin-bottom: 30px;
+  margin-bottom: 2rem;
+  margin-top: 0.4rem;
 }
 
 .register-res input[type="submit"] {
@@ -84,3 +85,24 @@
 .register-res input[type="submit"]:hover {
   background-color: #00aeb2;
 }
+
+.image-input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.image-input-container {
+  margin-top: 1.9rem !important;
+  /* background-color: white; */
+}
+
+.image-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+/* .selected-img {
+  display: flex;
+  justify-content: center;
+  gap: 0rem !important;
+} */

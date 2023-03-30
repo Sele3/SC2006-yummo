@@ -1,0 +1,65 @@
+.move-too-centre {
+  text-align: center;
+  display: flex;
+  flex-direction: row; /* use flex-direction instead of display */
+  margin-left: 17rem;
+  margin-top: 20px;
+}
+
+.logo img {
+  display: 100%;
+}
+
+/* .logo {
+  flex: 1;
+  text-align: center;
+} */
+
+.success-words {
+  flex: 1;
+  margin-top: 100px;
+  margin-left: 7rem;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  margin-left: 7rem;
+}
+.button-one,
+.button-two {
+  /* padding: 0.5rem 1rem; */
+  background-color: #00aeb2;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  display: inline-block;
+  font-size: px;
+  cursor: pointer;
+  margin-left: 10px;
+  /* outline: 2px solid black; */
+  border-radius: 10px;
+  outline: none !important;
+  border: transparent;
+}
+.button-one input,
+.button-two input {
+  outline: none !important;
+}
+
+.success-words {
+  font-weight: bold;
+  font-size: 20pt;
+  color: black;
+}
+
+.success-words p:first-child {
+  color: #ffc700;
+  font-size: 30pt !important;
+}
+
+button-one:focus {
+  outline: none;
+}
