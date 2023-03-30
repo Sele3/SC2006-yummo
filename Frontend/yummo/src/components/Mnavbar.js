@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faBars } from "@fortawesome/free-solid-svg-icons";
-// import { faChartBar } from "@fortawesome/free-solid-svg-icons";
-// import { faUserAlt } from "@fortawesome/free-solid-svg-icons";
-// import { faThList } from "@fortawesome/free-solid-svg-icons";
-// import { faCommentAlt } from "@fortawesome/free-solid-svg-icons";
+
 import {
   faBars,
   faChartBar,

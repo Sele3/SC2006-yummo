@@ -31,6 +31,12 @@ export default function MerchantGoogle(props) {
   const [options, setOptions] = React.useState([]);
   const loaded = React.useRef(false);
 
+  const handleChange = (event, newValue) => {
+    //console.log(newValue.description); // Add this line to log the selected value
+    props.setAddress(newValue.description);
+    setValue(newValue);
+  };
+
   if (typeof window !== "undefined" && !loaded.current) {
     if (!document.querySelector("#google-maps")) {
       loadScript(
@@ -50,6 +56,11 @@ export default function MerchantGoogle(props) {
       }, 400),
     []
   );
+  React.useEffect(() => {
+    if (props.address) {
+      setInputValue(props.address);
+    }
+  }, [props.address]);
 
   React.useEffect(() => {
     let active = true;
@@ -117,7 +128,8 @@ export default function MerchantGoogle(props) {
               // your handler code
             }
           }}
-          onChange={(event, newValue) => {
+          onChange={handleChange} // Pass handleChange here
+          onInputChange={(event, newValue) => {
             setOptions(newValue ? [newValue, ...options] : options);
             setValue(newValue);
           }}
