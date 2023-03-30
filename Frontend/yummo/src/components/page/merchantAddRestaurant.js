@@ -46,7 +46,7 @@ function MerchantAddRestaurant() {
   formData.append("name", restName);
   // formData.append("address", "22Heidelberg, Germany");
   formData.append("address", address);
-  formData.append("img", image)
+  formData.append("img", image);
   formData.append("contact_no", contactNo);
   formData.append("cuisines", cuisineName.join(", "));
   formData.append("price", parseInt(priceRange));

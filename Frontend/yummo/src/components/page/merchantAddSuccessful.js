@@ -34,20 +34,22 @@ function SuccessfullyAdded() {
           </div>
           <div className="buttons">
             <div className="button-one">
-              <input
-                type="button"
-                value="View Restaurant Reviews"
+              <button
+                class="back-button"
                 onClick={() => (window.location.href = "/MerchantReviews")}
-              />
+              >
+                View Restaurant Reviews
+              </button>
             </div>
             <div className="button-two">
-              <input
-                type="button"
-                value="Add More Restaurants"
+              <button
+                class="front-button"
                 onClick={() =>
                   (window.location.href = "/MerchantAddRestaurant")
                 }
-              />
+              >
+                Add More Restaurants
+              </button>
             </div>
           </div>
         </div>
