@@ -27,9 +27,9 @@ function SuccessfullyAdded() {
         <div>
           <div className="success-words">
             <p>Voilà!</p>
-            <p>To add more restaurants,</p>
-            <p>select the left button.</p>
             <p>To view your added restaurant, </p>
+            <p>select the left button.</p>
+            <p>To add more restaurants,</p>
             <p>select the right button.</p>
           </div>
           <div className="buttons">
