@@ -9,7 +9,7 @@ const AboutPage = (props) => {
   console.log(state);
 
   const url = 'http://127.0.0.1:8000/api/restaurants/search';
-  const token = process.env.REACT_APP_BACKEND_API_KEY;
+  const token = localStorage.getItem('authToken');
   const data = 
   {
     "address": state.location,

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";
 import './Login.css';
@@ -35,9 +34,9 @@ function Login()
         axios.post(url, DataSending)
           .then(response => {
             // Save authentication token to local storage or cookies
-            // localStorage.setItem('authToken', response.data.token);
+            localStorage.setItem('authToken', response.data.auth_token);
             // Redirect to the dashboard page
-            console.log(response.data);
+            console.log(response.data.auth_token);
             navigate('/letsyummolocation');
           })
           .catch(error => {
@@ -51,21 +50,21 @@ function Login()
         <div className="container">
            
             <div className="login">
-                <img src="/yummo_logo.png" alt="Yummo logo" width="12%" style={{ paddingLeft: "4rem" , paddingTop: "2rem"}}/>
+                <img src="/yummo_logo.png" alt="Yummo logo" width="22%" style={{ paddingLeft: "4rem" , paddingTop: "2rem"}}/>
                 <div className="login-form">
                     <form   action="POST">
                         <h1>Login</h1>
 
                         <div className="txt-field">
                             <label>
-                                Username:<br></br>
-                                <input 
+                                Username:
+                            </label>
+                            <input 
                                 type="text" 
                                 onChange={(e)=>{setUsername(e.target.value)}}
                                 value={username} 
                                 placeholder="Username" />
-                                <br></br>
-                            </label>
+                            
                         </div>
 
                         {/* <div className="txt-field">
@@ -77,14 +76,14 @@ function Login()
                                 placeholder="Password" />
                             </label>
                         </div> */}
-                        <div className="form-group input-group">
+                        <div className="txt-field">
                             <div className="input-group-prepend">
                                 <span className="input-group-text">
                                     <FontAwesomeIcon icon="lock" />
                                 </span>
                             </div>
                             <label>
-                                Password:<br></br>
+                                <h4>Password:</h4>
                                 <input
                                     className="form-control"
                                     placeholder="Create password"
