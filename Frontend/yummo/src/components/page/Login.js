@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";
 import './Login.css';
+import usePasswordToggle from '../../usePasswordToggle';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Login()
 {
@@ -10,6 +12,8 @@ function Login()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     //const [username, setUsername] = useState('')
+    const [PasswordInputType, ToggleIcon] = usePasswordToggle();
+
     const state = {
                     "username":'',
                     "password": ''
@@ -38,6 +42,7 @@ function Login()
           })
           .catch(error => {
             console.error(error);
+            alert("Error! Try Again. ")
           });
       }
 
@@ -63,7 +68,7 @@ function Login()
                             </label>
                         </div>
 
-                        <div className="txt-field">
+                        {/* <div className="txt-field">
                             <label>
                                 Password:<br></br>
                                 <input 
@@ -71,6 +76,27 @@ function Login()
                                 onChange={(e)=>{setPassword(e.target.value)}} 
                                 placeholder="Password" />
                             </label>
+                        </div> */}
+                        <div className="form-group input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text">
+                                    <FontAwesomeIcon icon="lock" />
+                                </span>
+                            </div>
+                            <label>
+                                Password:<br></br>
+                                <input
+                                    className="form-control"
+                                    placeholder="Create password"
+                                    type={PasswordInputType}
+                                    value={password}
+                                    // onFocus={() => setPasswordFocused(true)}
+                                    onChange={(e)=>{setPassword(e.target.value)}}
+                                />
+                            </label>
+                            <span className="password-toogle-icon">
+                                {ToggleIcon}
+                            </span>
                         </div>
 
                         <br></br>

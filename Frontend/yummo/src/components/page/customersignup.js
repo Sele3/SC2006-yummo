@@ -32,7 +32,7 @@ function Customer_Signup() {
       const response = await axios.post(url, user);
       console.log(response.data);
       alert("Account created successfully!"); // Log the updated user data
-      navigate('/feed');
+      navigate('/yummosuggestions');
     } 
     catch (error) {
       console.error(error);
@@ -67,9 +67,11 @@ function Customer_Signup() {
         <div className="below-nav-bar" >
             
             <div className='form-container'>
+                <div className='signup-text'>
+                      <h2 className='account-heading'>SignUp</h2>
+                </div>
                 <form className="personal-info-form" >
-                    <h2 className='account-heading'>SignUp</h2>
-
+                    
                     <div className="txt-field">
                             <label>
                                 Username:<br></br>
