@@ -3,13 +3,17 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";
 import './Login.css';
+import usePasswordToggle from '../../usePasswordToggle';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Login()
 {
     //This part is getting executed continuously onChange i.e. for every change in the boxes typed, lines before the submit will get executed
-    const [email, setEmail] = useState('')
+    const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     //const [username, setUsername] = useState('')
+    const [PasswordInputType, ToggleIcon] = usePasswordToggle();
+
     const state = {
                     "email":'',
                     "password": ''
@@ -21,7 +25,8 @@ function Login()
 
     const DataSending = {
         "password": password,
-        "email": email
+        "username": username,
+        "group_name": "Customers"
     }
     
 
@@ -34,10 +39,11 @@ function Login()
             // localStorage.setItem('authToken', response.data.token);
             // Redirect to the dashboard page
             console.log(response.data);
-            navigate('/feed');
+            navigate('/yummosuggestions');
           })
           .catch(error => {
             console.error(error);
+            alert("Error! Try Again. ")
           });
       }
 
@@ -53,17 +59,17 @@ function Login()
 
                         <div className="txt-field">
                             <label>
-                                Email:<br></br>
+                                UserName:<br></br>
                                 <input 
                                 type="text" 
-                                onChange={(e)=>{setEmail(e.target.value)}}
-                                value={email} 
-                                placeholder="Email" />
+                                onChange={(e)=>{setUsername(e.target.value)}}
+                                value={username} 
+                                placeholder="Username" />
                                 <br></br>
                             </label>
                         </div>
 
-                        <div className="txt-field">
+                        {/* <div className="txt-field">
                             <label>
                                 Password:<br></br>
                                 <input 
@@ -71,6 +77,27 @@ function Login()
                                 onChange={(e)=>{setPassword(e.target.value)}} 
                                 placeholder="Password" />
                             </label>
+                        </div> */}
+                        <div className="form-group input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text">
+                                    <FontAwesomeIcon icon="lock" />
+                                </span>
+                            </div>
+                            <label>
+                                Password:<br></br>
+                                <input
+                                    className="form-control"
+                                    placeholder="Create password"
+                                    type={PasswordInputType}
+                                    value={password}
+                                    // onFocus={() => setPasswordFocused(true)}
+                                    onChange={(e)=>{setPassword(e.target.value)}}
+                                />
+                            </label>
+                            <span className="password-toogle-icon">
+                                {ToggleIcon}
+                            </span>
                         </div>
 
                         <br></br>
