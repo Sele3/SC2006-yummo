@@ -1,4 +1,0 @@
-To run application, 
-
-1. cd into yummo
-2. run "npm start"
