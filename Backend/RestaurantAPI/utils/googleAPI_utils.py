@@ -21,7 +21,6 @@ def getGeocode(address:str):
     url = f"https://maps.googleapis.com/maps/api/geocode/{FORMAT}?address={address}&key={GOOGLE_API_KEY}"
     
     geocode = requests.get(url)
-    # print(geocode.json())
     return geocode.json()
 
 # Google's Places Search API
@@ -44,7 +43,7 @@ def searchGoogleRestaurants(request, location):
     if request.data.get("price"):
         price = "&maxprice={0}".format(int(request.data.get("price"))-1)
 
-    if request.data.get("rankby") == 'distance': #two possible values: distance or prominence (default)
+    if request.data.get("sort_by") == 'DISTANCE': #two possible values: distance or prominence (default)
         rankby = "&rankby=distance" 
         radius = "" #sets radius to empty string as rankby cannot be used in conjunction with radius
 
@@ -108,8 +107,8 @@ def formatGoogleRestaurant(googleRestaurants_jsonlist):
         googleRestaurants_jsonlist[idx] = {
             "resID" : 0,
             "name" : restaurant.get("name"),
-            "address": restaurant.get("formatted_address"),
-            "contact_no" : restaurant.get("formatted_phone_number"),
+            "address": restaurant.get("formatted_address", "Address unavailable"),
+            "contact_no" : restaurant.get("formatted_phone_number", "Contact Number unavailable"),
             "img" : restaurant.get("photos")[0].get("photo_reference") if restaurant.get("photos", None) else None,
             "cuisine" : [],
             "avg_rating" : restaurant.get("rating"),
@@ -137,20 +136,20 @@ def searchYummoRestaurants(request, location):
     price = request.data.get("price")
     keyword = request.data.get("keyword")
     radius = request.data.get("radius",1500) #in metres, DEFAULT set to 1500
-    rankby = request.data.get("rankby")
+    rankby = request.data.get("sort_by")
     
     if price:
         restaurants = restaurants.filter(price__lte=price)
-        print("\n\nAfter Price filter",restaurants, "\n\n")
+        print("\nAfter Price filter",restaurants, "\n")
 
     if keyword:
         restaurants = restaurants.filter(cuisine__name__icontains=keyword)
-        print("\n\nAfter Cuisine filter",restaurants, "\n\n")
+        print("\nAfter Cuisine filter",restaurants, "\n")
         
     distanceMatrix = getDistanceMatrix(restaurants=restaurants, location=location)
         
     #order the distance by
-    if rankby == 'distance': # two possible values: distance or prominence (default)
+    if rankby == 'DISTANCE':
         radius = None # rankby cannot be used in conjunction with radius
         # Default cutoff distance is 1500m.
         restaurants = filterWithinRadius(restaurants=restaurants, distanceMatrix=distanceMatrix, radius=1500)
@@ -186,7 +185,7 @@ def getDistanceMatrix(restaurants, location):
     url = f"https://maps.googleapis.com/maps/api/distancematrix/{FORMAT}?origins={origin}&destinations={destinations}&mode=walking&key={GOOGLE_API_KEY}"
 
     distance_matrix = requests.get(url)
-    print("\n\n", distance_matrix.json(), "\n\n")
+    print("\n", distance_matrix.json(), "\n")
     return distance_matrix.json()
 
 
@@ -207,6 +206,7 @@ def filterWithinRadius(restaurants, distanceMatrix, radius):
 
 
 def sortByRating(yummo_restaurants, rating):
+    
     if rating == "ASC":
         reverse = False
     elif rating == "DESC":
