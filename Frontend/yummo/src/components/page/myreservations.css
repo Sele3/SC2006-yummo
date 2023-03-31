@@ -54,9 +54,14 @@ body {
     align-items: center;
 }
 
+.card2-header {
+    font-size: xx-large;
+    font-weight: bold;
+}
+
 .birdie-pic {
-    width: 55%;
-    object-fit: cover;
-    margin-left: 10rem;
-    margin-top: 3rem;
+    width: 15%;
+    position: fixed; 
+    bottom: 0px; 
+    right: 0px;
 }

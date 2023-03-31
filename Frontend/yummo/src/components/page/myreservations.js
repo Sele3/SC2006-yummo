@@ -98,7 +98,7 @@ export default function MyReservations() {
 
     const header = (
         <div className="flex flex-wrap align-items-center justify-content-between gap-2">
-            <span className="text-xl text-900 font-bold">Reservations</span>
+            <span className="text-xl text-900 font-bold">My Reservations</span>
             <Button icon="pi pi-refresh" rounded raised />
         </div>
     );
@@ -109,7 +109,7 @@ export default function MyReservations() {
         <NavBar />
         <div className="card-container">
             <div className="card">
-                <DataTable value={reservation} header={header} footer={footer} stripedRows  paginator rows={3} rowsPerPageOptions={[3, 6, 9, 12]} tableStyle={{ minWidth: "60rem"}}>
+                <DataTable value={reservation} header={header} footer={footer} stripedRows  paginator rows={4} rowsPerPageOptions={[3, 6, 9, 12]} tableStyle={{ minWidth: "60rem"}}>
                     <Column field="restaurant.name" header="Name"></Column>
                     <Column header="Image" body={imageBodyTemplate}></Column>
                     <Column field="pax" header="Pax"></Column>
@@ -121,7 +121,8 @@ export default function MyReservations() {
             <div className="trivia-container">
                 <div className="card2">
                     <div className="card2-header">
-                        <h1>Did you know?</h1>
+                        <span>Did you </span>
+                        <span style={{color: "#ffd600"}}>know</span>
                     </div>
                     <div className="card2-body">
                         <h2>{trivia[0].question}</h2>
