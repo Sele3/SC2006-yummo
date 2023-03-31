@@ -9,7 +9,12 @@ import MerchantOverview from "./page/merchantpageoverview"
 import Login from './page/Login'
 import { Routes, Route } from "react-router-dom";
 import Customer_Acc_Setting from "./page/Customer_Acc_Sett.js";
+//import MerchantAddRestaurant from "./page/merchantAddRestaurant.js";
+import MerchantPageAccount from "./page/merchantpageaccount.js";
+import MerchantLogin from "./page/merchantLogin.js";
+import MerchantRegister from "./page/merchantRegister.js";
 import Customer_Signup from "./page/customersignup.js";
+
 function Routing() {
     return (
         <Routes>
@@ -22,8 +27,14 @@ function Routing() {
         <Route path="/yummoconfirmation" element={<YummoConfirmation />} />
         <Route path="/customeraccountsetting" element={<Customer_Acc_Setting/>} />
         <Route path="/merchantoverview" element={<MerchantOverview />} />
+        
+        <Route path="/merchantPageAccount" element={<MerchantPageAccount />} />
+        <Route path="/merchantLogin" element={<MerchantLogin />} />
+        <Route path="/merchantRegister" element={<MerchantRegister />} />
         <Route path="/signup" element={<Customer_Signup />} />
         </Routes>
     );
 }
 export default Routing;
+
+//<Route path="/merchantaddRestaurant" element={<MerchantAddRestaurant />} />
