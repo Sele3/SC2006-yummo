@@ -81,11 +81,13 @@ body {
   .nav-item-main:hover:after {
     width: 100%;
     background: #ffdd40;
+    background-color: #ffdd40;
   }
   
   .nav-item-main .active {
     color: black;
     font-weight: bold;
+    
   }
   
   .nav-icon {
