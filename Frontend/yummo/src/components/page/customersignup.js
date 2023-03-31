@@ -21,7 +21,7 @@ function Customer_Signup() {
         "username": username,
         "password": password,
         "email": email,
-        "group_name": "Customers"     
+        "group_name": "Customers"      
    }
 
   const handleSubmit = async (event) => {
