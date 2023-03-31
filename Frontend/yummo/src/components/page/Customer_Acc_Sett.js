@@ -205,8 +205,7 @@ function Customer_Acc_Setting() {
                     name="first_name"
                     value={first_name}
                     placeholder="First Name"
-                    onChange={handleFirstNameChange}
-                    >
+                    onChange={handleFirstNameChange}>
                 </input>
                 <br></br>
             </label>
