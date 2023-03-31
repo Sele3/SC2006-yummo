@@ -1,0 +1,138 @@
+.register-items {
+  background-color: #00aeb2;
+  /* height: 100vh; */
+}
+
+.bar {
+  background-color: #ffffff;
+  height: 80px;
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  font-size: 1.2rem;
+}
+
+.side-by-side {
+  display: flex;
+  flex-direction: row;
+  padding: 0.5rem;
+}
+
+.display-img {
+  padding: 1rem;
+  width: 50%;
+  /* height: 940px; */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* margin: 0; */
+  margin-top: 3rem;
+  padding-left: 5rem;
+}
+
+.register-infos {
+  /* height: 940px; */
+  /* width: 70%; */
+  align-items: center;
+  justify-content: center;
+  margin-top: 3rem;
+  /* font-family: Nunito, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif; */
+  margin-right: 2rem;
+  display: flex;
+}
+.register-form {
+  border-radius: 8rem;
+  background-color: #f6f6e5;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  /* width: 80%;
+  height: 90%; */
+  width: 90%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 3rem;
+  align-items: flex-start;
+  margin-right: 1rem;
+}
+
+.register-form input {
+  /* width: 50%;
+  max-width: 20rem;  */
+  width: 100%;
+  height: calc(100% - 1rem); /* subtracting the padding */
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  align-items: flex-start;
+  display: block;
+}
+
+.register-form .submit-button {
+  width: 70%;
+  height: 20%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  background-color: #ffd600;
+  font-weight: bold;
+  margin-left: 6rem;
+  color: rgb(84, 84, 84);
+  font-size: 20px;
+}
+
+.register-form .name-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.register-form .name-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.register-form .pass-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.register-form .others-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.register-form .email-item-only {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 98%;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  margin-left: 1rem;
+}
+
+.email-input {
+  width: 100%;
+  margin-bottom: 1rem;
+}

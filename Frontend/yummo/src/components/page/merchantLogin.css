@@ -1,0 +1,112 @@
+.mlog-auth-form-container {
+  background-color: #ffffff;
+  /* height: 100%; */
+}
+
+.left-right {
+  display: flex;
+  flex-direction: row;
+}
+
+.mlogin-detail {
+  margin: 1rem;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  /* width: 100px; */
+  width: 40%;
+  /* height: 940px; */
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.mlogin-detail h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.mlogin-detail p {
+  margin-bottom: 2rem;
+}
+
+.mlogin-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.mlogin-form label {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.mlogin-form input {
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+/* .login-button {
+  padding: 0.5rem 1rem;
+  background-color: #1e90ff;
+  color: #fff;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+} */
+
+.link-button {
+  background-color: rgb(166, 225, 215);
+  padding: 30px;
+  border-radius: 10px;
+  border: none;
+  color: 1px solid #ccc;
+  cursor: pointer;
+  width: 40%;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.mlogin-button {
+  border: none;
+  background-color: rgb(0, 174, 178);
+  padding: 10px;
+  border-radius: 10px; /*rounded corner*/
+  cursor: pointer;
+  /* width: 100%; */
+  margin-bottom: 10px;
+  color: #ffffff;
+  justify-content: center;
+  align-content: center;
+}
+
+.reg-inst {
+  margin: 1rem;
+  padding: 2rem;
+  background-color: #00aeb2;
+  border-radius: 0.5rem;
+  /* width: 100px; */
+  width: 60%;
+  /* height: 940px; */
+  height: 50rem;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.reg-inst p2 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: white;
+}
