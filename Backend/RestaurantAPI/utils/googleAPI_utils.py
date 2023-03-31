@@ -118,6 +118,8 @@ def formatGoogleRestaurant(googleRestaurants_jsonlist):
             "merchant_name" : None,
             "location" : restaurant.get("geometry").get("location")
         }
+        
+    print("\nGoogle Restaurants:\n", googleRestaurants_jsonlist)
     return googleRestaurants_jsonlist
         
 
@@ -189,6 +191,9 @@ def getDistanceMatrix(restaurants, location):
 
 
 def filterWithinRadius(restaurants, distanceMatrix, radius):
+    # Empty queryset
+    if not restaurants.exists():
+        return restaurants
     
     distance_list = distanceMatrix.get('rows')[0].get('elements')
     for idx, restaurant in enumerate(restaurants.all()):

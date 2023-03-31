@@ -75,7 +75,7 @@ function Login()
 
                         <br></br>
 
-                        <div className="buttons">
+                        <div className="m-buttons">
                             <button className="login-button" onClick={handleSubmit}>Login</button>
                             <a href="/merchantlogin" >Merchant Login</a>
                         </div>
