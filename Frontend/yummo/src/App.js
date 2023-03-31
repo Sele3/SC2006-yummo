@@ -1,5 +1,5 @@
 import './App.css';
-import Routing from './components/page/merchantreviewpage';
+import Routing from './components/Routing';
 
 function App() {
   return (

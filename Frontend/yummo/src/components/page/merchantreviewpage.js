@@ -5,7 +5,7 @@ import ReviewBox from "./reviewbox";
 import axios from "axios";
 
 
-function App() {
+function MerchantReview() {
 //   const [sidebarVisible, setSidebarVisible] = useState(false);
 
 //   const toggleSidebar = () => {
@@ -27,7 +27,7 @@ function App() {
   const [merchant, setMerchant] = useState('');
   const [merchant_name, setMerchantName] = useState('');
   const [location, setLocation] = useState('');
-
+  
 
 
   const restaurants_url = 'http://localhost:8000/api/restaurants';
@@ -53,15 +53,24 @@ function App() {
       setMerchant(response.data.merchant);
       setMerchantName(response.data.merchant_name);
       setLocation(response.data.location);
-
-
       console.log(response.data);
+      console.log(`Total number of restaurants: ${response.data}`);
     })
 
     .catch (error => {
       console.log(error);
+      console.log("cannot");
+
     })
   }, []);
+
+  // const handleViewReviewsClick = async () => {
+  //   axios.get('http://localhost:8000/api/restaurants/{resID}/reviews');
+  //   then( response =>{
+  //       const reviews = response.data;
+  //   })
+  // };
+
 
   const restaurants = {
       "resID": resID,
@@ -126,16 +135,53 @@ function App() {
         <h1>Your Restaurant Reviews</h1>
         <div className="reviews-container">
             <h3>Select the restaurant:</h3>
-            <div className="reviews-link-container">
+            <GetReviews resID = {restaurants.resID} />
+            <div className="looping">
+              {restaurants.map((resID) => (
+                <div className="review-box">
+                  <button>${resID}</button>
+                </div>
+              ))}
+            </div>
+            {/* <div className"reviews-link-container">
                 {restaurants.map(restaurant => (
                     <ReviewBox key={resID} restaurant={restaurant} />
                 ))} 
                 
-            </div>
+            </div> */}
         </div>
+
       </div>
     </div>
   );
 }
 
-export default App;
+
+function GetReviews(props){
+  // const [restaurants, setRestaurants] = useState({restaurants});
+  const [reviews, setReviews] = useState({});
+  async function getreviews(){
+      axios.get("http://127.0.0.1:8000/api/restaurants/{props.resId}/reviews")
+          .then((response) => {
+               setReviews(response['data'])
+          })
+      .catch((err) => console.log(err));
+      console.log(reviews);
+  }
+  return(
+      <div className="centre">
+          <h1>My restaurant Reviews</h1>
+          <input type="submit" className='button' value="See Reviews" onClick={getreviews}/>
+          {Object.keys(reviews).map((key) => (
+              <div className = "sidebar-item" key={key}>
+                  <p>Customer Name: {reviews[key].customer_name}</p>
+                  <p>Rating: {reviews[key].rating}</p>
+                  <p>Comments: {reviews[key].description}</p>
+              </div>
+      ))}   
+      </div>
+  )
+}
+
+
+export default MerchantReview;
