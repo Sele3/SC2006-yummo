@@ -17,8 +17,6 @@ class CuisineSerializer(serializers.ModelSerializer):
         }
 
 
-
-
 class ReviewSerializer(serializers.ModelSerializer):
     restaurant_name = serializers.StringRelatedField(source='restaurant')
     customer_name = serializers.StringRelatedField(source='customer')
@@ -130,6 +128,7 @@ class RestaurantPOSTFormSerializer(serializers.Serializer):
     cuisines = serializers.ListField(child=serializers.CharField())
     price = serializers.IntegerField(min_value=1, max_value=5)
     
+    
 class RestaurantPUTFormSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=50, required=False)
     address = serializers.CharField(max_length=100, required=False)
@@ -139,16 +138,13 @@ class RestaurantPUTFormSerializer(serializers.Serializer):
     price = serializers.IntegerField(min_value=1, max_value=5, required=False)
     
     
-    
-    
 
 class SearchRestaurantSerializer(serializers.Serializer):
-    address = serializers.CharField(max_length=200, default='NTU', help_text="A valid address that returns a location in Google Maps")
+    address = serializers.CharField(max_length=200, required=True, help_text="A valid address that returns a location in Google Maps")
     radius = serializers.IntegerField(min_value=0, max_value=50000, default=1500, help_text="Optional. min=0, max=50000, default=1500")
-    keyword = serializers.CharField(max_length=200, default='Asian', allow_blank=True, help_text="Optional")
-    rankby = serializers.CharField(max_length=50, allow_blank=True, help_text="Optional. Two possible strings: distance or prominence(default)")
-    price = serializers.IntegerField(min_value=1, default=3, max_value=5, required=False)
-    rating = serializers.CharField(max_length=10, default='DESC', required=False, help_text="Optional. Accepts 'ASC' or 'DESC' only.")
+    keyword = serializers.CharField(max_length=200, default='Asian', allow_blank=True, help_text="Optional. Enter name of cuisine")
+    price = serializers.IntegerField(min_value=1, default=3, max_value=5, required=False, help_text="Optional. Price level.")
+    sort_by = serializers.CharField(max_length=10, default='YUMMO', allow_blank=True, required=False, help_text="Optional. Accepts 'YUMMO', 'DISTANCE' or 'RATING' only.")
     
 
 class RestaurantRecommendationsSerializer(serializers.Serializer):
