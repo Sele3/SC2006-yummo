@@ -1,4 +1,3 @@
-import Test from "./page/test.js";
 import LetsYummoLocation from "./page/_41letsyummolocation.js";
 import AboutPage from "./page/aboutpage.js";
 import LetsYummoCraving from "./page/letsyummocraving.js";
@@ -14,6 +13,7 @@ import MerchantPageAccount from "./page/merchantpageaccount.js";
 import MerchantLogin from "./page/merchantLogin.js";
 import MerchantRegister from "./page/merchantRegister.js";
 import Customer_Signup from "./page/customersignup.js";
+import MyReservations from "./page/myreservations.js";
 import NavBar from "./Navbar.js";
 import { Outlet } from "react-router-dom";
 
@@ -59,9 +59,9 @@ function Routing() {
       <Route path="/merchantLogin" element={<MerchantLogin />} />
       <Route path="/merchantRegister" element={<MerchantRegister />} />
       <Route path="/signup" element={<Customer_Signup />} />
+      <Route path="/myreservations" element={<MyReservations />} />
+      {/* <Route path="/merchantaddRestaurant" element={<MerchantAddRestaurant />} /> */}
     </Routes>
   );
 }
 export default Routing;
-
-//<Route path="/merchantaddRestaurant" element={<MerchantAddRestaurant />} />
