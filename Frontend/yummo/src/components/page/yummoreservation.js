@@ -8,8 +8,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import DatePicker from "react-datepicker";
-import axios from 'axios';
-import NavBar from "../navbar.js";
+import axios from "axios";
 import MapContainer from "../map.js";
 import "./yummoreservation.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -245,8 +244,6 @@ export default function Yummoreservation(props) {
     }
 
     return (
-        <>
-        <NavBar />
         <div className="final-container">
             <div className="map-container">
                     <div className="map-api2">
@@ -301,6 +298,5 @@ export default function Yummoreservation(props) {
                 </TransitionGroup>
             </div>
         </div>
-        </>
     );
 }; 
