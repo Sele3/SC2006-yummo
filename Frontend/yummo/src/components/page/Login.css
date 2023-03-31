@@ -37,7 +37,7 @@
       
   }
 
-  .buttons a:link, a:visited{
+  .m-buttons a:link, a:visited{
     background-color: rgb(62, 234, 168);
     
     border: 1px;
@@ -52,7 +52,7 @@
     font-weight: 400px;
   }
 
-  .buttons a:hover, a:active {
+  .m-buttons a:hover, a:active {
     background-color: #13aa82;
   }
 
