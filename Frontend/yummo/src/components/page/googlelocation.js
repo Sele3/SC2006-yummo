@@ -18,9 +18,9 @@ function loadScript(src, position, id) {
     return;
   }
 
-  const script = document.createElement("script");
-  script.setAttribute("async", "");
-  script.setAttribute("id", id);
+  const script = document.createElement('script');
+  script.setAttribute('async', '');
+  script.setAttribute('id', id);
   script.src = src;
   position.appendChild(script);
 }
@@ -29,16 +29,17 @@ const autocompleteService = { current: null };
 
 export default function GoogleMaps(props) {
   const [value, setValue] = React.useState("");
-  const [inputValue, setInputValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState([]);
   const loaded = React.useRef(false);
 
-  if (typeof window !== "undefined" && !loaded.current) {
-    if (!document.querySelector("#google-maps")) {
+
+  if (typeof window !== 'undefined' && !loaded.current) {
+    if (!document.querySelector('#google-maps')) {
       loadScript(
         `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`,
-        document.querySelector("head"),
-        "google-maps"
+        document.querySelector('head'),
+        'google-maps',
       );
     }
 
@@ -50,7 +51,7 @@ export default function GoogleMaps(props) {
       debounce((request, callback) => {
         autocompleteService.current.getPlacePredictions(request, callback);
       }, 400),
-    []
+    [],
   );
 
   React.useEffect(() => {
@@ -64,7 +65,7 @@ export default function GoogleMaps(props) {
       return undefined;
     }
 
-    if (inputValue === "") {
+    if (inputValue === '') {
       setOptions(value ? [value] : []);
       return undefined;
     }
