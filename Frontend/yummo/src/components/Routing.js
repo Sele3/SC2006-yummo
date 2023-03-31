@@ -1,4 +1,4 @@
-import Test from "./page/test.js";
+
 import LetsYummoLocation from "./page/_41letsyummolocation.js"
 import AboutPage from "./page/aboutpage.js"
 import LetsYummoCraving from "./page/letsyummocraving.js"
