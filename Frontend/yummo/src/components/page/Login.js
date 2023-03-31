@@ -15,7 +15,7 @@ function Login()
     const [PasswordInputType, ToggleIcon] = usePasswordToggle();
 
     const state = {
-                    "email":'',
+                    "username":'',
                     "password": ''
     };
     //console.log(state);
@@ -25,8 +25,7 @@ function Login()
 
     const DataSending = {
         "password": password,
-        "username": username,
-        "group_name": "Customers"
+        "username": username
     }
     
 
@@ -39,7 +38,7 @@ function Login()
             // localStorage.setItem('authToken', response.data.token);
             // Redirect to the dashboard page
             console.log(response.data);
-            navigate('/yummosuggestions');
+            navigate('/letsyummolocation');
           })
           .catch(error => {
             console.error(error);
@@ -59,7 +58,7 @@ function Login()
 
                         <div className="txt-field">
                             <label>
-                                UserName:<br></br>
+                                Username:<br></br>
                                 <input 
                                 type="text" 
                                 onChange={(e)=>{setUsername(e.target.value)}}
@@ -73,7 +72,7 @@ function Login()
                             <label>
                                 Password:<br></br>
                                 <input 
-                                type="text" 
+                                type="password" 
                                 onChange={(e)=>{setPassword(e.target.value)}} 
                                 placeholder="Password" />
                             </label>
