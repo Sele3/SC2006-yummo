@@ -7,11 +7,11 @@ import './Login.css';
 function Login()
 {
     //This part is getting executed continuously onChange i.e. for every change in the boxes typed, lines before the submit will get executed
-    const [email, setEmail] = useState('')
+    const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     //const [username, setUsername] = useState('')
     const state = {
-                    "email":'',
+                    "username":'',
                     "password": ''
     };
     //console.log(state);
@@ -21,7 +21,7 @@ function Login()
 
     const DataSending = {
         "password": password,
-        "email": email
+        "username": username
     }
     
 
@@ -34,7 +34,7 @@ function Login()
             // localStorage.setItem('authToken', response.data.token);
             // Redirect to the dashboard page
             console.log(response.data);
-            navigate('/feed');
+            navigate('/letsyummolocation');
           })
           .catch(error => {
             console.error(error);
@@ -53,12 +53,12 @@ function Login()
 
                         <div className="txt-field">
                             <label>
-                                Email:<br></br>
+                                Username:<br></br>
                                 <input 
                                 type="text" 
-                                onChange={(e)=>{setEmail(e.target.value)}}
-                                value={email} 
-                                placeholder="Email" />
+                                onChange={(e)=>{setUsername(e.target.value)}}
+                                value={username} 
+                                placeholder="Username" />
                                 <br></br>
                             </label>
                         </div>
@@ -67,7 +67,7 @@ function Login()
                             <label>
                                 Password:<br></br>
                                 <input 
-                                type="text" 
+                                type="password" 
                                 onChange={(e)=>{setPassword(e.target.value)}} 
                                 placeholder="Password" />
                             </label>
