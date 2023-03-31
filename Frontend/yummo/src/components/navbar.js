@@ -13,7 +13,7 @@ function NavBar() {
         <img src="/yummo_logo.png" alt="Yummo logo" width="8%" style={{ paddingLeft: "3rem"}}/>
         <div className="nav-container">
         <ul className={click ? "nav-menu active" : "nav-menu"}>
-            <li className="nav-item">
+            <li className="nav-item-main">
               <NavLink
                 exact
                 to="/letsyummolocation"
@@ -24,7 +24,7 @@ function NavBar() {
                 FoodRecco
               </NavLink>
             </li>
-            <li className="nav-item">
+            <li className="nav-item-main">
               <NavLink
                 exact
                 to="/about"
@@ -35,7 +35,7 @@ function NavBar() {
                 Feed
               </NavLink>
             </li>
-            <li className="nav-item">
+            <li className="nav-item-main">
               <NavLink
                 exact
                 to="/blog"
@@ -46,7 +46,7 @@ function NavBar() {
                 Friends
               </NavLink>
             </li>
-            <li className="nav-item">
+            <li className="nav-item-main">
               <NavLink
                 exact
                 to="/myreservations"
