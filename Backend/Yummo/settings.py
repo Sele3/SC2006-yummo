@@ -160,8 +160,11 @@ REST_FRAMEWORK = {
 # Configuration for Djoser
 DJOSER = {
     'USER_ID_FIELD' : 'username',
-    'LOGIN_FIELD' : 'email',
+    'LOGIN_FIELD' : 'username',
     #'SEND_ACTIVATION_EMAIL' : True,
+    'SERIALIZERS' : {
+        'user_create' : 'Yummo.djoser_serializers.CustomUserCreateSerializer',
+    }
     
 }
 
