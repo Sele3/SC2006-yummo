@@ -1,69 +1,82 @@
-import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import "./navbar.css";
+import LogoDefault from "./LogoDefault";
+import LogoMerchant from "./LogoMerchant";
+import styles from "./Navbar.module.css";
 
-function NavBar() {
-  const [click, setClick] = useState(false);
-  const handleClick = () => setClick(!click);
-  
+const COLOR_DEFAULT = "#ffdd40";
+const COLOR_MERCHANT = "#00aeb2";
+
+const ROUTES = {
+  customer: [
+    {
+      name: "FoodRecco",
+      path: "/letsyummolocation",
+    },
+    {
+      name: "Feed",
+      path: "/about",
+    },
+    {
+      name: "Friends",
+      path: "/blog",
+    },
+    {
+      name: "My Reservations",
+      path: "/contact",
+    },
+  ],
+  merchant: [
+    {
+      name: "Overview",
+      path: "/merchant",
+    },
+    {
+      name: "Reservations",
+      path: "/merchant/reservations",
+    },
+    {
+      name: "Reviews",
+      path: "/merchant/reviews",
+    },
+    {
+      name: "Account",
+      path: "/merchant/account",
+    },
+  ],
+};
+
+function NavBar({ isMerchant = false }) {
+  const color = isMerchant ? COLOR_MERCHANT : COLOR_DEFAULT;
+  const Logo = isMerchant ? LogoMerchant : LogoDefault;
+  const navRoutes = isMerchant ? ROUTES.merchant : ROUTES.customer;
 
   return (
-    <>
-      <nav className="navbar">
-        <img src="/yummo_logo.png" alt="Yummo logo" width="8%" style={{ paddingLeft: "3rem"}}/>
-        <div className="nav-container">
-        <ul className={click ? "nav-menu active" : "nav-menu"}>
-            <li className="nav-item">
-              <NavLink
-                exact
-                to="/letsyummolocation"
-                activeClassName="active"
-                className="nav-links"
-                onClick={handleClick}
-              >
-                FoodRecco
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                exact
-                to="/about"
-                activeClassName="active"
-                className="nav-links"
-                onClick={handleClick}
-              >
-                Feed
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                exact
-                to="/blog"
-                activeClassName="active"
-                className="nav-links"
-                onClick={handleClick}
-              >
-                Friends
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                exact
-                to="/contact"
-                activeClassName="active"
-                className="nav-links"
-                onClick={handleClick}
-              >
-                My Reservations
-              </NavLink>
-            </li>
-          </ul>
-          <div className="nav-icon" onClick={handleClick}>
-            <i className={click ? "fas fa-times" : "fas fa-bars"}></i>
-          </div>
-        </div>
-      </nav>
-    </>
+    <nav
+      className={styles.navbar}
+      style={{
+        "--color": color,
+      }}
+    >
+      <NavLink to={isMerchant ? "/merchant" : "/"} className={styles.logo}>
+        <Logo />
+      </NavLink>
+
+      <ul className={styles.container}>
+        {navRoutes.map(({ name, path }) => (
+          <li key={name}>
+            <NavLink
+              to={path}
+              end
+              className={({ isActive }) =>
+                isActive ? styles.active : styles.item
+              }
+            >
+              {name}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }
 
