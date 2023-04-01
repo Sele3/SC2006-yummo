@@ -35,9 +35,9 @@ function Login()
         axios.post(url, DataSending)
           .then(response => {
             // Save authentication token to local storage or cookies
-            localStorage.setItem('authToken', response.data.auth_token);
+            localStorage.setItem('authToken', response.data.token);
             // Redirect to the dashboard page
-            console.log(response.data.auth_token);
+            console.log(response.data.token);
             navigate('/letsyummolocation');
           })
           .catch(error => {
@@ -53,7 +53,7 @@ function Login()
             <div className="login">
                 <img src="/yummo_logo.png" alt="Yummo logo" width="22%" style={{ paddingLeft: "4rem" , paddingTop: "2rem"}}/>
                 <div className="login-form">
-                    <form   action="POST">
+                    <form onSubmit={handleSubmit}>
                         <h1>Login</h1>
 
                         <div className="txt-field">
@@ -102,7 +102,7 @@ function Login()
                         <br></br>
 
                         <div className="m-buttons">
-                            <button className="login-button" onClick={handleSubmit}>Login</button>
+                            <button className="login-button">Login</button>
                             <a href="/merchantlogin" >Merchant Login</a>
                         </div>
 
