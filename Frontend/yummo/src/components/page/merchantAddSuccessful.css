@@ -1,0 +1,65 @@
+.move-too-centre {
+  text-align: center;
+  display: flex;
+  flex-direction: row; /* use flex-direction instead of display */
+  margin-left: 17rem;
+  margin-top: 20px;
+}
+
+.logo img {
+  display: 100%;
+}
+
+/* .logo {
+  flex: 1;
+  text-align: center;
+} */
+
+.success-words {
+  flex: 1;
+  margin-top: 100px;
+  margin-left: 7rem;
+}
+
+.success-words {
+  font-weight: bold;
+  font-size: 20pt;
+  color: black;
+}
+
+.success-words p:first-child {
+  color: #ffc700;
+  font-size: 30pt !important;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 1.9rem;
+  margin-left: 5rem;
+  margin-top: 4rem;
+}
+
+.back-button,
+.front-button {
+  background-color: #00aeb2;
+  border: none;
+  color: white;
+  padding: 20px 40px;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 11pt;
+}
+
+.back-button:hover,
+.front-button:hover {
+  background-color: #ffad00;
+}
+
+.back-button:focus,
+.front-button:focus {
+  outline: none;
+}
