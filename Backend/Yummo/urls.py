@@ -21,6 +21,7 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg.generators import OpenAPISchemaGenerator
 from drf_yasg import openapi
+from .views import CustomAuthToken
 
 
 # Exclude djoser endpoints from schema
@@ -53,6 +54,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     re_path(r'^$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('auth/token/login/', CustomAuthToken.as_view()),
     path('admin/', admin.site.urls),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
