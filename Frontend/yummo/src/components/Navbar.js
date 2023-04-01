@@ -91,7 +91,7 @@ function NavBar({ isMerchant = false }) {
               fontSize: "1rem",
               padding: "12px 24px",
               backgroundColor: "#000000",
-              color: "#FFD600",
+              color: color,
               borderRadius: "2rem",
               fontFamily: "Roboto",
               fontWeight: "bold",
