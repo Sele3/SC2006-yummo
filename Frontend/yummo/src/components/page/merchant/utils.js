@@ -3,5 +3,5 @@ export function shortenAddress(address) {
 }
   
 export function assetUrl(path) {
-    return `${process.env.REACT_APP_BACKEND_URL}/${path}`;
+    return `${process.env.REACT_APP_BACKEND_URL}${path}`;
 }

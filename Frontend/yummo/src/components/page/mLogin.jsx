@@ -20,7 +20,7 @@ export const Login = (props) => {
         group_name: "Merchants",
       })
       .then((response) => {
-        const authToken = response.data["auth_token"];
+        const authToken = response.data["token"];
         console.log(response.data);
         console.log(authToken);
         // Set username and password in session storage
