@@ -32,7 +32,7 @@ function Customer_Signup() {
       const response = await axios.post(url, user);
       console.log(response.data);
       alert("Account created successfully!"); // Log the updated user data
-      navigate('/yummosuggestions');
+      navigate('/');
     } 
     catch (error) {
       console.error(error);
