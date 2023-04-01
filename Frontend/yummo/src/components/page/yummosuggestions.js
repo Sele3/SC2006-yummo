@@ -186,7 +186,7 @@ export default function Yummosuggestions(props) {
             resID2 ? setImg2("http://localhost:8000"+result[1].img) : setImg2("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="+result[1].img+"&key="+GOOGLEMAP_API_KEY);
             resID3 ? setImg3("http://localhost:8000"+result[2].img) : setImg3("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference="+result[2].img+"&key="+GOOGLEMAP_API_KEY);
         }
-    }, [result]);
+    }, [result, resID1, resID2, resID3]);
     console.log(img1)
 
 
