@@ -17,7 +17,7 @@ export default function MyReservations() {
     const [trivia, setTrivia] = useState('Yummo is a restaurant reservation app that allows you to search for restaurants near you and make reservations.');
 
     const url = 'http://127.0.0.1:8000/api/restaurants/reservations';
-    const token = process.env.REACT_APP_BACKEND_API_KEY;
+    const token = localStorage.getItem('authToken');
     useEffect(() => {
         axios.get(url, {
             headers: {
