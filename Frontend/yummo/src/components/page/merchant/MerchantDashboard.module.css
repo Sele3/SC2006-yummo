@@ -1,0 +1,12 @@
+.restaurantSelectOverlay {
+    position: relative;
+
+}
+
+.restaurantSelectOverlay svg {
+    position: absolute;
+    top: 1.25rem;
+    left: 3rem;
+    width: 200px;
+    height: 40px;
+}
