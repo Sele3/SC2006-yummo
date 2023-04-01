@@ -5,7 +5,7 @@ import { Button } from 'primereact/button';
 import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
 import axios from 'axios';
-import NavBar from '../navbar';
+import NavBar from '../Navbar';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';   // theme
 import 'primereact/resources/primereact.css';                       // core css
 import 'primeicons/primeicons.css';                                 // icons
@@ -17,7 +17,7 @@ export default function MyReservations() {
     const [trivia, setTrivia] = useState('Yummo is a restaurant reservation app that allows you to search for restaurants near you and make reservations.');
 
     const url = 'http://127.0.0.1:8000/api/restaurants/reservations';
-    const token = process.env.REACT_APP_BACKEND_API_KEY;
+    const token = localStorage.getItem('authToken');
     useEffect(() => {
         axios.get(url, {
             headers: {
