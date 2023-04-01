@@ -51,22 +51,6 @@ class SingleCustomerYummoGroups(AuthenticatedCustomerViewClass):
         groups = request.user.yummogroups.all()
         serialized_groups = YummoGroupSerializer(groups, many=True)
         return Response(serialized_groups.data, status=status.HTTP_200_OK)
-    
-    @swagger_auto_schema(
-        operation_description="Search for group based on the `group_name`",
-        tags=['groups'], 
-        request_body=openapi.Schema(
-            type=openapi.TYPE_OBJECT, 
-            properties={'group_name': openapi.Schema(type=openapi.TYPE_STRING)}),
-            responses={200: YummoGroupSerializer(many=True), 403: "Forbidden"})
-    def post(self, request):
-        group_name = request.data.get('group_name', '')
-        if not group_name:
-            return Response({'message': 'Please provide a group name'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        groups = YummoGroup.objects.filter(name=group_name)
-        serialized_groups = YummoGroupSerializer(groups, many=True)
-        return Response(serialized_groups.data, status=status.HTTP_200_OK)
         
 
 class SingleYummoGroupView(AuthenticatedCustomerViewClass):
@@ -136,4 +120,15 @@ class SingleYummoGroupView(AuthenticatedCustomerViewClass):
         group.customers.remove(customer)
         group.save()
         return Response({"message": "You have successfully left the group."}, status=status.HTTP_200_OK)
+
+
+class SearchYummoGroupByNameView(AuthenticatedCustomerViewClass):
+    @swagger_auto_schema(
+        operation_description="Search for a `YummoGroup` based on the `groupname`" + OPERATION_DESCRIPTION_CUSTOMER,
+        tags=['groups'], 
+        responses={200: YummoGroupSerializer(many=True)})
+    def get(self, request, groupname):
+        groups = YummoGroup.objects.filter(name__iexact=groupname)
+        serialized_groups = YummoGroupSerializer(groups, many=True)
+        return Response(serialized_groups.data, status=status.HTTP_200_OK)
     
