@@ -1,4 +1,4 @@
-from Yummo.utilityfunctions import AuthenticatedCustomerViewClass
+from Yummo.utilityfunctions import AuthenticatedCustomerViewClass, OPERATION_DESCRIPTION_CUSTOMER
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
@@ -10,7 +10,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 class YummoGroupsView(AuthenticatedCustomerViewClass):
     @swagger_auto_schema(
-        operation_description="Get list of all `YummoGroup` in database.",
+        operation_description="Get list of all `YummoGroup` in database." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['groups'], 
         responses={200: YummoGroupSerializer(many=True), 403: "Forbidden"})
     def get(self, request):
@@ -19,7 +19,7 @@ class YummoGroupsView(AuthenticatedCustomerViewClass):
         return Response(serialized_groups.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
-        operation_description="Create a new `YummoGroup`.",
+        operation_description="Create a new `YummoGroup`. The current user will be the owner of the group." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['groups'], 
         request_body=YummoGroupSerializer, responses={201: YummoGroupSerializer, 400: "Bad Request", 403: "Forbidden"})
     def post(self, request):
@@ -45,7 +45,7 @@ class YummoGroupsView(AuthenticatedCustomerViewClass):
 
 class SingleCustomerYummoGroups(AuthenticatedCustomerViewClass):
     @swagger_auto_schema(
-        operation_description="Get list of `YummoGroup` that current Customer has joined.",
+        operation_description="Get list of `YummoGroup` that current Customer has joined." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['groups'], responses={200: YummoGroupSerializer(many=True), 403: "Forbidden"})
     def get(self, request):
         groups = request.user.yummogroups.all()
@@ -55,7 +55,7 @@ class SingleCustomerYummoGroups(AuthenticatedCustomerViewClass):
 
 class SingleYummoGroupView(AuthenticatedCustomerViewClass):
     @swagger_auto_schema(
-        operation_description="Get full information of a `YummoGroup`.",
+        operation_description="Get full information of a `YummoGroup`." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['groups'], 
         responses={200: YummoGroupSerializer, 403: "Forbidden", 404: "Not Found"})
     def get(self, request, grpID):
@@ -64,7 +64,7 @@ class SingleYummoGroupView(AuthenticatedCustomerViewClass):
         return Response(serialized_group.data, status=status.HTTP_200_OK)
         
     @swagger_auto_schema(
-        operation_description="Join a `YummoGroup`.",
+        operation_description="Join a `YummoGroup` with grpID." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['groups'], 
         responses={201: "Created", 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def post(self, request, grpID):
@@ -79,7 +79,7 @@ class SingleYummoGroupView(AuthenticatedCustomerViewClass):
         return Response({"message": "You have successfully joined the group."}, status=status.HTTP_201_CREATED)
         
     @swagger_auto_schema(
-        operation_description="Change the owner of a `YummoGroup`.",
+        operation_description="Change the owner of a `YummoGroup`." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['groups'], 
         request_body=openapi.Schema(
             type=openapi.TYPE_OBJECT, 
@@ -104,7 +104,7 @@ class SingleYummoGroupView(AuthenticatedCustomerViewClass):
         return Response({"message": "The owner of the group has been changed."}, status=status.HTTP_200_OK)
     
     @swagger_auto_schema(
-        operation_description="Leave a `YummoGroup`. If the Customer leaving is the owner, the `YummoGroup` will be deleted as well.",
+        operation_description="Leave a `YummoGroup`. If the Customer leaving is the owner, the `YummoGroup` will be deleted as well." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['groups'], 
         responses={200: "OK", 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def delete(self, request, grpID):
