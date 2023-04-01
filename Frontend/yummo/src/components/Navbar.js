@@ -1,7 +1,8 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import LogoDefault from "./LogoDefault";
 import LogoMerchant from "./LogoMerchant";
 import styles from "./Navbar.module.css";
+import axios from "axios";
 
 const COLOR_DEFAULT = "#ffdd40";
 const COLOR_MERCHANT = "#00aeb2";
@@ -17,12 +18,8 @@ const ROUTES = {
       path: "/about",
     },
     {
-      name: "Friends",
-      path: "/blog",
-    },
-    {
       name: "My Reservations",
-      path: "/contact",
+      path: "/myreservations",
     },
   ],
   merchant: [
@@ -50,6 +47,16 @@ function NavBar({ isMerchant = false }) {
   const Logo = isMerchant ? LogoMerchant : LogoDefault;
   const navRoutes = isMerchant ? ROUTES.merchant : ROUTES.customer;
 
+  const handleLogoutClick = () => {
+    const url = "http://127.0.0.1:8000/auth/token/logout/";
+    const token = localStorage.getItem("authToken");
+    axios.post(url, {}, {
+        headers: {
+            Authorization: `Token ${token}`,
+            },
+    })
+  };
+
   return (
     <nav
       className={styles.navbar}
@@ -76,6 +83,30 @@ function NavBar({ isMerchant = false }) {
           </li>
         ))}
       </ul>
+      <Link to="/">
+            <button
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        position: 'relative',
+                        fontSize: '1rem',
+                        padding: '12px 24px',
+                        backgroundColor: '#000000',
+                        color: '#FFD600',
+                        borderRadius: '2rem',
+                        fontFamily: 'Roboto',
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.2rem',
+                        border: 'none',
+                        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+                        cursor: 'pointer',
+                        justifyContent: 'center',
+                        marginLeft: '2rem',
+                    }}
+                    onClick={handleLogoutClick}
+            >Logout</button>
+    </Link>
     </nav>
   );
 }
