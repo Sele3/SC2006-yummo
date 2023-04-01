@@ -40,3 +40,9 @@ class CustomUserCreateSerializer(UserCreateSerializer):
             self.fail("cannot_create_user")
 
         return user
+    
+
+class TokenRequestSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+    group_name = serializers.ChoiceField(choices=['Customers', 'Merchants'], help_text="`Customers` or `Merchants` only.")

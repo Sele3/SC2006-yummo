@@ -9,7 +9,7 @@ from djoser.signals import user_registered
 class BaseProfile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     contact_no = models.CharField(max_length=20, blank=True, null=True)
-    icon = models.ImageField(upload_to='images/', default=None, null=True, blank=True)
+    icon = models.ImageField(upload_to='images/', default='images/default-user-icon.jpg', null=True, blank=True)
 
     class Meta:
         abstract = True

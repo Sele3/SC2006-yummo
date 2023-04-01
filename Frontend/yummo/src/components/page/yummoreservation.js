@@ -24,7 +24,7 @@ const NumPax = (props) => {
           console.log('paxChild: ' + inputPax);
         }
     };
-
+ 
     return (
     <>
     <div className="input-box-container">
@@ -122,7 +122,7 @@ const TimeSelection = (props) => {
 
     // API Function Call to Submit Data to Backend
     const [response, setResponse] = useState();
-    const token = process.env.REACT_APP_BACKEND_API_KEY;
+    const token = localStorage.getItem('authToken');
     const url = "http://127.0.0.1:8000/api/restaurants/"+props.selectedresID+"/reservations";
     const apidata = 
     {

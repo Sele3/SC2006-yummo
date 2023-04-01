@@ -61,6 +61,7 @@ class Reservation(models.Model):
 
 class Review(models.Model):
     review_id = models.AutoField(primary_key=True)
+    reviewed_at = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField(
         choices=[(i, str(i)) for i in range(1, 6)],
         default=0)
