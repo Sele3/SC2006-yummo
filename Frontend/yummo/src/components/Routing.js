@@ -8,11 +8,12 @@ import MerchantOverview from "./page/merchantpageoverview";
 import Login from "./page/Login";
 import { Routes, Route } from "react-router-dom";
 import Customer_Acc_Setting from "./page/Customer_Acc_Sett.js";
-//import MerchantAddRestaurant from "./page/merchantAddRestaurant.js";
+import MerchantAddRestaurant from "./page/merchantAddRestaurant.js";
 import MerchantPageAccount from "./page/merchantpageaccount.js";
 import MerchantLogin from "./page/merchantLogin.js";
 import MerchantRegister from "./page/merchantRegister.js";
 import Customer_Signup from "./page/customersignup.js";
+import SuccessfullyAdded from "./page/merchantAddSuccessful.js";
 import MyReservations from "./page/myreservations.js";
 import NavBar from "./Navbar.js";
 import { Outlet } from "react-router-dom";
@@ -21,6 +22,16 @@ function Routing() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
+      <Route path="/letsyummolocation" element={<LetsYummoLocation />} />
+      <Route path="/letsyummocraving" element={<LetsYummoCraving />} />
+      <Route path="/yummosuggestions" element={<YummoSuggestions />} />
+      <Route path="/aboutpage" element={<AboutPage />} />
+      <Route path="/yummoreservation" element={<YummoReservation />} />
+      <Route path="/yummoconfirmation" element={<YummoConfirmation />} />
+      <Route
+        path="/customeraccountsetting"
+        element={<Customer_Acc_Setting />}
+      />
       <Route path="/signup" element={<Customer_Signup />} />
       <Route path="/letsyummolocation" element={<LetsYummoLocation />} />
       <Route path="/letsyummocraving" element={<LetsYummoCraving />} />
@@ -61,6 +72,11 @@ function Routing() {
       <Route path="/signup" element={<Customer_Signup />} />
       <Route path="/myreservations" element={<MyReservations />} />
       {/* <Route path="/merchantaddRestaurant" element={<MerchantAddRestaurant />} /> */}
+      <Route
+        path="/merchantaddRestaurant"
+        element={<MerchantAddRestaurant />}
+      />
+      <Route path="/successfullyAdded" element={<SuccessfullyAdded />} />
     </Routes>
   );
 }
