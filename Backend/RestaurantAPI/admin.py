@@ -12,7 +12,7 @@ class ReservationAdmin(admin.ModelAdmin):
     
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ['review_id', 'rating', 'description', 'restaurant', 'customer']
+    list_display = ['review_id', 'reviewed_at', 'rating', 'description', 'restaurant', 'customer']
 
 @admin.register(Cuisine)
 class CuisineAdmin(admin.ModelAdmin):
