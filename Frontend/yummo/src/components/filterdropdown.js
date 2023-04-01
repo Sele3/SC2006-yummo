@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import { makeStyles } from "@mui/styles";
 import { Slider, Typography, Select, MenuItem, Box } from '@mui/material';
 
