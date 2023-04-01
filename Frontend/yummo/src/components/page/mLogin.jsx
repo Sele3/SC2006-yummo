@@ -51,7 +51,7 @@ export const Login = (props) => {
             Sign in with your data that you entered during your registration.
           </p>
           <form className="mlogin-form" onSubmit={handleSubmit}>
-            <label htmlFor="username">username</label>
+            <label htmlFor="username">Username</label>
             <input
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -61,7 +61,7 @@ export const Login = (props) => {
               name="username"
               style={{ height: "40px", width: "300px" }}
             />
-            <label htmlFor="password">password</label>
+            <label htmlFor="password">Password</label>
             <input
               value={pass}
               onChange={(e) => setPass(e.target.value)}
