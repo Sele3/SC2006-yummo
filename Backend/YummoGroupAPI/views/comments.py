@@ -1,4 +1,4 @@
-from Yummo.utilityfunctions import AuthenticatedCustomerViewClass
+from Yummo.utilityfunctions import AuthenticatedCustomerViewClass, OPERATION_DESCRIPTION_CUSTOMER
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
@@ -19,7 +19,7 @@ class SingleCommentsView(AuthenticatedCustomerViewClass):
 
 
     @swagger_auto_schema(
-        operation_description="Get info of a `Comment` from the `Post` in the `YummoGroup`.",
+        operation_description="Get info of a `Comment` from the `Post` in the `YummoGroup`." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['comments'], 
         responses={200: CommentSerializer, 403: "Forbidden"})
     def get(self, request, grpID, postID, commID):
@@ -32,7 +32,7 @@ class SingleCommentsView(AuthenticatedCustomerViewClass):
         return Response(serialized_comment.data, status=status.HTTP_200_OK)
     
     @swagger_auto_schema(
-        operation_description="Update a `Comment` from the `Post` in the `YummoGroup`.",
+        operation_description="Update a `Comment` from the `Post` in the `YummoGroup`." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['comments'], 
         request_body=openapi.Schema(
             type=openapi.TYPE_OBJECT, 
@@ -52,7 +52,7 @@ class SingleCommentsView(AuthenticatedCustomerViewClass):
         return Response(serialized_comment.data, status=status.HTTP_201_CREATED)
         
     @swagger_auto_schema(
-        operation_description="Delete a `Comment` from the `Post` in the `YummoGroup`.",
+        operation_description="Delete a `Comment` from the `Post` in the `YummoGroup`." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['comments'], 
         responses={200: "OK", 400: "Bad Request", 403: "Forbidden"})
     def delete(self, request, grpID, postID, commID):

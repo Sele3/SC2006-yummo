@@ -1,4 +1,4 @@
-from Yummo.utilityfunctions import AuthenticatedCustomerViewClass
+from Yummo.utilityfunctions import AuthenticatedCustomerViewClass, OPERATION_DESCRIPTION_CUSTOMER
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser
@@ -14,7 +14,7 @@ class YummoGroupPostsView(AuthenticatedCustomerViewClass):
     parser_classes = (MultiPartParser,)
 
     @swagger_auto_schema(
-        operation_description="Get a list of all `Post` in the `YummoGroup`, sorted by latest post first.",
+        operation_description="Get a list of all `Post` in the `YummoGroup`, sorted by latest post first." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['posts'], 
         responses={200: PostSerializer(many=True), 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def get(self, request, grpID):
@@ -27,7 +27,7 @@ class YummoGroupPostsView(AuthenticatedCustomerViewClass):
         return Response(serialized_posts.data, status=status.HTTP_200_OK)
         
     @swagger_auto_schema(
-        operation_description="Create a new `Post` in the `YummoGroup`.",
+        operation_description="Create a new `Post` in the `YummoGroup`." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['posts'], 
         request_body=PostFormSerializer, responses={201: PostSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def post(self, request, grpID):
@@ -52,7 +52,7 @@ class YummoGroupAllPostsView(AuthenticatedCustomerViewClass):
     parser_classes = (MultiPartParser,)
 
     @swagger_auto_schema(
-        operation_description="Get all `Post` in every `YummoGroup` the Customer has joined, sorted by latest post first.",
+        operation_description="Get all `Post` in every `YummoGroup` the Customer has joined, sorted by latest post first." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['posts'], responses={200: PostDetailedSerializer(many=True), 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def get(self, request):
         customer = request.user
@@ -68,7 +68,7 @@ class YummoGroupSinglePostView(AuthenticatedCustomerViewClass):
     parser_classes = (MultiPartParser,)
 
     @swagger_auto_schema(
-        operation_description="Get detailed info of a `Post`, with all its `Comment`.",
+        operation_description="Get detailed info of a `Post`, with all its `Comment`." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['posts'], responses={200: PostDetailedSerializer, 404: "Not Found"})
     def get(self, request, grpID, postID):
         group = get_object_or_404(YummoGroup, group_id=grpID)
@@ -82,7 +82,7 @@ class YummoGroupSinglePostView(AuthenticatedCustomerViewClass):
         
         
     @swagger_auto_schema(
-        operation_description="Add a new `Comment` to the current `Post`.",
+        operation_description="Add a new `Comment` to the current `Post`." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['posts'], 
         request_body=CommentFormSerializer, 
         responses={201: "Created", 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
@@ -106,7 +106,7 @@ class YummoGroupSinglePostView(AuthenticatedCustomerViewClass):
         return Response({"message": "Comment created successfully."}, status=status.HTTP_201_CREATED)
     
     @swagger_auto_schema(
-        operation_description="Update information of a `Post` if the current Customer is the creator.",
+        operation_description="Update information of a `Post` if the current Customer is the creator." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['posts'], 
         request_body=PostFormSerializer, 
         responses={201: PostSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
@@ -128,7 +128,7 @@ class YummoGroupSinglePostView(AuthenticatedCustomerViewClass):
         
 
     @swagger_auto_schema(
-        operation_description="Delete the `Post` if the current Customer is the creator.",
+        operation_description="Delete the `Post` if the current Customer is the creator." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['posts'], 
         responses={200: "OK", 403: "Forbidden", 404: "Not Found"})
     def delete(self, request, grpID, postID):
