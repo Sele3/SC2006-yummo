@@ -5,6 +5,10 @@ from rest_framework.permissions import IsAuthenticated, BasePermission
 MERCHANT = "Merchants"
 CUSTOMER = "Customers"
 
+OPERATION_DESCRIPTION_CUSTOMER = "\n\nAuthorization: `Customer`"
+OPERATION_DESCRIPTION_MERCHANT = "\n\nAuthorization: `Merchant`"
+OPERATION_DESCRIPTION_ALLOWANY = "\n\nAuthorization: `AllowAny`"
+
 # Create permission class to check for customer
 class IsCustomer(BasePermission):
     message = "Only Customers can access this function"
