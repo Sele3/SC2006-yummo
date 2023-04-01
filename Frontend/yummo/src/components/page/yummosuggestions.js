@@ -5,7 +5,6 @@ import Typography from '@mui/material/Typography';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import MoneyOffIcon from '@mui/icons-material/MoneyOff';
 import axios from 'axios';
-import NavBar from "../navbar.js";
 import MapContainer from "../map.js";
 import FilterDropdown from "../filterdropdown.js";
 import "./yummosuggestions.css";
@@ -52,7 +51,8 @@ export default function Yummosuggestions(props) {
     }, [distanceFilter]);
 
     const url = 'http://127.0.0.1:8000/api/restaurants/search';
-    const token = process.env.REACT_APP_BACKEND_API_KEY;
+    const token = localStorage.getItem('authToken');
+    console.log(token)
     const data = 
     {
         "address": state.location,
@@ -354,8 +354,6 @@ export default function Yummosuggestions(props) {
     console.log(FinalData);
 
     return (
-        <>
-        <NavBar />
         <div className="final-container">
             <div className="suggestions-container">
                 <div className="suggestions-title-filter">
@@ -486,6 +484,5 @@ export default function Yummosuggestions(props) {
                     </div>
             </div>
         </div>
-        </>
     );
 };

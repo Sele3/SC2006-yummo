@@ -6,7 +6,6 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import MoneyOffIcon from '@mui/icons-material/MoneyOff';
 import { createEvent } from "ics";
 import { saveAs } from "file-saver";
-import NavBar from "../navbar.js";
 import MapContainer from "../map.js";
 import "./yummoconfirmation.css";
 
@@ -144,8 +143,6 @@ export default function Yummoconfirmation() {
     console.log({confirmedName, confirmedDate, confirmedPax, confirmedAddress, confirmedContact, confirmedresID, confirmedLat, confirmedLng, confirmedRating, confirmedPrice, confirmedDist});
 
     return (
-        <>
-        <NavBar />
         <div className="final-container">
             <div className="map-container">
                     <div className="map-api2">
@@ -185,6 +182,5 @@ export default function Yummoconfirmation() {
             }
             </div>
         </div>
-        </>
     );
 }; 
