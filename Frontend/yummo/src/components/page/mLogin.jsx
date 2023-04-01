@@ -17,6 +17,7 @@ export const Login = (props) => {
       .post("http://127.0.0.1:8000/auth/token/login/", {
         password: pass,
         username: username,
+        group_name: "Merchants",
       })
       .then((response) => {
         const authToken = response.data["auth_token"];
