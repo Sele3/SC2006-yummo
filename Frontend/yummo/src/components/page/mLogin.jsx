@@ -88,8 +88,9 @@ export const Login = (props) => {
             <button
               className="mlogin-button"
               type="submit"
-              onClick={() => {
-                handleSubmit();
+              onClick={(e) => {
+                e.preventDefault();
+                handleSubmit(e);
               }}
             >
               Login
