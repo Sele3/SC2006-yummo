@@ -10,7 +10,8 @@
 
   .wholepg{
     background: #FFC700;
-    height: 100vh;
+    height:50vmax;
+
   }
 
   .img-container img{
@@ -27,7 +28,7 @@
     height: 500px;
     background: #fff;
     /*border-radius: 8px; */
-    position : absolute;
+    position : fixed;
     top: 20%;
     left: 0%;
 
@@ -36,16 +37,26 @@
     margin: 0px 50px 600px 200px;
     padding: 0px 40px;
   }
+
+  .personal-info-form{
+    position: realtive;
+    height: 400px;
+    width: 395px;
+    top: 30px;
+    left: 20px;
+  }
   
 
 .txt-field{
     margin: 30px 0;
 }
 
-.form-container h2{
-    text-align: center;
-    
+.signup-text{
+  position: relative;
+  top: 15px;
+  left: 90px;
 }
+
 
 .form-container label{
     

@@ -8,8 +8,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import DatePicker from "react-datepicker";
-import axios from 'axios';
-import NavBar from "../navbar.js";
+import axios from "axios";
 import MapContainer from "../map.js";
 import "./yummoreservation.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -25,7 +24,7 @@ const NumPax = (props) => {
           console.log('paxChild: ' + inputPax);
         }
     };
-
+ 
     return (
     <>
     <div className="input-box-container">
@@ -123,7 +122,7 @@ const TimeSelection = (props) => {
 
     // API Function Call to Submit Data to Backend
     const [response, setResponse] = useState();
-    const token = process.env.REACT_APP_BACKEND_API_KEY;
+    const token = localStorage.getItem('authToken');
     const url = "http://127.0.0.1:8000/api/restaurants/"+props.selectedresID+"/reservations";
     const apidata = 
     {
@@ -245,8 +244,6 @@ export default function Yummoreservation(props) {
     }
 
     return (
-        <>
-        <NavBar />
         <div className="final-container">
             <div className="map-container">
                     <div className="map-api2">
@@ -301,6 +298,5 @@ export default function Yummoreservation(props) {
                 </TransitionGroup>
             </div>
         </div>
-        </>
     );
 }; 
