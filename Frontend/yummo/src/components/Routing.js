@@ -14,7 +14,7 @@ import MerchantLogin from "./page/merchantLogin.js";
 import MerchantRegister from "./page/merchantRegister.js";
 import Customer_Signup from "./page/customersignup.js";
 import MyReservations from "./page/myreservations.js";
-import NavBar from "./navbar.js";
+import NavBar from "./Navbar.js";
 import { Outlet } from "react-router-dom";
 
 function Routing() {

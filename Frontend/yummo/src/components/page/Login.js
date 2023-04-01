@@ -24,7 +24,8 @@ function Login()
 
     const DataSending = {
         "password": password,
-        "username": username
+        "username": username,
+        "group_name": "Customers",
     }
     
 
