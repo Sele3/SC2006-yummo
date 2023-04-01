@@ -20,7 +20,7 @@ export const Login = (props) => {
         group_name: "Merchants",
       })
       .then((response) => {
-        const authToken = response.data["auth_token"];
+        const authToken = response.data["token"];
         console.log(response.data);
         console.log(authToken);
         // Set username and password in session storage
@@ -88,8 +88,9 @@ export const Login = (props) => {
             <button
               className="mlogin-button"
               type="submit"
-              onClick={() => {
-                handleSubmit();
+              onClick={(e) => {
+                e.preventDefault();
+                handleSubmit(e);
               }}
             >
               Login
