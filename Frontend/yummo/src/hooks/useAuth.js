@@ -6,7 +6,7 @@ import { BACKEND_URL } from "../constants";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [token, setToken] = useState(localStorage.getItem("authToken"));
   const [isMerchant, setIsMerchant] = useState(
     localStorage.getItem("isMerchant") === "true"
   );
@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
       login: (token, isMerchant) => {
         setToken(token);
         setIsMerchant(isMerchant);
-        localStorage.setItem("token", token);
+        localStorage.setItem("authToken", token);
         localStorage.setItem("isMerchant", isMerchant);
         if (isMerchant) {
           navigate("/merchant");
@@ -32,7 +32,7 @@ export function AuthProvider({ children }) {
         setToken(null);
         setIsMerchant(false);
         clearMerchantStore();
-        localStorage.removeItem("token");
+        localStorage.removeItem("authToken");
         localStorage.removeItem("isMerchant");
         navigate("/", { replace: true });
       },
