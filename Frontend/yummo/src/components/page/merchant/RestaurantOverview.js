@@ -77,7 +77,7 @@ function RestaurantOverview() {
 
         <div className={styles.reservations}>
           <h2>Upcoming reservations</h2>
-
+          
           {upcoming.length === 0 ? (
             <p>You have no upcoming reservations</p>
           ) : (
