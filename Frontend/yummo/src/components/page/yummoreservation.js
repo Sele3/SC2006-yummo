@@ -22,7 +22,6 @@ const NumPax = (props) => {
     if (!isNaN(inputPax) && inputPax >= 1 && inputPax <= 10) {
       setPaxChild(inputPax);
       props.handlePax(inputPax);
-      console.log("paxChild: " + inputPax);
     }
   };
 
@@ -104,7 +103,7 @@ const TimeSelection = (props) => {
 
   useEffect(() => {
     props.handleDate(startDate);
-  }, [startDate]);
+  }, [startDate, props]);
 
   const DataPassing = {
     date: props.date,
@@ -122,7 +121,6 @@ const TimeSelection = (props) => {
   console.log(DataPassing);
 
   // API Function Call to Submit Data to Backend
-  const [response, setResponse] = useState();
   const { token } = useAuth();
   const url =
     "http://127.0.0.1:8000/api/restaurants/" +
@@ -132,20 +130,12 @@ const TimeSelection = (props) => {
     reserved_at: props.date.toISOString(),
     pax: props.pax,
   };
-  console.log(url);
-  console.log(apidata);
   const handleConfirmClick = () => {
-    console.log("Confirm Clicked");
     axios
       .post(url, apidata, {
         headers: {
           Authorization: `Token ${token}`,
         },
-      })
-      .then((res) => {
-        if (res.data) {
-          setResponse(res.data);
-        }
       })
       .catch((err) => {
         console.error(err);

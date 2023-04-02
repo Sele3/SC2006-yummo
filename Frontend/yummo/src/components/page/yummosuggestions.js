@@ -22,7 +22,6 @@ export default function Yummosuggestions(props) {
   const [ratingFilter, setRatingFilter] = useState(0);
   const [ratingToggle, setRatingToggle] = useState("DESC");
   const [rankby, setRankby] = useState("prominence");
-  const [isLoading, setIsLoading] = useState(false);
 
   function handlePriceFiltered(value) {
     setPriceFilter(value);
@@ -95,7 +94,6 @@ export default function Yummosuggestions(props) {
           cancelToken: request.token, // (*)
         });
         setResult(response.data);
-        setIsLoading(false);
       } catch (err) {
         console.log("There was a problem or request was cancelled.");
       }
@@ -206,7 +204,7 @@ export default function Yummosuggestions(props) {
               GOOGLEMAP_API_KEY
           );
     }
-  }, [result, resID1, resID2, resID3]);
+  }, [result, resID1, resID2, resID3, GOOGLEMAP_API_KEY]);
   console.log(img1);
 
   // Average Rating
