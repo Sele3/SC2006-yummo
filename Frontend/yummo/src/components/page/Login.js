@@ -69,7 +69,7 @@ function Login() {
                 <label>Password:</label>
                 <input
                   className="form-control"
-                  placeholder="Create password"
+                  placeholder="Password"
                   type={PasswordInputType}
                   value={password}
                   // onFocus={() => setPasswordFocused(true)}
