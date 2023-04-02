@@ -17,7 +17,7 @@ class ReviewsView(AuthenticatedViewClass):
                          responses={200: ReviewSerializer(many=True), 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})  
     def get(self, request, resID):
         restaurant = get_object_or_404(Restaurant, pk=resID)
-        reviews = restaurant.reviews
+        reviews = restaurant.reviews.order_by('-reviewed_at')
         serialized_reviews = ReviewSerializer(reviews, many=True)
         return Response(serialized_reviews.data, status=status.HTTP_200_OK)
     
