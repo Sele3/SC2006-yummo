@@ -16,7 +16,7 @@ class Restaurant(models.Model):
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
     contact_no = models.CharField(max_length=20, blank=True, null=True)
-    img = models.ImageField(upload_to='images/restaurant', default=None, null=True, blank=True)
+    img = models.ImageField(upload_to='images/restaurant', default='images/restaurant/default-restaurant-icon.jpg', null=True, blank=True)
     cuisine = models.ManyToManyField(
         Cuisine,
         related_name='restaurants',
@@ -61,6 +61,7 @@ class Reservation(models.Model):
 
 class Review(models.Model):
     review_id = models.AutoField(primary_key=True)
+    reviewed_at = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField(
         choices=[(i, str(i)) for i in range(1, 6)],
         default=0)

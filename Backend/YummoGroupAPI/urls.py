@@ -1,7 +1,7 @@
 from django.urls import path
 from .views.profile import ProfileView
 from .views.friends import FriendsView, SingleFriendView
-from .views.groups import SingleCustomerYummoGroups, YummoGroupsView, SingleYummoGroupView
+from .views.groups import SingleCustomerYummoGroups, YummoGroupsView, SingleYummoGroupView, SearchYummoGroupByNameView
 from .views.posts import YummoGroupPostsView, YummoGroupSinglePostView, YummoGroupAllPostsView
 from .views.comments import SingleCommentsView
 
@@ -13,6 +13,7 @@ urlpatterns = [
     path("yummogroups", YummoGroupsView.as_view()),
     path("yummogroups/<int:grpID>", SingleYummoGroupView.as_view()),
     path("yummogroups/posts", YummoGroupAllPostsView.as_view()),
+    path("yummogroups/<str:groupname>", SearchYummoGroupByNameView.as_view()),
     path("yummogroups/<int:grpID>/posts", YummoGroupPostsView.as_view()),
     path("yummogroups/<int:grpID>/posts/<int:postID>", YummoGroupSinglePostView.as_view()),
     path("yummogroups/<int:grpID>/posts/<int:postID>/<int:commID>", SingleCommentsView.as_view()),
