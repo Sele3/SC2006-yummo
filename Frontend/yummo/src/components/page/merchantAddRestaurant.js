@@ -3,8 +3,6 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "./merchantAddRestaurant.css";
 import MerchantGoogle from "./merchantGoogle.js";
-import Mnavbar from "../../components/Mnavbar.js";
-import MerchantBar from "../../components/MerchantBar.js";
 // import CuisineSelection from "./cuisinetest.js";
 import { Theme, useTheme } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -12,9 +10,13 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { useAuth } from "../../hooks/useAuth";
 
 function MerchantAddRestaurant() {
+  const navigate = useNavigate();
+  const { token, getProfile } = useAuth();
   const theme = useTheme(); //frm cuisine
+  const [username, setUsername] = useState("");
   const [cuisineName, setCuisineName] = useState([]); //frm cuisine
   const [markers, setMarkers] = useState("");
   const [restName, setrestName] = useState("");
@@ -39,8 +41,15 @@ function MerchantAddRestaurant() {
   const url = "http://localhost:8000/api/restaurants";
   const data = { address: state };
   const [result, setResult] = useState({});
-  const token = sessionStorage.getItem("authToken");
-  const USERNAME = sessionStorage.getItem("username");
+
+  useEffect(() => {
+    getProfile().then((response) => {
+      const { user } = response;
+      setUsername(user.username);
+    });
+  });
+
+  console.log(getProfile());
 
   const formData = new FormData();
   formData.append("name", restName);
@@ -71,7 +80,7 @@ function MerchantAddRestaurant() {
 
       .then((response) => {
         console.log(response.data);
-        window.location.href = "/successfullyAdded";
+        navigate("/merchant/successfully-added");
       })
       .catch((error) => {
         console.error(error);
@@ -306,10 +315,9 @@ function MerchantAddRestaurant() {
 
   return (
     <div>
-      <MerchantBar />
       <div className="res-items-to-be-left">
         <h1>
-          Account: <span class="blue-text">{USERNAME}</span>
+          Account: <span class="blue-text">{username}</span>
         </h1>
         <h2>Add Restaurant:</h2>
       </div>

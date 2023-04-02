@@ -1,33 +1,31 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./merchantLogin.css";
 import logo from "../../components/merchant.png";
 import instruction from "../../components/Instruction.png";
 import axios from "axios";
-import { Routes } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import { BACKEND_URL } from "../../constants";
 
 export const Login = (props) => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [pass, setPass] = useState("");
   const [isInValidPassword, setIsInvalidPassword] = useState(false);
+  const { login } = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://127.0.0.1:8000/auth/token/login/", {
+      .post(`${BACKEND_URL}/auth/token/login/`, {
         password: pass,
         username: username,
         group_name: "Merchants",
       })
       .then((response) => {
-        const authToken = response.data["auth_token"];
-        console.log(response.data);
-        console.log(authToken);
-        // Set username and password in session storage
-        sessionStorage.setItem("username", username);
-        sessionStorage.setItem("password", pass);
-        sessionStorage.setItem("authToken", authToken);
-        window.location.href = "/merchantPageAccount";
+        const token = response.data.token;
+        login(token, true);
       })
       .catch((error) => {
         setIsInvalidPassword(true);
@@ -88,8 +86,9 @@ export const Login = (props) => {
             <button
               className="mlogin-button"
               type="submit"
-              onClick={() => {
-                handleSubmit();
+              onClick={(e) => {
+                e.preventDefault();
+                handleSubmit(e);
               }}
             >
               Login
@@ -101,7 +100,7 @@ export const Login = (props) => {
           <button
             className="link-button"
             onClick={() => {
-              window.location.href = "/merchantRegister";
+              navigate("/merchantRegister");
             }}
           >
             Register as merchant

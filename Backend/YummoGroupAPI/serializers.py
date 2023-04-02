@@ -78,6 +78,9 @@ class YummoGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = YummoGroup
         fields = ['group_id', 'name', 'owner', 'icon', 'description', 'customers']
+        extra_kwargs ={
+            'owner': {'read_only': True}
+        }
         
 
 class PostSerializer(serializers.ModelSerializer):

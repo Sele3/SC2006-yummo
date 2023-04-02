@@ -1,4 +1,4 @@
-from Yummo.utilityfunctions import AuthenticatedViewClass
+from Yummo.utilityfunctions import AuthenticatedViewClass, OPERATION_DESCRIPTION_ALLOWANY
 from rest_framework import status
 from rest_framework.response import Response
 from ..serializers import CustomerProfileSerializer
@@ -8,7 +8,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 class ProfileView(AuthenticatedViewClass):
     @swagger_auto_schema(
-        operation_description="Get `Profile` of current `User`.",    
+        operation_description="Get `Profile` of current `User`." + OPERATION_DESCRIPTION_ALLOWANY,
         tags=["profile"], 
         responses={200: CustomerProfileSerializer, 400: "Bad Request"})
     def get(self, request):
@@ -19,7 +19,7 @@ class ProfileView(AuthenticatedViewClass):
         return Response(serialized_profile.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
-        operation_description="Update `Profile` of current `User`.",
+        operation_description="Update `Profile` of current `User`." + OPERATION_DESCRIPTION_ALLOWANY,
         tags=["profile"], 
         request_body=CustomerProfileSerializer, 
         responses={201: CustomerProfileSerializer, 400: "Bad Request"})

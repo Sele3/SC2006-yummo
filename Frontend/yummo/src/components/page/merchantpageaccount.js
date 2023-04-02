@@ -2,15 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "./merchantpageaccount.css";
-import Mnavbar from "../../components/Mnavbar.js";
-import MerchantBar from "../../components/MerchantBar.js";
 import avatar from "../../components/yummo_profile.png";
+import { useAuth } from "../../hooks/useAuth";
 
 function MerchantPageAccount(props) {
   const rootPath = "../../../../../Backend/";
   const url = "http://localhost:8000/api/users/profile";
-  const token = sessionStorage.getItem("authToken");
-  const USERNAME = sessionStorage.getItem("username");
+  const { token } = useAuth();
 
   const [mid, setmID] = useState("");
   const [username, setUserName] = useState("");
@@ -93,10 +91,6 @@ function MerchantPageAccount(props) {
 
   return (
     <div className="merchantpageaccount">
-      <div style={{ position: "relative" }}>
-        <MerchantBar />
-        {/* <Mnavbar /> */}
-      </div>
       <div className="items-to-be-left">
         <h1>Account</h1>
         <h2>Merchant Information:</h2>
@@ -109,7 +103,7 @@ function MerchantPageAccount(props) {
             style={{ width: "100px", height: "100px", borderRadius: "20%" }}
           />
           <h4 className="welcome-msg">
-            Merchant: "<span class="blue-text">{USERNAME}</span>"
+            Merchant: "<span class="blue-text">{username}</span>"
           </h4>
         </div>
       </div>

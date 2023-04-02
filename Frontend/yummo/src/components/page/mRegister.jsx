@@ -4,6 +4,7 @@ import logo from "../../components/merchant.png";
 import bottomlogo from "../../components/bottomlogo.png";
 import backImage from "../../components/MBackground.png";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const Register = (props) => {
   const [id, setID] = useState("");
@@ -13,21 +14,7 @@ export const Register = (props) => {
   const [username, setUsername] = useState("");
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(false);
-
-  const finaldata = {
-    email: email,
-    password: pass,
-    confirmPass: confirmPass,
-    merchantID: username,
-    isChecked1: isChecked1,
-    isChecked2: isChecked2,
-  };
-
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,7 +33,7 @@ export const Register = (props) => {
         console.log("activated");
         console.log(response.data);
         console.log(response.data["auth_token"]);
-        window.location.href = "/MerchantLogin";
+        navigate("/merchantlogin");
       })
       .catch((error) => {
         console.error(error);
