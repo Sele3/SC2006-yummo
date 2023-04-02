@@ -152,16 +152,16 @@
 }
 
 .merchant-acc-pg-buttons {
-  margin-top: 3rem !important;
   display: flex;
-  flex-direction: row;
-  /* justify-content: space-between; */
-  gap: 15rem;
+  width: 50vw;
+  justify-content: flex-end;
 }
 
 .m-save-discard {
+  /* justify-content: left; */
+  margin-top: 5rem !important;
   display: flex;
-  justify-content: flex-end !important;
+  justify-content: flex-end;
 }
 
 .m-save-discard input[type="submit"] {
@@ -169,25 +169,12 @@
   border: none;
   color: white;
   padding: 10px 20px;
-  text-align: center;
-  display: inline-block;
+  /* text-align: center; */
+  /* display: inline-block; */
   font-size: 20px;
   cursor: pointer;
-  margin-left: 10px;
+  margin-left: 20px;
   /* outline: 2px solid black; */
-  border-radius: 10px;
-}
-
-.m-log-out {
-  border: none;
-  color: #ff5c60;
-  padding: 10px;
-  text-align: center;
-  display: inline-block;
-  font-size: 20px;
-  cursor: pointer;
-  margin-right: 40px;
-  outline: 3px solid #ff5c60;
   border-radius: 10px;
 }
 
