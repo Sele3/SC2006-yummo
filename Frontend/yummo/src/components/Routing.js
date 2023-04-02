@@ -19,6 +19,9 @@ import SuccessfullyAdded from "./page/merchantAddSuccessful.js";
 import MyReservations from "./page/myreservations.js";
 import NavBar from "./Navbar.js";
 import { Outlet } from "react-router-dom";
+import Feed from "./page/feed.js"
+import CreatePost from "./page/createPost.js"
+import CreateGroup from "./page/createGroup.js"
 
 function Routing() {
   return (
@@ -71,6 +74,9 @@ function Routing() {
         element={<MerchantAddRestaurant />}
       />
       <Route path="/successfullyAdded" element={<SuccessfullyAdded />} />
+      <Route path="/feed" element={<Feed />} />
+        <Route path="/createpost" element={<CreatePost />} />
+        <Route path="/creategroup" element={<CreateGroup />} />
     </Routes>
   );
 }
