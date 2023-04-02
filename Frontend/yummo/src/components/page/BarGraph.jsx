@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 
 const BarGraph = () => {
   const [reservations, setReservations] = useState({});
-  const token= "5a99c68c923d65db2c51da84a736ddc6ac41a40a";
+  const token= localStorage.getItem('authToken');
   //const [restId, setId] = useState({});
   const restId = 1;
   

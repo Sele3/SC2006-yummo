@@ -9,7 +9,7 @@ function Customer_Acc_Setting() {
   const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const url = 'http://localhost:8000/api/users/profile';
-  const token = '799bb4844eca153b80e68ea84c42a0d30cec24c8';
+  const token = localStorage.getItem('authToken');
   const [first_name, setFirstName] = useState('');
   const [last_name, setLastName] = useState('');
   const [bio, setBio] = useState('');
