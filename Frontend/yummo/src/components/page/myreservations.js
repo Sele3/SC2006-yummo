@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
 import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
+import { InputTextarea } from "primereact/inputtextarea";
+import { Typography } from '@mui/material';
 import axios from 'axios';
 import NavBar from '../Navbar';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';   // theme
@@ -14,10 +17,16 @@ import './myreservations.css';
 
 export default function MyReservations() {
     const [reservation, setReservations] = useState([]);
+    const [visible, setVisible] = useState(false);
+    const [selectedResID, setSelectedResID] = useState(-1);
+    const [selectedResName, setSelectedResName] = useState('Yummo Restaurant');
+    const [selectedRating, setSelectedRating] = useState(5);
+    const [selectedReview, setSelectedReview] = useState('I love the food here!');
     const [trivia, setTrivia] = useState('Yummo is a restaurant reservation app that allows you to search for restaurants near you and make reservations.');
 
     const url = 'http://127.0.0.1:8000/api/restaurants/reservations';
     const token = localStorage.getItem('authToken');
+
     useEffect(() => {
         axios.get(url, {
             headers: {
@@ -79,6 +88,24 @@ export default function MyReservations() {
         return <Tag value={getValue(reservation)} severity={getSeverity(getValue(reservation))}></Tag>;
     };
 
+    const RatingBodyTemplate = useCallback((reservation) => {
+        //console.log("i am in rating body template");
+        switch (getValue(reservation)) {
+            case 'Upcoming':
+                return <Button label="NA" icon="pi pi-external-link" />
+            case 'Past':
+                return <Button label="Rate" icon="pi pi-external-link" onClick={() => onClickRating(reservation)}/>
+        }
+    }, []);
+    
+
+    const onClickRating = useCallback((reservation) => {
+        setVisible(true);
+        //console.log(reservation);
+        setSelectedResID(reservation.restaurant.resID);
+        setSelectedResName(reservation.restaurant.name);
+      }, []);
+
     const getSeverity = (status) => {
         switch (status) {
             case 'Upcoming':
@@ -103,6 +130,31 @@ export default function MyReservations() {
         </div>
     );
     const footer = `In total there are ${reservation ? reservation.length : 0} reservations.`;
+    const reviewtitle = `Review for ${selectedResName}!`;
+
+    const reviewSubmission = {
+        "rating": selectedRating,
+        "description": selectedReview,
+    }
+    // console.log(reviewSubmission);
+
+    const submitReview = () => {
+        const reviewurl = "http://127.0.0.1:8000/api/restaurants/"+selectedResID+"/reviews";
+        axios.post(reviewurl, reviewSubmission, {
+            headers: {
+                'Authorization': `Token ${token}`,
+            },
+        })
+        .then(res => {
+            if (res.data) {
+                console.log(res.data);
+                setVisible(false);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        });
+    }
 
     return (
         <>
@@ -116,7 +168,31 @@ export default function MyReservations() {
                     <Column field="reserved_at" header="Date" body={dateBodyTemplate}></Column>
                     <Column field="reserved_at" header="Time" body={timeBodyTemplate}></Column>
                     <Column header="Status" body={statusBodyTemplate}></Column>
+                    <Column header="Rating" body={RatingBodyTemplate}></Column>
                 </DataTable>
+                <Dialog header={reviewtitle} visible={visible} maximizable style={{ width: '50vw' }} onHide={() => setVisible(false)}>
+                    <div className="overview-container">
+                        <div className="review-card">
+                            <div className='label-headers'>
+                                <div className='label-headers-content'>
+                                    <label htmlFor="description">Rating:</label>
+                                </div>
+                                <div className='label-headers-content'>
+                                    <label htmlFor="description">Review:</label>
+                                </div>
+                            </div>
+                            <div className='review-inputs'>
+                                <div className='review-inputs-content'>
+                                    <Rating value={selectedRating} onChange={(e) => setSelectedRating(e.value)} cancel={false} />
+                                </div>
+                                <div className='review-inputs-content'>
+                                    <InputTextarea value={selectedReview} onChange={(e) => setSelectedReview(e.target.value)} rows={5} cols={30} />
+                                </div>
+                            </div>
+                        </div>
+                        <Button label="Submit" type="submit" icon="pi pi-check" onClick={submitReview}/>
+                    </div>
+                </Dialog>
             </div>
             <div className="trivia-container">
                 <div className="card2">
