@@ -41,7 +41,7 @@ function SuccessfullyAdded() {
             <div className="button-two">
               <button
                 class="front-button"
-                onClick={() => navigate("/merchant/add-restaurants")}
+                onClick={() => navigate("/merchant/add-restaurant")}
               >
                 Add More Restaurants
               </button>
