@@ -6,7 +6,7 @@ import "./createPost.css"
 let i=1;
 var url = 'http://localhost:8000/api/yummogroups/'+i+"/posts";
 var token = localStorage.getItem("authToken");
-const getPostUrl = 'http://localhost:8000/api/yummogroups';
+const getPostUrl = 'http://localhost:8000/api/user/yummogroups';
 
 function UploadForm() {
   const [description, setDescription] = useState("");

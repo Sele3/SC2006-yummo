@@ -36,14 +36,14 @@
   .centre p {
     font-size: 18px;
     line-height: 1.5;
-    /* text-align: left; */
+    text-align: left;
     color: #333;
   }
 
   .left {
 
     flex-direction: column;
-    align-items: left;
+    align-items: center;
     border: 1px solid #ccc;
     border-radius: 10px;
     max-width: 600px;
@@ -56,4 +56,19 @@
     line-height: 1.5;
     text-align: center;
     color: #333;
+  }
+
+  .Feed {
+    display: flex;
+    flex-direction: row;
+    align-items: right;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin: 0 auto;
+  }
+  .Posts{
+    position: relative;
+    width: 100%;
+    padding-left: 100px;
   }

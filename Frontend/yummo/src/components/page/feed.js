@@ -3,7 +3,7 @@ import { NavLink,useNavigate } from "react-router-dom";
 import './Customer_Acc_Sett.css';
 import axios from 'axios';
 import './feed.css'
-
+import './customersignup.css'
 function Feed() {
 
   const url = 'http://localhost:8000/api/user/yummogroups';
@@ -181,22 +181,21 @@ async function joinTheGroup(param1){
       <div>
       <input type="text" placeholder="Search Groups" value={searchResults} onChange={e => setSearchResults(e.target.value)} />
     </div>
-      <div>
-            <h1>Welcome to your feed. Click on the groups names to view your posts from that group</h1>
-            <div>
+    <h1>Welcome to your feed. Click on the groups names to view your posts from that group</h1>
+      <div className='Feed'>
+            
+            <div className='Sidebar'>
             {Object.keys(allGroups).map((key) => ( 
-                <div>
+                <div className='left'>
                     {allGroups[key].name === searchResults || searchResults=="" ? 
                     <div>
                       <p onClick={() => getposts(allGroups[key].group_id)}>{allGroups[key].name}</p>
                       <div >
-                      {!(res.some((obj) => obj.group_id === allGroups[key].group_id)) ?<input  type="button" className='button' value="join" onClick={()=>joinTheGroup(allGroups[key].group_id)}></input> : <input  type="button" className='button' value="Leave" onClick={()=>deletefromGroup(allGroups[key].group_id)}></input>}
+                      {!(res.some((obj) => obj.group_id === allGroups[key].group_id)) ?<input  type="button" className='btn' value="join" onClick={()=>joinTheGroup(allGroups[key].group_id)}></input> : <input  type="button" className='buttons-container' value="Leave" onClick={()=>deletefromGroup(allGroups[key].group_id)}></input>}
                       </div>
                     </div>
                      : <p></p>}
                  </div>
-               
-               
         ))} 
         <div>
            <NavLink
@@ -219,15 +218,15 @@ async function joinTheGroup(param1){
               </NavLink>
         </div> 
         </div>
+        <div className='Posts'>
         {Object.keys(posts).map((key) => ( 
                     <div  className="centre">
                         <img class="img-rounded" src={posts[key].img!=null ? "http://127.0.0.1:8000"+posts[key].img : 'https://static1.cbrimages.com/wordpress/wp-content/uploads/2022/10/0B4E75F9-5053-4BDA-B326-7E32C6E4FBD9.jpeg?q=50&fit=contain&w=1140&h=&dpr=1.5'} onerror="this.remove(); this.src='https://static1.cbrimages.com/wordpress/wp-content/uploads/2022/10/0B4E75F9-5053-4BDA-B326-7E32C6E4FBD9.jpeg?q=50&fit=contain&w=1140&h=&dpr=1.5'" width="50%"/>
-                        <p class="container">{posts[key].description}</p>
+                        <p>{posts[key].description}</p>
                     
                     </div>
                   ))}
-
-            
+            </div>
         </div>
                   </div>
   );

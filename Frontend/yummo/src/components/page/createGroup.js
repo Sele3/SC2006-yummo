@@ -55,12 +55,6 @@ function UploadForm() {
         <img  src="/yummo_logo.png" alt="Yummo logo" width="8%" style={{ paddingLeft: "3rem"}}/>
         <div className="nav-container">
         <ul className="nav-menu active">
-            {/* <div class="navbar-search">
-                <form>
-                <input type="text" placeholder="Search..." />
-                <button type="submit"><i class="fa fa-search">Search</i></button>
-                </form>
-            </div> */}
             <li className="nav-item">
               <NavLink
                 exact
