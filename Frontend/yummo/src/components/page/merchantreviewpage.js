@@ -16,9 +16,9 @@ function MerchantReview() {
   // let resIDArray = null;
 
   const restaurants_url = 'http://localhost:8000/api/restaurants';
-  const token = '5a99c68c923d65db2c51da84a736ddc6ac41a40a';
+  // const token = '5a99c68c923d65db2c51da84a736ddc6ac41a40a';
 
-  // const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('authToken');
   // const reviews_url = 'http://localhost:8000/api/restaurants';
 
 //FOR MODAL
