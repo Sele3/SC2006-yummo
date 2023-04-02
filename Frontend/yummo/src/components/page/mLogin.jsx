@@ -93,6 +93,15 @@ export const Login = (props) => {
             >
               Login
             </button>
+            <button
+              className="go-back-to-cust"
+              type="button"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Back to Customer Login
+            </button>
           </form>
         </div>
         <div className="reg-inst">

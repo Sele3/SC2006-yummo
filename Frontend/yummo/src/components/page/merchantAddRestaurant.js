@@ -316,14 +316,14 @@ function MerchantAddRestaurant() {
   return (
     <div>
       <div className="res-items-to-be-left">
-        <h1>
-          Account: <span class="blue-text">{username}</span>
-        </h1>
         <h2>Add Restaurant:</h2>
       </div>
 
       <div className="m-centre-items">
         <div className="google-gugu">
+          <label htmlFor="restaurant-location">
+            Select your restaurant location:
+          </label>
           <MerchantGoogle setAddress={setAddress} />
         </div>
         <div className="register-res">
@@ -345,7 +345,7 @@ function MerchantAddRestaurant() {
               placeholder="Restaurant Contact number"
             />
             <div className="CUISINE_STUFF">
-              <FormControl sx={{ width: 539 }}>
+              <FormControl sx={{ width: 500 }}>
                 <InputLabel id="demo-multiple-name-label">Cuisine</InputLabel>
                 <Select
                   labelId="demo-multiple-name-label"
@@ -386,13 +386,16 @@ function MerchantAddRestaurant() {
                 value={priceRange}
                 onChange={handlePriceChange}
                 style={{
-                  width: "540px",
+                  width: "500px",
                   height: "3rem",
                   boxShadow: "0 2px 5px rgba(0, 0, 0, 0.2)",
                   fontSize: "18px",
                   paddingLeft: "10px",
                   borderRadius: "5px",
                   border: "1px solid #ccc",
+
+                  fontSize: "14px",
+                  color: "#666666",
                 }}
               >
                 <option value="">Price Range</option>
