@@ -35,9 +35,9 @@ function Login()
         axios.post(url, DataSending)
           .then(response => {
             // Save authentication token to local storage or cookies
-            localStorage.setItem('authToken', response.data.auth_token);
+            localStorage.setItem('authToken', response.data.token);
             // Redirect to the dashboard page
-            console.log(response.data.auth_token);
+            //console.log(response.data.token);
             navigate('/letsyummolocation');
           })
           .catch(error => {
