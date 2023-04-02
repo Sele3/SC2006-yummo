@@ -20,6 +20,22 @@ export const Register = (props) => {
     e.preventDefault();
 
     console.log("Love TA");
+    if (!checkPasswordStrength(pass)) {
+      alert(
+        "Password must be at least 8 characters long and contain at least one special character and one letter or digit."
+      );
+      return;
+    }
+
+    if (pass !== confirmPass) {
+      alert("Passwords do not match. Please re-enter your password.");
+      return;
+    }
+
+    if (!isChecked1 || !isChecked2) {
+      alert("Please tick all checkboxes.");
+      return;
+    }
 
     axios
       .post("http://localhost:8000/auth/users/", {
@@ -93,6 +109,15 @@ export const Register = (props) => {
   const handleCheckboxChange2 = () => {
     setIsChecked2(!isChecked2);
   };
+
+  function checkPasswordStrength(password) {
+    const hasMinimumLength = password.length >= 8;
+    const hasSpecialCharacter = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const hasMixedCharacters =
+      /[a-zA-Z]/.test(password) && /[0-9]/.test(password);
+
+    return hasMinimumLength && hasSpecialCharacter && hasMixedCharacters;
+  }
 
   return (
     <div className="register-items">
