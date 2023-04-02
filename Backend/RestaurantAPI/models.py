@@ -16,7 +16,7 @@ class Restaurant(models.Model):
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
     contact_no = models.CharField(max_length=20, blank=True, null=True)
-    img = models.ImageField(upload_to='images/restaurant', default='images/restaurant/default-restaurant-icon.jpg', null=True, blank=True)
+    img = models.ImageField(upload_to='images/restaurant', default='images/restaurant/default-restaurant-icon2.jpg', null=True, blank=True)
     cuisine = models.ManyToManyField(
         Cuisine,
         related_name='restaurants',
