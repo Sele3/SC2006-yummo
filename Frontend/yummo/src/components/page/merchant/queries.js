@@ -1,17 +1,4 @@
-import { create } from "zustand";
-
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-
-export const useMerchantStore = create((set) => ({
-  // token: null,
-  token: "5a99c68c923d65db2c51da84a736ddc6ac41a40a",
-  restaurants: [],
-  selectedRestaurant: null,
-  setToken: (token) => set({ token }),
-  setRestaurants: (restaurants) => set({ restaurants }),
-  setSelectedRestaurant: (restaurant) =>
-    set({ selectedRestaurant: restaurant }),
-}));
 
 export function fetchRestaurants(token) {
   return fetch(`${BACKEND_URL}/api/restaurants`, {

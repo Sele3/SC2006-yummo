@@ -1,14 +1,16 @@
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import { useEffect, useState } from "react";
+import { useAuth } from "../../../hooks/useAuth";
+import { useMerchantStore } from "../../../store";
+import { assetUrl } from "../../../utils";
+import { fetchReservations, fetchReviews } from "./queries";
 import RatingStars from "./RatingStars";
 import styles from "./RestaurantOverview.module.css";
-import { fetchReservations, fetchReviews, useMerchantStore } from "./store";
-import { assetUrl } from "./utils";
 
 function RestaurantOverview() {
   const [upcoming, setUpcoming] = useState([]);
   const [reviews, setReviews] = useState([]);
-  const token = useMerchantStore((state) => state.token);
+  const { token } = useAuth();
   const selectedRestaurant = useMerchantStore(
     (state) => state.selectedRestaurant
   );
