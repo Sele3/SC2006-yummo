@@ -1,8 +1,8 @@
 import CachedIcon from "@mui/icons-material/Cached";
 import { COLOR_MERCHANT } from "../../../constants";
 import styles from "./ChangeRestaurantButton.module.css";
-import { useMerchantStore } from "./store";
-import { shortenAddress } from "./utils";
+import { useMerchantStore } from "../../../store";
+import { shortenAddress } from "../../../utils";
 
 function ChangeRestaurantButton() {
   const selectedRestaurant = useMerchantStore(
@@ -11,7 +11,10 @@ function ChangeRestaurantButton() {
   const setSelectedRestaurant = useMerchantStore(
     (state) => state.setSelectedRestaurant
   );
-  console.log(selectedRestaurant);
+
+  if (selectedRestaurant === null) {
+    return null;
+  }
 
   const { name, address } = selectedRestaurant;
 
