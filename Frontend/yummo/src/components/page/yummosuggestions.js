@@ -17,11 +17,10 @@ export default function Yummosuggestions(props) {
   const GOOGLEMAP_API_KEY = process.env.REACT_APP_GOOGLEMAP_API_KEY;
 
   // Currently values not used, waiting for backend to support the filter function.
-  const [priceFilter, setPriceFilter] = useState(2);
-  const [distanceFilter, setDistanceFilter] = useState(15000);
-  const [ratingFilter, setRatingFilter] = useState(0);
-  const [ratingToggle, setRatingToggle] = useState("DESC");
-  const [rankby, setRankby] = useState("prominence");
+  const [priceFilter, setPriceFilter] = useState(3);
+  const [distanceFilter, setDistanceFilter] = useState(5000);
+  const [sortbyFilter, setSortbyFilter] = useState(0);
+  const [sortbyToggle, setSortbyToggle] = useState("YUMMO");
   const [isLoading, setIsLoading] = useState(false);
 
   function handlePriceFiltered(value) {
@@ -32,34 +31,30 @@ export default function Yummosuggestions(props) {
     setDistanceFilter(value);
   }
 
-  function handleRatingFiltered(value) {
-    setRatingFilter(value);
+  function handleSortbyFiltered(value) {
+    setSortbyFilter(value);
   }
 
   useEffect(() => {
-    if (ratingFilter === 0) {
-      setRatingToggle("DESC");
-    } else {
-      setRatingToggle("ASC");
+    if (sortbyFilter === 1) {
+      setSortbyToggle("DISTANCE");
+    } 
+    else if (sortbyFilter === 2){
+      setSortbyToggle("RATING")
     }
-  }, [ratingFilter]);
+    else {
+      setSortbyToggle("YUMMO");
+    }
+  }, [sortbyFilter]);
 
-  useEffect(() => {
-    if (distanceFilter === 0) {
-      setRankby("prominence");
-    } else {
-      setRankby("distance");
-    }
-  }, [distanceFilter]);
 
   const url = "http://127.0.0.1:8000/api/restaurants/search";
   const data = {
     address: state.location,
     radius: distanceFilter,
     keyword: state.craving,
-    rankby: rankby,
     price: priceFilter,
-    rating: ratingToggle,
+    sort_by: sortbyToggle,
   };
   console.log(data);
 
@@ -388,7 +383,7 @@ export default function Yummosuggestions(props) {
             <FilterDropdown
               handlePriceFiltered={handlePriceFiltered}
               handleDistanceFiltered={handleDistanceFiltered}
-              handleRatingFiltered={handleRatingFiltered}
+              handleSortbyFiltered={handleSortbyFiltered}
             />
           </div>
           <div className="update-button">
