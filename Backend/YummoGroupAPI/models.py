@@ -1,13 +1,15 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
+from django.core.exceptions import ObjectDoesNotExist, BadRequest
 from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
+from djoser.signals import user_registered
 
 
 class BaseProfile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     contact_no = models.CharField(max_length=20, blank=True, null=True)
-    icon = models.ImageField(upload_to='images/', default=None, null=True, blank=True)
+    icon = models.ImageField(upload_to='images/', default='images/default-user-icon.jpg', null=True, blank=True)
 
     class Meta:
         abstract = True
@@ -40,6 +42,20 @@ class MerchantProfile(BaseProfile):
     
     def __str__(self):
         return f"{self.user.get_username()}'s MerchantProfile"
+
+
+@receiver(user_registered)
+def assign_group(sender, user, request, **kwargs):
+
+    group_name = request.data.get("group_name")
+ 
+    if group_name:
+        try:
+            group = Group.objects.get(name=group_name)
+            user.groups.add(group)
+        except ObjectDoesNotExist:
+            user.delete()
+            raise BadRequest({'detail' : 'Please enter a valid Group name'})
 
 
 #create a Customer/Merchant profile when User are added to either Group

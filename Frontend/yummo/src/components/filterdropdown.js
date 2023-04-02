@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import { makeStyles } from "@mui/styles";
 import { Slider, Typography, Select, MenuItem, Box } from '@mui/material';
 
@@ -10,16 +10,6 @@ const useStyles = makeStyles({
     dropdown: {
       minWidth: "5rem",
       minHeight: "5rem",
-    },
-    slider: {
-      marginTop: 10,
-      width: 20,
-      "& .MuiSlider-rail": { // added rail class to increase rail width
-        width: 200,
-      },
-      "& .MuiSlider-track": { // added track class to increase track width
-        width: 36,
-      },
     },
 });
 
@@ -52,20 +42,20 @@ function valuePrice(value) {
 
 const marksDistance = [
   {
-    value: 1,
-    label: "1",
+    value: 12500,
+    label: "10000",
   },
   {
-    value: 10,
-    label: "10",
+    value: 25000,
+    label: "21000",
   },
   {
-    value: 50,
-    label: "50",
+    value: 37500,
+    label: "10000",
   },
   {
-    value: 100,
-    label: "100",
+    value: 50000,
+    label: "50000",
   },
 ];
 
@@ -75,24 +65,12 @@ function valueDistance(value) {
 
 const marksRating = [
   {
+    value: 0,
+    label: "DESCENDING",
+  },
+  {
     value: 1,
-    label: "1",
-  },
-  {
-    value: 2,
-    label: "2",
-  },
-  {
-    value: 3,
-    label: "3",
-  },
-  {
-    value: 4,
-    label: "4",
-  },
-  {
-    value: 5,
-    label: "5",
+    label: "ASCENDING",
   },
 ];
 
@@ -105,7 +83,7 @@ export default function FilterDropdown(props) {
 
   const [priceFilter, setPriceFilter] = useState(2);
   const [distanceFilter, setDistanceFilter] = useState(1);
-  const [ratingFilter, setRatingFilter] = useState(5);
+  const [ratingFilter, setRatingFilter] = useState(0);
 
   const handlePriceChange = (event, newValue) => {
       setPriceFilter(newValue);
@@ -163,19 +141,19 @@ export default function FilterDropdown(props) {
         </MenuItem>
         <MenuItem value="distance">
             <Box display="flex" flexDirection="row">
-                <Typography variant="subtitle1" paddingRight={10}>Distance Range (in km)</Typography>
+                <Typography variant="subtitle1" paddingRight={10}>Distance Range (in m)</Typography>
                 <Slider
                     onChange={handleDistanceChange}
                     getAriaValueText={valueDistance}
                     marks={marksDistance}
                     size="medium"
                     sx={{ width: 200 }}
-                    step={1}
+                    step={100}
                     aria-label="dist-filter"
-                    defaultValue={0.1}
+                    defaultValue={1500}
                     value={distanceFilter}
-                    min={1}
-                    max={100}
+                    min={0}
+                    max={50000}
                     valueLabelDisplay="auto"
                 />
             </Box>
@@ -191,10 +169,10 @@ export default function FilterDropdown(props) {
                     sx={{ width: 200 }}
                     step={1}
                     aria-label="rating-filter"
-                    defaultValue={5}
+                    defaultValue={0}
                     value={ratingFilter}
-                    min={1}
-                    max={5}
+                    min={0}
+                    max={1}
                     valueLabelDisplay="auto"
                 />
             </Box>

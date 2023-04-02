@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 from ..models import Restaurant, Review
-from ..serializers import ReviewSerializer
+from ..serializers import ReviewSerializer, ReviewPOSTFormSerializer
 from drf_yasg.utils import swagger_auto_schema
 from Yummo.utilityfunctions import IsCustomer, AuthenticatedViewClass
 
@@ -26,7 +26,7 @@ class ReviewsView(AuthenticatedViewClass):
                          \nAuthorization: `Customer`
                          ''',
                          tags=['reviews'], 
-                         request_body=ReviewSerializer,
+                         request_body=ReviewPOSTFormSerializer,
                          responses={201: ReviewSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"}) 
     def post(self, request, resID):
         data = request.data.copy()
@@ -66,7 +66,7 @@ class SingleReviewView(AuthenticatedViewClass):
                          \nAuthorization: `Customer`
                          ''',
                          tags=['reviews'], 
-                         request_body=ReviewSerializer,
+                         request_body=ReviewPOSTFormSerializer,
                          responses={200: ReviewSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def put(self, request, resID, review_id):
         review = get_object_or_404(Review, pk=review_id, customer=request.user.id)

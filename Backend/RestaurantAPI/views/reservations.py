@@ -3,9 +3,24 @@ from rest_framework import status
 from rest_framework.response import Response
 from ..models import Restaurant, Reservation
 from ..serializers import ReservationSerializer, ReservationPOSTFormSerializer
-from Yummo.utilityfunctions import IsMerchant, IsCustomer, AuthenticatedViewClass, isCustomerGroup, isMerchantGroup
+from Yummo.utilityfunctions import IsMerchant, IsCustomer, AuthenticatedViewClass, AuthenticatedCustomerViewClass,isCustomerGroup, isMerchantGroup
 from drf_yasg.utils import swagger_auto_schema
 
+
+class CustomerReservationsView(AuthenticatedCustomerViewClass):
+    
+    @swagger_auto_schema(operation_description='''Get list of all current and past `Reservation` under this Customer. Sorted by most recent reservation.
+                         \nAuthorization: `Customer`
+                         ''',
+                         tags=['reservations'], 
+                         responses={200: ReservationSerializer(many=True), 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
+    def get(self, request):
+        reservations = request.user.reservations
+        
+        # sort the reservation by datetime
+        reservations = reservations.order_by('-reserved_at')
+        serialized_reservations = ReservationSerializer(reservations, many=True)
+        return Response(serialized_reservations.data, status=status.HTTP_200_OK)
 
 
 class ReservationsView(AuthenticatedViewClass):
@@ -30,7 +45,7 @@ class ReservationsView(AuthenticatedViewClass):
                          responses={200: ReservationSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def post(self, request, resID):
         data = request.data.copy()
-        data['restaurant'] = resID
+        data['restaurant_id'] = resID
         data['customer'] = request.user.id
         serialized_reservation = ReservationSerializer(data=data)
         serialized_reservation.is_valid(raise_exception=True)
@@ -80,7 +95,7 @@ class SingleReservationView(AuthenticatedViewClass):
         reservation = get_object_or_404(Reservation, pk=reservID, customer=request.user)
         data = request.data.copy()
         #Only reservation time and pax can be changed
-        data['restaurant'] = reservation.restaurant.resID
+        data['restaurant_id'] = reservation.restaurant.resID
         data['customer'] = reservation.customer.id
         serialized_reservation = ReservationSerializer(reservation, data=data, partial=True)
         serialized_reservation.is_valid(raise_exception=True)

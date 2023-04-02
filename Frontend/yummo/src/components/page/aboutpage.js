@@ -1,7 +1,7 @@
 import { useLocation, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import NavBar from "../navbar.js";
+import NavBar from "../Navbar.js";
 
 const AboutPage = (props) => {
   const location = useLocation();
@@ -9,7 +9,7 @@ const AboutPage = (props) => {
   console.log(state);
 
   const url = 'http://127.0.0.1:8000/api/restaurants/search';
-  const token = process.env.REACT_APP_BACKEND_API_KEY;
+  const token = localStorage.getItem('authToken');
   const data = 
   {
     "address": state.location,
@@ -24,21 +24,20 @@ const AboutPage = (props) => {
   useEffect(() => {
     axios.post(url, data, {
       headers: {
-          'Authorization': `Token ${token}`,
+        Authorization: `Token ${token}`,
       },
     })
-      .then(res => {
-          if (res.data) {
-              setResult(res.data);
-          }
-      })
-      .catch(err => {
-          console.error(err);
-      });
+    .then((res) => {
+      if (res.data) {
+        setResult(res.data);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    });
   }, []);
   console.log(result); // move the console.log outside of the then block to get updated value after rendering
-  console.log(result?.status)
-
+  console.log(result?.status);
 
   return (
     <>

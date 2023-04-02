@@ -17,25 +17,19 @@ class CuisineSerializer(serializers.ModelSerializer):
         }
 
 
-class ReservationSerializer(serializers.ModelSerializer):
-    restaurant_name = serializers.StringRelatedField(source='restaurant')
-    customer_name = serializers.StringRelatedField(source='customer')
-    class Meta:
-        model = Reservation
-        fields = ['reservID', 'reserved_at', 'pax', 'restaurant', 'restaurant_name', 'customer', 'customer_name']
-
-
-class ReservationPOSTFormSerializer(serializers.Serializer):
-    reserved_at = serializers.DateField()
-    pax = serializers.IntegerField(min_value=1)
 
 
 class ReviewSerializer(serializers.ModelSerializer):
     restaurant_name = serializers.StringRelatedField(source='restaurant')
     customer_name = serializers.StringRelatedField(source='customer')
+    customer_icon = serializers.SerializerMethodField()
+
+    def get_customer_icon(self, review):
+        return review.customer.customerprofile.icon.url if review.customer.customerprofile.icon else None
+    
     class Meta:
         model = Review
-        fields = ['review_id', 'rating', 'description', 'restaurant', 'restaurant_name', 'customer', 'customer_name']
+        fields = ['review_id', 'rating', 'reviewed_at', 'description', 'restaurant', 'restaurant_name', 'customer', 'customer_name', 'customer_icon']
 
 
 class RestaurantSerializer(serializers.ModelSerializer):
@@ -119,6 +113,30 @@ class RestaurantSerializer(serializers.ModelSerializer):
         return {'lat': obj.lat, 'lng': obj.lng}
 
     
+class ReservationSerializer(serializers.ModelSerializer):
+    restaurant = RestaurantSerializer(read_only=True)
+    restaurant_id = serializers.IntegerField(write_only=True)
+    customer_name = serializers.StringRelatedField(source='customer')
+    customer_icon = serializers.SerializerMethodField()
+
+    def get_customer_icon(self, review):
+        return review.customer.customerprofile.icon.url if review.customer.customerprofile.icon else None
+    
+    class Meta:
+        model = Reservation
+        fields = ['reservID', 'reserved_at', 'pax', 'restaurant_id', 'restaurant', 'customer', 'customer_name', 'customer_icon']
+
+
+class ReservationPOSTFormSerializer(serializers.Serializer):
+    reserved_at = serializers.DateField()
+    pax = serializers.IntegerField(min_value=1)
+
+
+class ReviewPOSTFormSerializer(serializers.Serializer):
+    rating = serializers.IntegerField(min_value=1, max_value=5)
+    description = serializers.CharField()
+    
+    
 class RestaurantPOSTFormSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=50)
     address = serializers.CharField(max_length=100)
@@ -136,6 +154,9 @@ class RestaurantPUTFormSerializer(serializers.Serializer):
     price = serializers.IntegerField(min_value=1, max_value=5, required=False)
     
     
+    
+    
+
 class SearchRestaurantSerializer(serializers.Serializer):
     address = serializers.CharField(max_length=200, default='NTU', help_text="A valid address that returns a location in Google Maps")
     radius = serializers.IntegerField(min_value=0, max_value=50000, default=1500, help_text="Optional. min=0, max=50000, default=1500")
@@ -147,3 +168,6 @@ class SearchRestaurantSerializer(serializers.Serializer):
 
 class RestaurantRecommendationsSerializer(serializers.Serializer):
     address = serializers.CharField(max_length=200, help_text="A valid address that returns a location in Google Maps")
+    
+    
+    

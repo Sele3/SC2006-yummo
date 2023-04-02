@@ -42,7 +42,7 @@ def searchGoogleRestaurants(request, location):
         keyword = "&keyword=" + request.data.get("keyword")
         
     if request.data.get("price"):
-        price = "&maxprice={0}&minprice={0}".format(int(request.data.get("price"))-1)
+        price = "&maxprice={0}".format(int(request.data.get("price"))-1)
 
     if request.data.get("rankby") == 'distance': #two possible values: distance or prominence (default)
         rankby = "&rankby=distance" 
@@ -118,6 +118,8 @@ def formatGoogleRestaurant(googleRestaurants_jsonlist):
             "merchant_name" : None,
             "location" : restaurant.get("geometry").get("location")
         }
+        
+    print("\nGoogle Restaurants:\n", googleRestaurants_jsonlist)
     return googleRestaurants_jsonlist
         
 
@@ -128,7 +130,7 @@ def searchYummoRestaurants(request, location):
     '''
     filter by price, 
     then filtered by cuisine,
-    then filtered by within radius. If rankby=='distance', it will be ranked by distance 
+    then filtered by within radius. If rankby=='distance', radius will be ignored.
     '''
     restaurants = Restaurant.objects.all()
     
@@ -138,20 +140,23 @@ def searchYummoRestaurants(request, location):
     rankby = request.data.get("rankby")
     
     if price:
-        restaurants = restaurants.filter(price__iexact=price)
+        restaurants = restaurants.filter(price__lte=price)
         print("\n\nAfter Price filter",restaurants, "\n\n")
 
     if keyword:
         restaurants = restaurants.filter(cuisine__name__icontains=keyword)
         print("\n\nAfter Cuisine filter",restaurants, "\n\n")
         
+    distanceMatrix = getDistanceMatrix(restaurants=restaurants, location=location)
+        
     #order the distance by
     if rankby == 'distance': # two possible values: distance or prominence (default)
         radius = None # rankby cannot be used in conjunction with radius
+        # Default cutoff distance is 1500m.
+        restaurants = filterWithinRadius(restaurants=restaurants, distanceMatrix=distanceMatrix, radius=1500)
     
     # find restaurants within radius
     if radius:
-        distanceMatrix = getDistanceMatrix(restaurants=restaurants, location=location)
         restaurants = filterWithinRadius(restaurants=restaurants, distanceMatrix=distanceMatrix, radius=radius)
         
     
@@ -178,7 +183,7 @@ def getDistanceMatrix(restaurants, location):
     
     destinations = destinations.strip('|')
     
-    url = f"https://maps.googleapis.com/maps/api/distancematrix/{FORMAT}?origins={origin}&destinations={destinations}&key={GOOGLE_API_KEY}"
+    url = f"https://maps.googleapis.com/maps/api/distancematrix/{FORMAT}?origins={origin}&destinations={destinations}&mode=walking&key={GOOGLE_API_KEY}"
 
     distance_matrix = requests.get(url)
     print("\n\n", distance_matrix.json(), "\n\n")
@@ -186,11 +191,14 @@ def getDistanceMatrix(restaurants, location):
 
 
 def filterWithinRadius(restaurants, distanceMatrix, radius):
+    # Empty queryset
+    if not restaurants.exists():
+        return restaurants
     
     distance_list = distanceMatrix.get('rows')[0].get('elements')
     for idx, restaurant in enumerate(restaurants.all()):
         # exclude restaurant outside radius
-        if distance_list[idx].get('distance').get('value') > int(radius):
+        if distance_list[idx].get('status') != 'OK' or distance_list[idx].get('distance').get('value') > int(radius):
             restaurants = restaurants.exclude(resID=restaurant.resID)
     
     return restaurants
