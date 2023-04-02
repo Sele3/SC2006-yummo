@@ -4,10 +4,10 @@ import './centre.css';
 import './sidebar.css';
 import './merchantpageoverview.css'
 import axios from 'axios';
-import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, NavLink } from "react-router-dom";
 
-const data = [23, 12, 34, 56];
+// const data = [23, 12, 34, 56];
 //Replace with reservation data
 var today = new Date();
 var date2;
@@ -116,26 +116,31 @@ function GetReservations(){
 }
 
 function GetReviews(){
-    const [reviews, setReviews] = useState({});
+    // const [reviews, setReviews] = useState({});
+//     async function getreviews(){
+//         axios.get("http://127.0.0.1:8000/api/restaurants/"+restId+"/reviews")
+//             .then((response) => {
+//                  setReviews(response['data'])
+//             })
+//   .catch((err) => console.log(err));
+    // console.log(reviews);
+    // }
+    const navigate = useNavigate();
+
     async function getreviews(){
-        axios.get("http://127.0.0.1:8000/api/restaurants/"+restId+"/reviews")
-            .then((response) => {
-                 setReviews(response['data'])
-            })
-  .catch((err) => console.log(err));
-    console.log(reviews);
+            navigate('/merchantreviewpage');
     }
     return(
         <div className="centre">
             <h1>My restaurant Reviews</h1>
             <input type="submit" className='button' value="See Reviews" onClick={getreviews}/>
-            {Object.keys(reviews).map((key) => (
+            {/* {Object.keys(reviews).map((key) => (
                 <div className = "sidebar-item" key={key}>
                     <p>Customer Name: {reviews[key].customer_name}</p>
                     <p>Rating: {reviews[key].rating}</p>
                     <p>Comments: {reviews[key].description}</p>
                 </div>
-        ))} 
+        ))}  */}
 
             
         </div>

@@ -14,6 +14,7 @@ import MerchantPageAccount from "./page/merchantpageaccount.js";
 import MerchantLogin from "./page/merchantLogin.js";
 import MerchantRegister from "./page/merchantRegister.js";
 import Customer_Signup from "./page/customersignup.js";
+import MerchantReview from "./page/merchantreviewpage.js";
 
 function Routing() {
     return (
@@ -32,6 +33,7 @@ function Routing() {
         <Route path="/merchantLogin" element={<MerchantLogin />} />
         <Route path="/merchantRegister" element={<MerchantRegister />} />
         <Route path="/signup" element={<Customer_Signup />} />
+        <Route path="/merchantreviewpage" element={<MerchantReview/>} />
         </Routes>
     );
 }
