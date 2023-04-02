@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
@@ -6,7 +6,7 @@ import { Dialog } from 'primereact/dialog';
 import { Rating } from 'primereact/rating';
 import { Tag } from 'primereact/tag';
 import { InputTextarea } from "primereact/inputtextarea";
-import { Typography } from '@mui/material';
+import { Toast } from 'primereact/toast';
 import axios from 'axios';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';   // theme
 import 'primereact/resources/primereact.css';                       // core css
@@ -20,8 +20,14 @@ export default function MyReservations() {
     const [selectedResID, setSelectedResID] = useState(-1);
     const [selectedResName, setSelectedResName] = useState('Yummo Restaurant');
     const [selectedRating, setSelectedRating] = useState(5);
-    const [selectedReview, setSelectedReview] = useState('I love the food here!');
+    const [selectedReview, setSelectedReview] = useState('');
     const [trivia, setTrivia] = useState('Yummo is a restaurant reservation app that allows you to search for restaurants near you and make reservations.');
+    const toast = useRef(null);
+
+    const show = () => {
+        toast.current.show({ severity: 'info', summary: 'Review', detail: 'Submitted successfully!' });
+    };
+
 
     const url = 'http://127.0.0.1:8000/api/restaurants/reservations';
     const token = localStorage.getItem('authToken');
@@ -148,15 +154,20 @@ export default function MyReservations() {
             if (res.data) {
                 console.log(res.data);
                 setVisible(false);
+                show();
             }
         })
         .catch(err => {
             console.error(err);
         });
+        show();
+        setSelectedRating(5);
+        setSelectedReview('');
     }
 
     return (
         <>
+        <Toast ref={toast} />
         <div className="card-container">
             <div className="card">
                 <DataTable value={reservation} header={header} footer={footer} stripedRows  paginator rows={4} rowsPerPageOptions={[3, 6, 9, 12]} tableStyle={{ minWidth: "60rem"}}>
