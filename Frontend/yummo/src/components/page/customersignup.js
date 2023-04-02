@@ -49,7 +49,7 @@ function Customer_Signup() {
 
   return (
     <div className="wholepg">
-      <div className="navbar">
+      <div className="navbar-signup">
         <nav>
           <img
             src="/yummo_logo.png"
@@ -63,10 +63,10 @@ function Customer_Signup() {
       <div className="below-nav-bar">
         <div className="form-container">
           <div className="signup-text">
-            <h2 className="account-heading">SignUp</h2>
+            <h2>SignUp</h2>
           </div>
-          <form className="personal-info-form">
-            <div className="txt-field">
+          <form className="customer-signup-personal-info-form">
+            <div className="signup-txt-field">
               <label>
                 Username:<br></br>
                 <input
@@ -77,7 +77,7 @@ function Customer_Signup() {
               </label>
             </div>
 
-            <div className="txt-field">
+            <div className="signup-txt-field">
               <label>
                 Email:<br></br>
                 <input
@@ -102,13 +102,13 @@ function Customer_Signup() {
                                         {ToggleIcon}
                             </span>
                     </div> */}
-            <div className="form-group input-group">
+            <div className="signup-txt-field">
               <div className="input-group-prepend">
                 <span className="input-group-text">
                   <FontAwesomeIcon icon="lock" />
                 </span>
               </div>
-              <label>
+              <label className="pass-text">
                 Password:<br></br>
                 <input
                   className="form-control"

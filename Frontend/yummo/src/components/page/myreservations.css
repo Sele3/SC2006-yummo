@@ -66,3 +66,46 @@ body {
     bottom: 0px; 
     right: 0px;
 }
+
+.p-rating {
+    margin-left: 5rem;
+}
+
+.p-inputtext {
+    margin-left: 5rem;
+}
+
+.review-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.label-headers{
+    display: flex;
+    flex-direction: column;
+}
+
+.label-headers-content{
+    display: flex;
+    margin-bottom: 4.2rem;
+}
+
+.review-inputs{
+    display: flex;
+    flex-direction: column;
+}
+
+.review-inputs-content{
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.overview-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

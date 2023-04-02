@@ -47,12 +47,28 @@ function MerchantPageAccount(props) {
   }, []);
 
   const discard = () => {
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setContactNo("");
-    setUserName("");
-    setBio("");
+    if (token)
+      axios
+        .get(url, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        })
+        .then((response) => {
+          setmID(response.data.user.id);
+          setUserName(response.data.user.username);
+          setFirstName(response.data.user.first_name);
+          setLastName(response.data.user.last_name);
+          setEmail(response.data.user.email);
+          setBio(response.data.bio);
+          setContactNo(response.data.contact_no);
+
+          console.log(response.data);
+        })
+
+        .catch((error) => {
+          console.log(error);
+        });
   };
 
   const DataSending = {
