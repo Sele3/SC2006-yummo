@@ -25,7 +25,7 @@ export default function MyReservations() {
     const toast = useRef(null);
 
     const show = () => {
-        toast.current.show({ severity: 'info', summary: 'Review', detail: 'Submitted successfully!' });
+        toast.current.show({ severity: 'success', summary: 'Review', detail: 'Submitted successfully!' });
     };
 
 
@@ -46,6 +46,25 @@ export default function MyReservations() {
             .catch(err => {
                 console.error(err);
             });
+    }, [token]);
+
+    const triviaurl = "https://api.api-ninjas.com/v1/trivia?category=fooddrink";
+    useEffect(() => {
+        axios
+        .get(triviaurl, {
+            headers: {
+            "X-Api-Key": "hbQoHrmq2fbPfLSIw7fvbg==895ERbtYMzuehQcG",
+            },
+        })
+        .then((res) => {
+            if (res.data) {
+            console.log(res.data);
+            setTrivia(res.data);
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
     }, []);
 
   const formatDate = (value) => {
@@ -103,6 +122,13 @@ export default function MyReservations() {
     }
   };
 
+    const onClickRating = useCallback((reservation) => {
+        setVisible(true);
+        //console.log(reservation);
+        setSelectedResID(reservation.restaurant.resID);
+        setSelectedResName(reservation.restaurant.name);
+    }, []);
+
     const RatingBodyTemplate = useCallback((reservation) => {
         //console.log("i am in rating body template");
         switch (getValue(reservation)) {
@@ -110,16 +136,11 @@ export default function MyReservations() {
                 return <Button label="NA" icon="pi pi-external-link" />
             case 'Past':
                 return <Button label="Rate" icon="pi pi-external-link" onClick={() => onClickRating(reservation)}/>
+            default:
+                return <Button label="NA" icon="pi pi-external-link" />
         }
-    }, []);
-    
+    }, [onClickRating]);
 
-    const onClickRating = useCallback((reservation) => {
-        setVisible(true);
-        //console.log(reservation);
-        setSelectedResID(reservation.restaurant.resID);
-        setSelectedResName(reservation.restaurant.name);
-      }, []);
 
     const getValue = (reservation) => {
         const d1 = new Date(reservation.reserved_at);
@@ -154,7 +175,6 @@ export default function MyReservations() {
             if (res.data) {
                 console.log(res.data);
                 setVisible(false);
-                show();
             }
         })
         .catch(err => {
@@ -203,12 +223,20 @@ export default function MyReservations() {
                     </div>
                 </Dialog>
             </div>
-            <div className="card2-body">
-              <h2>{trivia[0].question}</h2>
-              <h1>{trivia[0].answer}</h1>
+            <div className="trivia-container">
+                <div className="card2">
+                    <div className="card2-header">
+                        <span>Did you </span>
+                        <span style={{color: "#ffd600"}}>know</span>
+                    </div>
+                    <div className="card2-body">
+                        <h2>{trivia[0].question}</h2>
+                        <h1>{trivia[0].answer}</h1>
+                    </div>
+                </div>               
+                <img src="birdie-pic.png" alt="birdie" className="birdie-pic"/>
             </div>
         </div>
-        <img src="birdie-pic.png" alt="birdie" className="birdie-pic" />
         </>
   );
 }
