@@ -1,16 +1,13 @@
-.mlog-auth-form-container {
-  background-color: #ffffff;
-  /* height: 100%; */
+body {
+  margin: 0;
+  padding: 0;
 }
 
-.left-right {
-  display: flex;
-  flex-direction: row;
+.mlog-auth-form-container {
+  background-color: #ffffff;
 }
 
 .mlogin-detail {
-  margin: 1rem;
-  padding: 2rem;
   background-color: #fff;
   border-radius: 0.5rem;
   /* width: 100px; */
@@ -22,6 +19,27 @@
   align-items: center;
   justify-content: center;
   margin: 0;
+  height: 90vh;
+}
+
+.reg-inst {
+  background-color: #00aeb2;
+  border-radius: 0.5rem;
+  /* width: 100px; */
+  width: 60%;
+  height: 90vh;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.left-right {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
 }
 
 .mlogin-detail h2 {
@@ -66,12 +84,16 @@
   background-color: rgb(166, 225, 215);
   padding: 30px;
   border-radius: 10px;
-  border: none;
+  /* border: none; */
   color: 1px solid #ccc;
   cursor: pointer;
   width: 40%;
   font-size: 30px;
   font-weight: bold;
+}
+
+.link-button:hover {
+  background-color: rgb(112, 213, 202);
 }
 
 .mlogin-button {
@@ -81,27 +103,30 @@
   border-radius: 10px; /*rounded corner*/
   cursor: pointer;
   /* width: 100%; */
-  margin-bottom: 10px;
+
   color: #ffffff;
   justify-content: center;
   align-content: center;
 }
 
-.reg-inst {
-  margin: 1rem;
-  padding: 2rem;
-  background-color: #00aeb2;
-  border-radius: 0.5rem;
-  /* width: 100px; */
-  width: 60%;
-  /* height: 940px; */
-  height: 50rem;
-  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.mlogin-button:hover {
+  background-color: rgb(7, 143, 146);
+}
+
+.go-back-to-cust {
+  border: none;
+  background-color: rgb(255, 199, 0);
+  padding: 10px;
+  border-radius: 10px; /*rounded corner*/
+  cursor: pointer;
+  margin-top: 1rem;
+  color: #000000;
   justify-content: center;
-  margin: 0;
+  align-content: center;
+}
+
+.go-back-to-cust:hover {
+  background-color: rgb(255, 183, 0);
 }
 
 .reg-inst p2 {

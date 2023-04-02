@@ -47,12 +47,28 @@ function MerchantPageAccount(props) {
   }, []);
 
   const discard = () => {
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setContactNo("");
-    setUserName("");
-    setBio("");
+    if (token)
+      axios
+        .get(url, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        })
+        .then((response) => {
+          setmID(response.data.user.id);
+          setUserName(response.data.user.username);
+          setFirstName(response.data.user.first_name);
+          setLastName(response.data.user.last_name);
+          setEmail(response.data.user.email);
+          setBio(response.data.bio);
+          setContactNo(response.data.contact_no);
+
+          console.log(response.data);
+        })
+
+        .catch((error) => {
+          console.log(error);
+        });
   };
 
   const DataSending = {
@@ -193,28 +209,15 @@ function MerchantPageAccount(props) {
             />
           </div>
         </div>
-        {/* <h4>Email notifications:</h4>
-        <h5></h5> */}
-        <div className="m-container">
-          <div className="merchant-acc-pg-buttons">
-            <div>
-              <button
-                className="m-log-out"
-                type="submit"
-                onClick={() => (window.location.href = "/merchantLogin")}
-              >
-                Logout
-              </button>
-            </div>
 
-            <div className="m-save-discard">
-              <input type="submit" value="Discard Changes" onClick={discard} />
-              <input
-                type="submit"
-                value="Save Changes"
-                onClick={handleSaveChanges}
-              />
-            </div>
+        <div className="merchant-acc-pg-buttons">
+          <div className="m-save-discard">
+            <input type="submit" value="Discard Changes" onClick={discard} />
+            <input
+              type="submit"
+              value="Save Changes"
+              onClick={handleSaveChanges}
+            />
           </div>
         </div>
       </div>
