@@ -209,28 +209,15 @@ function MerchantPageAccount(props) {
             />
           </div>
         </div>
-        {/* <h4>Email notifications:</h4>
-        <h5></h5> */}
-        <div className="m-container">
-          <div className="merchant-acc-pg-buttons">
-            <div>
-              <button
-                className="m-log-out"
-                type="submit"
-                onClick={() => (window.location.href = "/merchantLogin")}
-              >
-                Logout
-              </button>
-            </div>
 
-            <div className="m-save-discard">
-              <input type="submit" value="Discard Changes" onClick={discard} />
-              <input
-                type="submit"
-                value="Save Changes"
-                onClick={handleSaveChanges}
-              />
-            </div>
+        <div className="merchant-acc-pg-buttons">
+          <div className="m-save-discard">
+            <input type="submit" value="Discard Changes" onClick={discard} />
+            <input
+              type="submit"
+              value="Save Changes"
+              onClick={handleSaveChanges}
+            />
           </div>
         </div>
       </div>
