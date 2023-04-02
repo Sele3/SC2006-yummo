@@ -147,7 +147,7 @@ function MerchantAddRestaurant() {
     "Korean",
     "Malaysian", "Mediterranean", "Mexican", "Middle Eastern",
     "Noodle Bar",
-    "Peranakan", "Pizza", "Portuguese",
+    "Pizza", "Portuguese",
     "Pub Food",
     "Seafood", "Singaporean", "Spanish", "Steak",
     "Steakhouse", "Sushi",
