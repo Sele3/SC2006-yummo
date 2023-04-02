@@ -39,10 +39,7 @@ function Routing() {
           <Route path="yummoreservation" element={<YummoReservation />} />
           <Route path="yummoconfirmation" element={<YummoConfirmation />} />
           <Route path="myreservations" element={<MyReservations />} />
-          <Route
-            path="/customeraccountsetting"
-            element={<Customer_Acc_Setting />}
-          />
+          <Route path="/customeraccountsetting" element={<Customer_Acc_Setting />} />
         </Route>
 
         <Route path="/merchant" element={<MerchantLayout />}>

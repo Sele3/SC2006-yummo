@@ -33,8 +33,10 @@ export default function MerchantGoogle(props) {
 
   const handleChange = (event, newValue) => {
     //console.log(newValue.description); // Add this line to log the selected value
-    props.setAddress(newValue.description);
-    setValue(newValue);
+    if (newValue !== null) {
+      props.setAddress(newValue.description);
+      setValue(newValue);
+    }
   };
 
   if (typeof window !== "undefined" && !loaded.current) {
@@ -124,15 +126,15 @@ export default function MerchantGoogle(props) {
           onKeyDown={(event) => {
             if (event.key === "Enter") {
               // Prevent's default 'Enter' behavior.
-              event.defaultMuiPrevented = false;
+              event.defaultPrevented = false;
               // your handler code
             }
           }}
           onChange={handleChange} // Pass handleChange here
-          onInputChange={(event, newValue) => {
-            setOptions(newValue ? [newValue, ...options] : options);
-            setValue(newValue);
-          }}
+          // onInputChange={(event, newValue) => {
+          //   setOptions(newValue ? [newValue, ...options] : options);
+          //   setValue(newValue);
+          // }}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
           }}

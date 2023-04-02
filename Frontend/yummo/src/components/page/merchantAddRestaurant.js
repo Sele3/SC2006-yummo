@@ -51,24 +51,19 @@ function MerchantAddRestaurant() {
 
   console.log(getProfile());
 
-  const formData = new FormData();
-  formData.append("name", restName);
-  // formData.append("address", "22Heidelberg, Germany");
-  formData.append("address", address);
-  formData.append("img", image);
-  formData.append("contact_no", contactNo);
-  formData.append("cuisines", cuisineName.join(", "));
-  formData.append("price", parseInt(priceRange));
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Name: ", restName);
-    console.log("Address: ", address);
-    console.log("Contact No: ", contactNo);
-    console.log("Cuisine: ", cuisineName);
-    console.log("img: ", image);
-    console.log("Price: ", priceRange);
-    // console.log("img: ", selectedImg);
+    const formData = new FormData();
+    formData.append("name", restName);
+    formData.append("address", address);
+    if (image) {
+      formData.append("img", image);
+    }
+    formData.append("contact_no", contactNo);
+    formData.append("cuisines", cuisineName.join(", "));
+    formData.append("price", parseInt(priceRange));
 
     axios
       .post(url, formData, {
@@ -115,18 +110,11 @@ function MerchantAddRestaurant() {
       typeof value === "string" ? value.split(",") : value
     );
   };
-  // const handleImageChange = (e) => {
-  //   const imgFile = e.target.files[0];
-  //   setSelectedImg(URL.createObjectURL(imgFile));
-  // };
-  // const handleImageChange = (e) => {
-  //   const imgFile = e.target.files[0];
-  //   setImage(imgFile);
-  // };
 
   function handleImage(e) {
     console.log(e.target.files);
-    setImage(e.target.files[0]);
+    if (e.target.files)
+      setImage(e.target.files[0]);
   }
 
   const handlePriceChange = (e) => {
@@ -146,163 +134,28 @@ function MerchantAddRestaurant() {
   };
 
   const cuisines = [
-    "Afghan",
-    "African",
-    "Albanian",
-    "Algerian",
-    "Alsatian",
-    "American",
-    "Armenian",
-    "Argentine",
     "Asian",
-    "Australian",
-    "Austrian",
-    "Auvergne",
-    "Bagels",
-    "Bakery",
-    "Bangladeshi",
-    "Barbecue",
-    "Belgian",
-    "Bistro",
-    "Brazilian",
-    "British",
-    "Burgers",
-    "Burgundy",
-    "Burmese",
-    "Cafe",
-    "Cajun",
-    "Californian",
-    "Calzones",
-    "Cambodian",
-    "Caribbean",
-    "Cheesesteaks",
-    "Chicken",
-    "Chilean",
-    "Chinese",
-    "Chowder",
-    "Coffee",
-    "Colombian",
-    "Contemporary",
-    "Continental",
-    "Corsica",
-    "Creole",
-    "Crepes",
-    "Cuban",
-    "Czech",
-    "Deli",
-    "Dim Sum",
-    "Diner",
-    "Dominican",
-    "Donuts",
-    "Dutch",
+    "Bakery", "Barbecue", "Bistro", "Brazilian", "British", "Burgers",
+    "Cafe", "Cajun", "Chinese", "Coffee", "Contemporary", "Continental", "Creole",
+    "Deli", "Dim Sum", "Diner",
     "Eastern European",
-    "Eclectic",
-    "Egyptian",
-    "English",
-    "Ethiopian",
-    "Ecuadorean",
-    "European",
-    "Fast Food",
-    "Filipino",
-    "Fish and Chips",
-    "Fondue",
-    "French",
-    "Frozen Yogurt",
-    "Fusion",
-    "Gastropub",
-    "German",
-    "Greek",
-    "Grill",
-    "Gyros",
-    "Haitian",
+    "Fast Food", "Filipino", "Fish and Chips", "French",
+    "German", "Greek", "Grill",
     "Halal",
-    "Hawaiian",
-    "Healthy",
-    "Hot Dogs",
-    "Ice Cream",
-    "Indian",
-    "Indonesian",
-    "International",
-    "Irish",
-    "Israeli",
-    "Italian",
-    "Jamaican",
+    "Indian", "Indonesian", "International", "Italian",
     "Japanese",
-    "Juices",
     "Korean",
-    "Korean Barbeque",
-    "Kosher",
-    "Latin",
-    "Latin American",
-    "Lebanese",
-    "Lyonnais",
-    "Malaysian",
-    "Mediterranean",
-    "Mexican",
-    "Middle Eastern",
-    "Mongolian",
-    "Moroccan",
-    "Nepalese",
+    "Malaysian", "Mediterranean", "Mexican", "Middle Eastern",
     "Noodle Bar",
-    "Norwegian",
-    "Organic",
-    "Oysters",
-    "Pacific Rim",
-    "Pakistani",
-    "Pan Asian",
-    "Pasta",
-    "Pastries",
-    "Persian",
-    "Peruvian",
-    "Pho",
-    "Pizza",
-    "Polish",
-    "Polynesian",
-    "Portuguese",
-    "Provençal",
+    "Pizza", "Portuguese",
     "Pub Food",
-    "Puerto Rican",
-    "Raw",
-    "Ribs",
-    "Russian",
-    "Salad",
-    "Salvadoran",
-    "Sandwiches",
-    "Savoy",
-    "Scandinavian",
-    "Seafood",
-    "Senegalese",
-    "Singaporean",
-    "Smoothies",
-    "Soul Food",
-    "Soup",
-    "South American",
-    "South African",
-    "South Pacific",
-    "Southern",
-    "Southwestern",
-    "Spanish",
-    "Steak",
-    "Steakhouse",
-    "Subs",
-    "Sushi",
-    "Taiwanese",
-    "Tapas",
-    "Tea",
-    "Tex Mex",
-    "Thai",
-    "Tibetan",
-    "Traditional",
-    "Tunisian",
-    "Turkish",
-    "Ukrainian",
-    "Vegan",
-    "Vegetarian",
-    "Venezuelan",
-    "Vietnamese",
-    "Wings",
-    "Wraps",
+    "Seafood", "Singaporean", "Spanish", "Steak",
+    "Steakhouse", "Sushi",
+    "Taiwanese", "Tapas", "Tex Mex",
+    "Thai", "Turkish",
+    "Vegetarian", "Vietnamese",
   ];
+  
   function getStyles(selected_cuisine, cuisineName, theme) {
     return {
       fontWeight:

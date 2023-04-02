@@ -35,7 +35,7 @@ function Login() {
   }
 
   return (
-    <div className="container">
+    <div className="container-loginpage">
       <div className="login">
         <img
           src="/yummo_logo.png"
@@ -59,15 +59,6 @@ function Login() {
               />
             </div>
 
-            {/* <div className="txt-field">
-                            <label>
-                                Password:<br></br>
-                                <input
-                                type="password"
-                                onChange={(e)=>{setPassword(e.target.value)}}
-                                placeholder="Password" />
-                            </label>
-                        </div> */}
             <div className="txt-field">
               <div className="input-group-prepend">
                 <span className="input-group-text">
@@ -75,10 +66,10 @@ function Login() {
                 </span>
               </div>
               <label>
-                <h4>Password:</h4>
+                <label>Password:</label>
                 <input
                   className="form-control"
-                  placeholder="Create password"
+                  placeholder="Password"
                   type={PasswordInputType}
                   value={password}
                   // onFocus={() => setPasswordFocused(true)}
@@ -93,7 +84,7 @@ function Login() {
             <br></br>
 
             <div className="m-buttons">
-              <button className="login-button">Login</button>
+              <button className="login-button" onClick={(handleSubmit)}>Login</button>
               <a href="/merchantlogin">Merchant Login</a>
             </div>
 
