@@ -15,6 +15,7 @@ function Feed() {
   const [posts, setPosts] = useState({});
   const [searchResults, setSearchResults] = useState([]);
 
+
    useEffect (() => {
     console.log(token);
     if(token==null) {
@@ -187,12 +188,10 @@ async function joinTheGroup(param1){
             <div className='Sidebar'>
             {Object.keys(allGroups).map((key) => ( 
                 <div className='left'>
-                    {allGroups[key].name === searchResults || searchResults=="" ? 
+                    {!allGroups[key].name && allGroups[key].name.toLowerCase() === searchResults.toLowerCase() || searchResults=="" ? 
                     <div>
                       <p onClick={() => getposts(allGroups[key].group_id)}>{allGroups[key].name}</p>
-                      <div >
                       {!(res.some((obj) => obj.group_id === allGroups[key].group_id)) ?<input  type="button" className='btn' value="join" onClick={()=>joinTheGroup(allGroups[key].group_id)}></input> : <input  type="button" className='buttons-container' value="Leave" onClick={()=>deletefromGroup(allGroups[key].group_id)}></input>}
-                      </div>
                     </div>
                      : <p></p>}
                  </div>

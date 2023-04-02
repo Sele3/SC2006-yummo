@@ -44,7 +44,6 @@
 
     flex-direction: column;
     align-items: center;
-    border: 1px solid #ccc;
     border-radius: 10px;
     max-width: 600px;
 
@@ -71,4 +70,5 @@
     position: relative;
     width: 100%;
     padding-left: 100px;
+    border: 1px cornsilk;
   }
