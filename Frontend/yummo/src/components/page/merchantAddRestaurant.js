@@ -3,8 +3,6 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "./merchantAddRestaurant.css";
 import MerchantGoogle from "./merchantGoogle.js";
-import Mnavbar from "../../components/Mnavbar.js";
-import MerchantBar from "../../components/MerchantBar.js";
 // import CuisineSelection from "./cuisinetest.js";
 import { Theme, useTheme } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -12,9 +10,13 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { useAuth } from "../../hooks/useAuth";
 
 function MerchantAddRestaurant() {
+  const navigate = useNavigate();
+  const { token, getProfile } = useAuth();
   const theme = useTheme(); //frm cuisine
+  const [username, setUsername] = useState("");
   const [cuisineName, setCuisineName] = useState([]); //frm cuisine
   const [markers, setMarkers] = useState("");
   const [restName, setrestName] = useState("");
@@ -39,27 +41,29 @@ function MerchantAddRestaurant() {
   const url = "http://localhost:8000/api/restaurants";
   const data = { address: state };
   const [result, setResult] = useState({});
-  const token = sessionStorage.getItem("authToken");
-  const USERNAME = sessionStorage.getItem("username");
 
-  const formData = new FormData();
-  formData.append("name", restName);
-  // formData.append("address", "22Heidelberg, Germany");
-  formData.append("address", address);
-  formData.append("img", image);
-  formData.append("contact_no", contactNo);
-  formData.append("cuisines", cuisineName.join(", "));
-  formData.append("price", parseInt(priceRange));
+  useEffect(() => {
+    getProfile().then((response) => {
+      const { user } = response;
+      setUsername(user.username);
+    });
+  });
+
+  console.log(getProfile());
+
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Name: ", restName);
-    console.log("Address: ", address);
-    console.log("Contact No: ", contactNo);
-    console.log("Cuisine: ", cuisineName);
-    console.log("img: ", image);
-    console.log("Price: ", priceRange);
-    // console.log("img: ", selectedImg);
+    const formData = new FormData();
+    formData.append("name", restName);
+    formData.append("address", address);
+    if (image) {
+      formData.append("img", image);
+    }
+    formData.append("contact_no", contactNo);
+    formData.append("cuisines", cuisineName.join(", "));
+    formData.append("price", parseInt(priceRange));
 
     axios
       .post(url, formData, {
@@ -71,7 +75,7 @@ function MerchantAddRestaurant() {
 
       .then((response) => {
         console.log(response.data);
-        window.location.href = "/successfullyAdded";
+        navigate("/merchant/successfully-added");
       })
       .catch((error) => {
         console.error(error);
@@ -106,18 +110,11 @@ function MerchantAddRestaurant() {
       typeof value === "string" ? value.split(",") : value
     );
   };
-  // const handleImageChange = (e) => {
-  //   const imgFile = e.target.files[0];
-  //   setSelectedImg(URL.createObjectURL(imgFile));
-  // };
-  // const handleImageChange = (e) => {
-  //   const imgFile = e.target.files[0];
-  //   setImage(imgFile);
-  // };
 
   function handleImage(e) {
     console.log(e.target.files);
-    setImage(e.target.files[0]);
+    if (e.target.files)
+      setImage(e.target.files[0]);
   }
 
   const handlePriceChange = (e) => {
@@ -137,163 +134,28 @@ function MerchantAddRestaurant() {
   };
 
   const cuisines = [
-    "Afghan",
-    "African",
-    "Albanian",
-    "Algerian",
-    "Alsatian",
-    "American",
-    "Armenian",
-    "Argentine",
     "Asian",
-    "Australian",
-    "Austrian",
-    "Auvergne",
-    "Bagels",
-    "Bakery",
-    "Bangladeshi",
-    "Barbecue",
-    "Belgian",
-    "Bistro",
-    "Brazilian",
-    "British",
-    "Burgers",
-    "Burgundy",
-    "Burmese",
-    "Cafe",
-    "Cajun",
-    "Californian",
-    "Calzones",
-    "Cambodian",
-    "Caribbean",
-    "Cheesesteaks",
-    "Chicken",
-    "Chilean",
-    "Chinese",
-    "Chowder",
-    "Coffee",
-    "Colombian",
-    "Contemporary",
-    "Continental",
-    "Corsica",
-    "Creole",
-    "Crepes",
-    "Cuban",
-    "Czech",
-    "Deli",
-    "Dim Sum",
-    "Diner",
-    "Dominican",
-    "Donuts",
-    "Dutch",
+    "Bakery", "Barbecue", "Bistro", "Brazilian", "British", "Burgers",
+    "Cafe", "Cajun", "Chinese", "Coffee", "Contemporary", "Continental", "Creole",
+    "Deli", "Dim Sum", "Diner",
     "Eastern European",
-    "Eclectic",
-    "Egyptian",
-    "English",
-    "Ethiopian",
-    "Ecuadorean",
-    "European",
-    "Fast Food",
-    "Filipino",
-    "Fish and Chips",
-    "Fondue",
-    "French",
-    "Frozen Yogurt",
-    "Fusion",
-    "Gastropub",
-    "German",
-    "Greek",
-    "Grill",
-    "Gyros",
-    "Haitian",
+    "Fast Food", "Filipino", "Fish and Chips", "French",
+    "German", "Greek", "Grill",
     "Halal",
-    "Hawaiian",
-    "Healthy",
-    "Hot Dogs",
-    "Ice Cream",
-    "Indian",
-    "Indonesian",
-    "International",
-    "Irish",
-    "Israeli",
-    "Italian",
-    "Jamaican",
+    "Indian", "Indonesian", "International", "Italian",
     "Japanese",
-    "Juices",
     "Korean",
-    "Korean Barbeque",
-    "Kosher",
-    "Latin",
-    "Latin American",
-    "Lebanese",
-    "Lyonnais",
-    "Malaysian",
-    "Mediterranean",
-    "Mexican",
-    "Middle Eastern",
-    "Mongolian",
-    "Moroccan",
-    "Nepalese",
+    "Malaysian", "Mediterranean", "Mexican", "Middle Eastern",
     "Noodle Bar",
-    "Norwegian",
-    "Organic",
-    "Oysters",
-    "Pacific Rim",
-    "Pakistani",
-    "Pan Asian",
-    "Pasta",
-    "Pastries",
-    "Persian",
-    "Peruvian",
-    "Pho",
-    "Pizza",
-    "Polish",
-    "Polynesian",
-    "Portuguese",
-    "Provençal",
+    "Pizza", "Portuguese",
     "Pub Food",
-    "Puerto Rican",
-    "Raw",
-    "Ribs",
-    "Russian",
-    "Salad",
-    "Salvadoran",
-    "Sandwiches",
-    "Savoy",
-    "Scandinavian",
-    "Seafood",
-    "Senegalese",
-    "Singaporean",
-    "Smoothies",
-    "Soul Food",
-    "Soup",
-    "South American",
-    "South African",
-    "South Pacific",
-    "Southern",
-    "Southwestern",
-    "Spanish",
-    "Steak",
-    "Steakhouse",
-    "Subs",
-    "Sushi",
-    "Taiwanese",
-    "Tapas",
-    "Tea",
-    "Tex Mex",
-    "Thai",
-    "Tibetan",
-    "Traditional",
-    "Tunisian",
-    "Turkish",
-    "Ukrainian",
-    "Vegan",
-    "Vegetarian",
-    "Venezuelan",
-    "Vietnamese",
-    "Wings",
-    "Wraps",
+    "Seafood", "Singaporean", "Spanish", "Steak",
+    "Steakhouse", "Sushi",
+    "Taiwanese", "Tapas", "Tex Mex",
+    "Thai", "Turkish",
+    "Vegetarian", "Vietnamese",
   ];
+  
   function getStyles(selected_cuisine, cuisineName, theme) {
     return {
       fontWeight:
@@ -306,10 +168,9 @@ function MerchantAddRestaurant() {
 
   return (
     <div>
-      <MerchantBar />
       <div className="res-items-to-be-left">
         <h1>
-          Account: <span class="blue-text">{USERNAME}</span>
+          Account: <span class="blue-text">{username}</span>
         </h1>
         <h2>Add Restaurant:</h2>
       </div>
@@ -337,7 +198,7 @@ function MerchantAddRestaurant() {
               placeholder="Restaurant Contact number"
             />
             <div className="CUISINE_STUFF">
-              <FormControl sx={{ width: 539 }}>
+              <FormControl sx={{ width: 500 }}>
                 <InputLabel id="demo-multiple-name-label">Cuisine</InputLabel>
                 <Select
                   labelId="demo-multiple-name-label"

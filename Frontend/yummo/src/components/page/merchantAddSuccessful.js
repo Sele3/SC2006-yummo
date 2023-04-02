@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-// import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./merchantAddSuccessful.css";
-import MerchantBar from "../../components/MerchantBar.js";
 import Yummo_Logo from "../../components/happyyummo.png";
 
 // import CuisineSelection from "./cuisinetest.js";
 
 function SuccessfullyAdded() {
+  const navigate = useNavigate();
+
   return (
     <div>
-      <MerchantBar />
       <div className="move-too-centre ">
         <div className="logo">
           <img
@@ -34,19 +34,14 @@ function SuccessfullyAdded() {
           </div>
           <div className="buttons">
             <div className="button-one">
-              <button
-                class="back-button"
-                onClick={() => (window.location.href = "/MerchantReviews")}
-              >
-                View Restaurant Reviews
+              <button class="back-button" onClick={() => navigate("/merchant")}>
+                Go to Dashboard
               </button>
             </div>
             <div className="button-two">
               <button
                 class="front-button"
-                onClick={() =>
-                  (window.location.href = "/MerchantAddRestaurant")
-                }
+                onClick={() => navigate("/merchant/add-restaurant")}
               >
                 Add More Restaurants
               </button>
