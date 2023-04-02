@@ -1,4 +1,4 @@
-from Yummo.utilityfunctions import AuthenticatedCustomerViewClass
+from Yummo.utilityfunctions import AuthenticatedCustomerViewClass, OPERATION_DESCRIPTION_CUSTOMER
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from rest_framework import status
@@ -11,7 +11,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 class FriendsView(AuthenticatedCustomerViewClass):
     @swagger_auto_schema(
-        operation_description="Get the list of `Friends` of the current Customer.",
+        operation_description="Get the list of `Friends` of the current Customer." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['friends'], 
         responses={200: UserBasicInfoSerializer(many=True)})
     def get(self, request):
@@ -26,7 +26,7 @@ class SingleFriendView(AuthenticatedCustomerViewClass):
 
 
     @swagger_auto_schema(
-        operation_description="Get basic information of a `Customer` profile.",
+        operation_description="Get basic information of a `Customer` profile." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['friends'], 
         responses={200: UserBasicInfoSerializer, 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def get(self, request, username):
@@ -35,7 +35,7 @@ class SingleFriendView(AuthenticatedCustomerViewClass):
         return Response(serialized_friend.data, status=status.HTTP_200_OK)
         
     @swagger_auto_schema(
-        operation_description="Add a new `Customer` to current Customer's friend list.",
+        operation_description="Add a new `Customer` to current Customer's friend list." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['friends'], 
         responses={201: "Created", 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def post(self, request, username):
@@ -52,7 +52,7 @@ class SingleFriendView(AuthenticatedCustomerViewClass):
         return Response({'message': f'{username} has been added to your friends list.'}, status=status.HTTP_201_CREATED)
 
     @swagger_auto_schema(
-        operation_description="Remove a `Customer` from current Customer's friend list.",
+        operation_description="Remove a `Customer` from current Customer's friend list." + OPERATION_DESCRIPTION_CUSTOMER,
         tags=['friends'], 
         responses={200: "OK", 400: "Bad Request", 403: "Forbidden", 404: "Not Found"})
     def delete(self, request, username):
