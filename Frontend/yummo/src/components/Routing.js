@@ -3,7 +3,6 @@ import AuthLayout from "../layouts/AuthLayout.js";
 import CustomerLayout from "../layouts/CustomerLayout.js";
 import PublicLayout from "../layouts/PublicLayout.js";
 import Customer_Signup from "./page/customersignup.js";
-import Customer_Acc_Setting from "./page/Customer_Acc_Sett.js";
 import LetsYummoCraving from "./page/letsyummocraving.js";
 import Login from "./page/Login";
 import MerchantDashboard from "../layouts/MerchantDashboard.js";
@@ -20,6 +19,9 @@ import YummoSuggestions from "./page/yummosuggestions.js";
 import MerchantLayout from "../layouts/MerchantLayout.js";
 import LetsYummoLocation from "./page/_41letsyummolocation.js";
 import RestaurantSelect from "./page/merchant/RestaurantSelect.js";
+import Feed from "./page/feed.js";
+import CreatePost from "./page/createPost.js";
+import CreateGroup from "./page/createGroup.js";
 
 function Routing() {
   return (
@@ -39,7 +41,9 @@ function Routing() {
           <Route path="yummoreservation" element={<YummoReservation />} />
           <Route path="yummoconfirmation" element={<YummoConfirmation />} />
           <Route path="myreservations" element={<MyReservations />} />
-          <Route path="/customeraccountsetting" element={<Customer_Acc_Setting />} />
+          <Route path="/feed" element={<Feed />} />
+          <Route path="/createpost" element={<CreatePost />} />
+          <Route path="/creategroup" element={<CreateGroup />} />
         </Route>
 
         <Route path="/merchant" element={<MerchantLayout />}>
