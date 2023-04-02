@@ -1,10 +1,11 @@
 import axios from "axios";
 import { Link, NavLink } from "react-router-dom";
-import { COLOR_DEFAULT, COLOR_MERCHANT } from "../constants";
-import LogoDefault from "./LogoDefault";
-import LogoMerchant from "./LogoMerchant";
+import { BACKEND_URL, COLOR_DEFAULT, COLOR_MERCHANT } from "../constants";
+import LogoDefault from "../components/LogoDefault";
+import LogoMerchant from "../components/LogoMerchant";
 import styles from "./Navbar.module.css";
-import ChangeRestaurantButton from "./page/merchant/ChangeRestaurantButton";
+import ChangeRestaurantButton from "../components/page/merchant/ChangeRestaurantButton";
+import { useAuth } from "../hooks/useAuth";
 
 const routes = {
   customer: [
@@ -37,19 +38,23 @@ function NavBar({ isMerchant = false }) {
   const color = isMerchant ? COLOR_MERCHANT : COLOR_DEFAULT;
   const Logo = isMerchant ? LogoMerchant : LogoDefault;
   const navRoutes = isMerchant ? routes.merchant : routes.customer;
+  const { token, logout } = useAuth();
 
   const handleLogoutClick = () => {
-    const url = "http://127.0.0.1:8000/auth/token/logout/";
-    const token = localStorage.getItem("authToken");
-    axios.post(
-      url,
-      {},
-      {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      }
-    );
+    const url = `${BACKEND_URL}/auth/token/logout/`;
+    axios
+      .post(
+        url,
+        {},
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      )
+      .then(() => {
+        logout();
+      });
   };
 
   return (
@@ -59,7 +64,7 @@ function NavBar({ isMerchant = false }) {
         "--color": color,
       }}
     >
-      <NavLink to={isMerchant ? "/merchant" : "/"} className={styles.logo}>
+      <NavLink to={isMerchant ? "/merchant" : "/letsyummolocation"} className={styles.logo}>
         <Logo />
       </NavLink>
 
