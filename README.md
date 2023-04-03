@@ -1,4 +1,21 @@
-# Rules for collaboration
+<h1 align="center">
+  <br>
+  <a><img src="https://github.com/Sele3/SC2006-yummo/blob/main/Frontend/yummo/public/yummo_logo.png" alt="Yummo" width="600"></a>
+  <br>
+  <br>
+</h1>
+
+<h4 align="center">Solution to your insatiable cravings.</h4>
+<p align="center">
+  <!-- version -->
+  <img src='https://forthebadge.com/images/badges/made-with-python.svg' />
+  <img src='https://forthebadge.com/images/badges/made-with-javascript.svg' />
+  <img src='http://forthebadge.com/images/badges/built-with-love.svg' />
+</p>
+
+  
+
+# 📜 Rules for collaboration
 - `main` branch will be used as the working branch. All new changes done shall not be pushed directly to `main` unless it is a very minor change that will not affect the overall applicaion (e.g adding comments, editing readme file etc)
 
 - How to push new changes to GitHub:
@@ -22,7 +39,7 @@
   - [List of commit type and their descriptions](https://www.freecodecamp.org/news/how-to-write-better-git-commit-messages/#:~:text=Conventional%20Commits,-Now%20that%20we&text=feat%20%E2%80%93%20a%20new%20feature%20is,bug%20nor%20adds%20a%20feature)
   - [Examples](https://github.com/angular/angular/commits/22b96b96902e1a42ee8c5e807720424abad3082a/CONTRIBUTING.md)
 
-# What is Yummo?
+# What is Yummo? 🤤🤤🤤
 
 Yummo is a web application intended to help users find and book restaurants based on their dietary preferences as well as distance factor. Additionally, it is also a social media platform that encourages interaction between various users mainly on the topic of different cuisines. It would act as a one-stop reservation system for all of your favourite restaurants.
 
@@ -31,9 +48,16 @@ Yummo is a web application intended to help users find and book restaurants base
 - djangorestframework
 - djoser 
 - Pillow
-- add on whatever dependencies you installed for this project
+- fortawesome
+- emotion
+- iconify
+- mui
+- react-google-maps
+- axios
+- primereact
+- zustand
 
-# Setting up local environment (backend)
+# ✨ Setting up local environment (backend)
 `pipenv` is used to manage our dependencies and virtual environment
 
 If you haven't installed pipenv, run the following command 
@@ -56,7 +80,7 @@ Then, run the following command to install the dependencies listed in the pipfil
 To install new packages, simply run the command and replacing `package_name` with the package that you want to install.
 > pipenv install `package_name`
 
-# Running the Django Server
+# ⚡ Running the Django Server
 Navigate to the Backend folder (where manage.py is located), and run the following command.
 > python manage.py runserver
 
@@ -76,9 +100,39 @@ Majority of the endpoints require token authorization except for the login endpo
   
 - Alternatively, go to the Django admin page and copy the token of the user
 
-# Setting up local environment (frontend)
-Navigate to the yummo folder in Frontend (cd .\Frontend\yummo\), start the server by running
-> npm start
+# ✨ Setting up local environment (frontend)
 
-If there are errors when starting the server, install missing dependencies by running
-> npm install  
+Step 1: <a href="https://nodejs.org/en">Install Node.js</a>
+
+<h1 align="center">
+  <br>
+  <a><img src="https://github.com/Sele3/SC2006-yummo/blob/frontend-ivan/Frontend/yummo/public/Nodejs.png" alt="Nodejs" width="600"></a>
+  <br>
+  <br>
+</h1>
+
+Step 2: Navigate to the yummo folder in Frontend 
+```
+cd Frontend/yummo
+```
+Step 3: Before starting the server, download and install all dependencies stored in package.json
+```
+npm install
+```
+If there are errors (for eg, "@mui/material' is not found), specifically specify what to install
+```
+npm install "@mui/material"
+```
+Step 4: Run React Server
+```
+npm start
+```
+Step 5: Copy the link given in terminal (for eg. http://localhost:8080/) and paste into any browser
+
+<h1 align="center">
+  <br>
+  <a><img src="https://github.com/Sele3/SC2006-yummo/blob/frontend-ivan/Frontend/yummo/public/npmstart.png" alt="npmstart" width="600"></a>
+  <br>
+  <br>
+</h1>
+
