@@ -63,9 +63,13 @@ class SearchRestaurantsView(AuthenticatedCustomerViewClass):
             
         # return search results
         results = yummo_restaurants
-        # For Debugging
-        print("\nTop 3 Restaurants: \n{}".format(results[:3]))
         
+        # For Debugging
+        for idx, res in enumerate(results):
+            print("\n Top {} Restaurant: {}".format(idx+1, res.get('name')))
+            if idx == 2:
+                break
+
         return Response(results, status=status.HTTP_200_OK)
 
 

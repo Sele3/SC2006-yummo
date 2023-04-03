@@ -5,7 +5,7 @@ Password: password
 
 
 TestCustomer1
-Username: TestCustomer1
+Username: SCSE_Students
 Email: customer1@gmail.com
 Password: Customer12345
 
@@ -20,7 +20,7 @@ Email: customer3@gmail.com
 Password: Customer12345
 
 TestMerchant1
-Username: TestMerchant1
+Username: DrLoke
 Email: merchant1@gmail.com
 Password: Merchant12345
 
@@ -29,7 +29,3 @@ Username: TestMerchant2
 Email: merchant2@gmail.com
 Password: Merchant12345
 
-TestMerchant3
-Username: TestMerchant3
-Email: merchant3@gmail.com
-Password: Merchant12345
