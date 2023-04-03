@@ -63,27 +63,31 @@ function valueDistance(value) {
     return `{value}`;
   }
 
-const marksRating = [
+const marksSortby = [
   {
     value: 0,
-    label: "DESCENDING",
+    label: "YUMMO",
   },
   {
     value: 1,
-    label: "ASCENDING",
+    label: "DISTANCE",
+  },
+  {
+    value: 2,
+    label: "RATING",
   },
 ];
 
-function valueRating(value) {
+function valueSortby(value) {
     return `{value}`;
   }
 
 export default function FilterDropdown(props) {
   const classes = useStyles();
 
-  const [priceFilter, setPriceFilter] = useState(2);
-  const [distanceFilter, setDistanceFilter] = useState(1);
-  const [ratingFilter, setRatingFilter] = useState(0);
+  const [priceFilter, setPriceFilter] = useState(3);
+  const [distanceFilter, setDistanceFilter] = useState(5000);
+  const [SortbyFilter, setSortbyFilter] = useState(0);
 
   const handlePriceChange = (event, newValue) => {
       setPriceFilter(newValue);
@@ -96,9 +100,9 @@ export default function FilterDropdown(props) {
 
     };
   
-  const handleRatingChange = (event, newValue) => {
-      setRatingFilter(newValue);
-      props.handleRatingFiltered(newValue);
+  const handleSortbyChange = (event, newValue) => {
+      setSortbyFilter(newValue);
+      props.handleSortbyFiltered(newValue);
     };
 
   return (
@@ -158,21 +162,21 @@ export default function FilterDropdown(props) {
                 />
             </Box>
         </MenuItem>
-        <MenuItem value="rating">
+        <MenuItem value="sortby">
             <Box display="flex" flexDirection="row">
-                <Typography variant="subtitle1" paddingRight={18}>Rating Range</Typography>
+                <Typography variant="subtitle1" paddingRight={18}>Sort By</Typography>
                 <Slider
-                    onChange={handleRatingChange}
-                    getAriaValueText={valueRating}
-                    marks={marksRating}
+                    onChange={handleSortbyChange}
+                    getAriaValueText={valueSortby}
+                    marks={marksSortby}
                     size="medium"
                     sx={{ width: 200 }}
                     step={1}
-                    aria-label="rating-filter"
+                    aria-label="sortby-filter"
                     defaultValue={0}
-                    value={ratingFilter}
+                    value={SortbyFilter}
                     min={0}
-                    max={1}
+                    max={2}
                     valueLabelDisplay="auto"
                 />
             </Box>
