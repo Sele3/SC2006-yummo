@@ -133,11 +133,11 @@ export default function MyReservations() {
         //console.log("i am in rating body template");
         switch (getValue(reservation)) {
             case 'Upcoming':
-                return <Button label="NA" icon="pi pi-external-link" />
+                return <Button label="Rate" icon="pi pi-external-link" disabled/>
             case 'Past':
                 return <Button label="Rate" icon="pi pi-external-link" onClick={() => onClickRating(reservation)}/>
             default:
-                return <Button label="NA" icon="pi pi-external-link" />
+                return <Button label="Rate" icon="pi pi-external-link" disabled/>
         }
     }, [onClickRating]);
 
@@ -151,7 +151,6 @@ export default function MyReservations() {
     const header = (
         <div className="flex flex-wrap align-items-center justify-content-between gap-2">
         <span className="text-xl text-900 font-bold">My Reservations</span>
-        <Button icon="pi pi-refresh" rounded raised />
         </div>
     );
 

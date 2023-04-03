@@ -112,9 +112,9 @@ export const Login = (props) => {
               navigate("/merchantRegister");
             }}
           >
-            Register as merchant
+            Register as Merchant
           </button>
-          <h3>Producedure:</h3>
+          <h3>Procedure:</h3>
           <img src={instruction} alt="Instruction" />
         </div>
       </div>
