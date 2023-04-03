@@ -18,7 +18,7 @@ export default function Yummosuggestions(props) {
 
   // Currently values not used, waiting for backend to support the filter function.
   const [priceFilter, setPriceFilter] = useState(3);
-  const [distanceFilter, setDistanceFilter] = useState(5000);
+  const [distanceFilter, setDistanceFilter] = useState(10000);
   const [sortbyFilter, setSortbyFilter] = useState(0);
   const [sortbyToggle, setSortbyToggle] = useState("YUMMO");
   const [isLoading, setIsLoading] = useState(false);
@@ -71,6 +71,7 @@ export default function Yummosuggestions(props) {
       .then((res) => {
         if (res.data) {
           setResult(res.data);
+          setSelected(0);
         }
       })
       .catch((err) => {
@@ -90,6 +91,7 @@ export default function Yummosuggestions(props) {
           cancelToken: request.token, // (*)
         });
         setResult(response.data);
+        setSelected(0);
       } catch (err) {
         console.log("There was a problem or request was cancelled.");
       }
@@ -296,7 +298,7 @@ export default function Yummosuggestions(props) {
   }, [loc3.lat, loc3.lng, state.location]);
 
   // Selected Content
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(-1);
   const [selectedresID, setSelectedresID] = useState(-1);
   const [selectedAddress, setSelectedAddress] = useState(
     "123 Yummo Rd, Singapore 123456"
@@ -354,7 +356,7 @@ export default function Yummosuggestions(props) {
       default:
         break;
     }
-  }, [selected]);
+  }, [selected,resID3]);
 
   // Data to be passed to next page
 
