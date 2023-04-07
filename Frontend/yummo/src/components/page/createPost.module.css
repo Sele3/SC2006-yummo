@@ -1,0 +1,126 @@
+.createPostForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+  }
+  
+.createPostLabel {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  
+  
+  .upload-button {
+    padding: 10px 20px;
+    background-color: #3f51b5;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .upload-button:hover {
+    background-color: #2c3e50;
+  }
+  
+  input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .submitButton {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .submitButton:hover {
+    background-color: #2ecc71;
+  }
+  
+  .message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+  }
+  
+  .fileUpload {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  
+  .fileUpload input {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 1;
+    filter: alpha(opacity=0);
+  }
+  
+  .fileUpload button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .fileUpload button:hover {
+    background-color: #3e8e41;
+  }
+
+  /* Style the dropdown button */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Style the dropdown content (hidden by default) */
+  .dropdownContent {
+    position: relative;
+  }
+  
+  /* Style links inside the dropdown */
+  .dropdownContent p {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdownContent a:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdownContent {
+    display: block;
+  }
