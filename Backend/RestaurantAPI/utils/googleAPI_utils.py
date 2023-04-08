@@ -44,7 +44,7 @@ def searchGoogleRestaurants(request, location):
         price = "&maxprice={0}".format(int(request.data.get("price"))-1)
 
     if request.data.get("sort_by") == 'DISTANCE': #two possible values: distance or prominence (default)
-        print("\n\n\nAHAHAHAHHA")
+
         rankby = "&rankby=distance" 
         radius = "" #sets radius to empty string as rankby cannot be used in conjunction with radius
 
