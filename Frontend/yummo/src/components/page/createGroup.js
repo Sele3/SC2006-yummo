@@ -1,7 +1,8 @@
 import { NavLink } from "react-router-dom";
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import styles from "./createPost.module.css"
+import styles from "./createPost.module.css";
+import { useAuth } from "../../hooks/useAuth";
 
 let i=1;
 var url = 'http://localhost:8000/api/yummogroups/'+i+"/posts";
@@ -9,6 +10,7 @@ var token = localStorage.getItem("authToken");
 const getPostUrl = 'http://localhost:8000/api/yummogroups';
 
 function UploadForm() {
+  const { token } = useAuth();
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const data = {

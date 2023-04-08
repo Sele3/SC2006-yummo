@@ -42,7 +42,7 @@ export default function MerchantGoogle(props) {
   if (typeof window !== "undefined" && !loaded.current) {
     if (!document.querySelector("#google-maps")) {
       loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=&libraries=places`,
+        `https://maps.googleapis.com/maps/api/js?key=AIzaSyC9ITj-pqdEmn0b_aga72OOk8hzwpDcOWo&libraries=places`,
         document.querySelector("head"),
         "google-maps"
       );
