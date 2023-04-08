@@ -3,11 +3,12 @@ import { NavLink } from "react-router-dom";
 import './Customer_Acc_Sett.css';
 import axios from 'axios';
 import styles from './feed.module.css'
+import { useAuth } from "../../hooks/useAuth";
 
 function Feed() {
 
   const url = 'http://localhost:8000/api/user/yummogroups';
-  const token = '799bb4844eca153b80e68ea84c42a0d30cec24c8';
+  const { token } = useAuth();
   const [userName, setUsername] = useState({});
   const [allGroups, setGroups] = useState({});
   const [res, setResponse] = useState({});
@@ -77,6 +78,9 @@ async function getposts(param1){
 
     .catch (error => {
       console.log(error);
+      if (error.response.data && error.response.data.message) {
+        alert(error.response.data.message);
+      }
     })
     
 }
@@ -128,7 +132,7 @@ async function joinTheGroup(param1){
       <input type="text" placeholder="Search Groups" value={searchResults} onChange={e => setSearchResults(e.target.value)} />
     </div>
       <div>
-            <h1>Welcome to your feed. Click on the groups names to view your posts from that group</h1>
+            <h1 style={{ textAlign: 'center' }}>Welcome to your feed. To view your posts from a group, click on that group on the left.</h1>
             <div className={styles.left}>
             {Object.keys(allGroups).map((key) => ( 
                 <div>

@@ -1,11 +1,11 @@
 import { NavLink } from "react-router-dom";
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import styles from "./createPost.module.css"
+import styles from "./createPost.module.css";
+import { useAuth } from "../../hooks/useAuth";
 
 let i=1;
 var url = 'http://localhost:8000/api/yummogroups/'+i+"/posts";
-var token = "799bb4844eca153b80e68ea84c42a0d30cec24c8";
 const getPostUrl = 'http://localhost:8000/api/yummogroups';
 
 function UploadForm() {
@@ -13,6 +13,7 @@ function UploadForm() {
   const [groupId, setGroupId] = useState("");
   const [image, setImage] = useState(null);
   const [res, setResponse] = useState({});
+  const { token } = useAuth();
 
   useEffect (() => {
     axios.get(getPostUrl, 
