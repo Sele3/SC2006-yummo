@@ -18,7 +18,7 @@ export default function Yummosuggestions(props) {
 
   // Currently values not used, waiting for backend to support the filter function.
   const [priceFilter, setPriceFilter] = useState(3);
-  const [distanceFilter, setDistanceFilter] = useState(10000);
+  const [distanceFilter, setDistanceFilter] = useState(5000);
   const [sortbyFilter, setSortbyFilter] = useState(0);
   const [sortbyToggle, setSortbyToggle] = useState("YUMMO");
   const [isLoading, setIsLoading] = useState(false);
@@ -252,7 +252,7 @@ export default function Yummosuggestions(props) {
   useEffect(() => {
     const origins = `origins=${loc1.lat},${loc1.lng}&`;
     const destinations = `destinations=${state.location}&`;
-    const map_url = `https://api.distancematrix.ai/maps/api/distancematrix/json?${origins}${destinations}key=G1KGgPTnJDvFllJVuRE0bGax5QIYB`;
+    const map_url = `https://api.distancematrix.ai/maps/api/distancematrix/json?${origins}${destinations}key=j21LA3k62MTvSdVHLUP8YiWwrWuo7 `;
     axios
       .get(map_url)
       .then((res) => {
@@ -268,7 +268,7 @@ export default function Yummosuggestions(props) {
   useEffect(() => {
     const origins = `origins=${loc2.lat},${loc2.lng}&`;
     const destinations = `destinations=${state.location}&`;
-    const map_url = `https://api.distancematrix.ai/maps/api/distancematrix/json?${origins}${destinations}key=G1KGgPTnJDvFllJVuRE0bGax5QIYB`;
+    const map_url = `https://api.distancematrix.ai/maps/api/distancematrix/json?${origins}${destinations}key=j21LA3k62MTvSdVHLUP8YiWwrWuo7 `;
     axios
       .get(map_url)
       .then((res) => {
@@ -284,7 +284,7 @@ export default function Yummosuggestions(props) {
   useEffect(() => {
     const origins = `origins=${loc3.lat},${loc3.lng}&`;
     const destinations = `destinations=${state.location}&`;
-    const map_url = `https://api.distancematrix.ai/maps/api/distancematrix/json?${origins}${destinations}key=G1KGgPTnJDvFllJVuRE0bGax5QIYB`;
+    const map_url = `https://api.distancematrix.ai/maps/api/distancematrix/json?${origins}${destinations}key=j21LA3k62MTvSdVHLUP8YiWwrWuo7 `;
     axios
       .get(map_url)
       .then((res) => {
@@ -356,7 +356,7 @@ export default function Yummosuggestions(props) {
       default:
         break;
     }
-  }, [selected,resID3]);
+  }, [selected, resID1, resID2, resID3]);
 
   // Data to be passed to next page
 

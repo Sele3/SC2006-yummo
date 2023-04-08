@@ -44,6 +44,7 @@ def searchGoogleRestaurants(request, location):
         price = "&maxprice={0}".format(int(request.data.get("price"))-1)
 
     if request.data.get("sort_by") == 'DISTANCE': #two possible values: distance or prominence (default)
+
         rankby = "&rankby=distance" 
         radius = "" #sets radius to empty string as rankby cannot be used in conjunction with radius
 
@@ -118,7 +119,11 @@ def formatGoogleRestaurant(googleRestaurants_jsonlist):
             "location" : restaurant.get("geometry").get("location")
         }
         
-    print("\nGoogle Restaurants:\n", googleRestaurants_jsonlist)
+   # For Debugging
+    print("\nGoogle Restaurants List")
+    for idx, res in enumerate(googleRestaurants_jsonlist):
+        print("Google Restaurant: {}".format(res.get('name')))
+        
     return googleRestaurants_jsonlist
         
 

@@ -117,7 +117,7 @@ cd Frontend/yummo
 ```
 Step 3: Before starting the server, download and install all dependencies stored in package.json
 ```
-npm install
+npm install --force
 ```
 If there are errors (for eg, "@mui/material' is not found), specifically specify what to install
 ```

@@ -19,7 +19,6 @@ export const Register = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Love TA");
     if (!checkPasswordStrength(pass)) {
       alert(
         "Password must be at least 8 characters long and contain at least one special character and one letter or digit."
@@ -146,6 +145,16 @@ export const Register = (props) => {
               below.
             </p>
             <div className="email-item-only">
+              <label htmlFor="username"></label>
+              <input
+                value={username}
+                onChange={handleUserNameChange}
+                name="username"
+                id="username"
+                placeholder="Username"
+              />
+            </div>
+            <div className="email-item-only">
               <label htmlFor="email"></label>
               <input
                 className="email-input"
@@ -155,16 +164,6 @@ export const Register = (props) => {
                 placeholder="yummo@gmail.com"
                 id="email"
                 name="email"
-              />
-            </div>
-            <div className="email-item-only">
-              <label htmlFor="username"></label>
-              <input
-                value={username}
-                onChange={handleUserNameChange}
-                name="username"
-                id="username"
-                placeholder="Username"
               />
             </div>
             <div className="email-item-only">
