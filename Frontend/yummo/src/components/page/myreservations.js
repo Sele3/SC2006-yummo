@@ -53,7 +53,7 @@ export default function MyReservations() {
         axios
         .get(triviaurl, {
             headers: {
-            "X-Api-Key": "",
+            "X-Api-Key": "hbQoHrmq2fbPfLSIw7fvbg==895ERbtYMzuehQcG",
             },
         })
         .then((res) => {
